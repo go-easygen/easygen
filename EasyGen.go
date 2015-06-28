@@ -72,6 +72,14 @@ func main() {
 	}
 	fileName := flag.Args()[0]
 
+  Generate(opts.HTML, fileName)
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+// Produce output from the template according to driving data
+func Generate(HTML bool, fileName string)  {
 	source, err := ioutil.ReadFile(fileName + ".yaml")
 	checkError(err)
 
@@ -80,16 +88,12 @@ func main() {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
-	t, err := parseFiles(opts.HTML, fileName+".tmpl")
+	t, err := parseFiles(HTML, fileName+".tmpl")
 	checkError(err)
 
 	err = t.Execute(os.Stdout, m)
 	checkError(err)
-
 }
-
-////////////////////////////////////////////////////////////////////////////
-// Function definitions
 
 // parseFiles, intialization. By Matt Harden @gmail.com
 func parseFiles(HTML bool, filenames ...string) (template, error) {
