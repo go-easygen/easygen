@@ -29,7 +29,7 @@ import (
 
 const progname = "EasyGen" // os.Args[0]
 
-// Commandline Options
+// The Options structure holds the values for/from commandline
 type Options struct {
 	HTML bool
 }
@@ -80,7 +80,7 @@ func main() {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
-// Produce output from the template according to driving data
+// Generate will produce output from the template according to driving data
 func Generate(HTML bool, fileName string) string {
 	source, err := ioutil.ReadFile(fileName + ".yaml")
 	checkError(err)
