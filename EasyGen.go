@@ -73,7 +73,7 @@ func main() {
 	}
 	fileName := flag.Args()[0]
 
-	print(Generate(opts.HTML, fileName))
+	fmt.Print(Generate(opts.HTML, fileName))
 }
 
 ////////////////////////////////////////////////////////////////////////////
