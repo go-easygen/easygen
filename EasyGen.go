@@ -91,14 +91,6 @@ func main() {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
-// Exit if error occurs
-func checkError(err error) {
-	if err != nil {
-		fmt.Printf("[%s] Fatal error - %v", progname, err.Error())
-		os.Exit(1)
-	}
-}
-
 // parseFiles, intialization. By Matt Harden @gmail.com
 func parseFiles(HTML bool, filenames ...string) (template, error) {
 	if HTML {
@@ -107,6 +99,14 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 	} else {
 		t, err := tt.ParseFiles(filenames...)
 		return t, err
+	}
+}
+
+// Exit if error occurs
+func checkError(err error) {
+	if err != nil {
+		fmt.Printf("[%s] Fatal error - %v", progname, err.Error())
+		os.Exit(1)
 	}
 }
 
