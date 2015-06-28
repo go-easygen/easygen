@@ -108,15 +108,15 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 		// use html template
 		t, err := ht.ParseFiles(filenames...)
 		return t, err
-	} else {
-		// use text template
-		funcMap := tt.FuncMap{
-			"minus1": minus1,
-			"join":   join,
-		}
-		t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
-		return t, err
 	}
+
+	// use text template
+	funcMap := tt.FuncMap{
+		"minus1": minus1,
+		"join":   join,
+	}
+	t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
+	return t, err
 }
 
 // Exit if error occurs
