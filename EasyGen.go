@@ -12,7 +12,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	//ht "html/template"
+	ht "html/template"
+	"io"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -26,8 +27,16 @@ import (
 
 const progname = "EasyGen" // os.Args[0]
 
+// Commandline Options
 type Options struct {
-	Html bool
+	HTML bool
+}
+
+// common type for a *(text|html).Template value
+type template interface {
+	Execute(wr io.Writer, data interface{}) error
+	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
+	Name() string
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -39,7 +48,7 @@ var opts Options
 // Commandline definitions
 
 func init() {
-	flag.BoolVar(&opts.Html, "html", false, "Use html template instead of text")
+	flag.BoolVar(&opts.HTML, "html", false, "Use html template instead of text")
 }
 
 func usage() {
@@ -71,20 +80,7 @@ func main() {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
-	// var t interface{}
-	// if opts.Html {
-	// 	t := ht.New("H")
-	// } else {
-	// 	t := tt.New("T")
-	// }
-
-	t := tt.New("T")
-	// add functions
-	t = t.Funcs(tt.FuncMap{"join": Join})
-	//fmt.Fprintf(os.Stderr, "] Ok\n")
-	t, err = t.Parse("{{range .Colors}}{{.}}, {{end}}.")
-
-	t, err = tt.ParseFiles(fileName + ".tmpl")
+	t, err := parseFiles(opts.HTML, fileName+".tmpl")
 	checkError(err)
 
 	err = t.Execute(os.Stdout, m)
@@ -95,10 +91,22 @@ func main() {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+// Exit if error occurs
 func checkError(err error) {
 	if err != nil {
 		fmt.Printf("[%s] Fatal error - %v", progname, err.Error())
 		os.Exit(1)
+	}
+}
+
+// parseFiles, intialization. By Matt Harden @gmail.com
+func parseFiles(HTML bool, filenames ...string) (template, error) {
+	if HTML {
+		t, err := ht.ParseFiles(filenames...)
+		return t, err
+	} else {
+		t, err := tt.ParseFiles(filenames...)
+		return t, err
 	}
 }
 
@@ -107,4 +115,5 @@ func checkError(err error) {
 
 var funcs = tt.FuncMap{"minus1": func(n int) int { return n - 1 }}
 
-func Join(s []string) string { return strings.Join(s, ", ") }
+// Custom template function to join string array
+func join(s []string) string { return strings.Join(s, ", ") }
