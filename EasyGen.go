@@ -10,6 +10,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	ht "html/template"
@@ -72,14 +73,14 @@ func main() {
 	}
 	fileName := flag.Args()[0]
 
-  Generate(opts.HTML, fileName)
+	print(Generate(opts.HTML, fileName))
 }
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
 // Produce output from the template according to driving data
-func Generate(HTML bool, fileName string)  {
+func Generate(HTML bool, fileName string) string {
 	source, err := ioutil.ReadFile(fileName + ".yaml")
 	checkError(err)
 
@@ -91,8 +92,11 @@ func Generate(HTML bool, fileName string)  {
 	t, err := parseFiles(HTML, fileName+".tmpl")
 	checkError(err)
 
-	err = t.Execute(os.Stdout, m)
+	buf := new(bytes.Buffer)
+	err = t.Execute(buf, m)
 	checkError(err)
+
+	return buf.String()
 }
 
 // parseFiles, intialization. By Matt Harden @gmail.com
