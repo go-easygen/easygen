@@ -1,0 +1,1 @@
+{{range $i, $color := .Colors}}{{$color}}{{if lt $i ($.Colors | len | minus1)}}, {{end}}{{end}}

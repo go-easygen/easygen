@@ -17,6 +17,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	tt "text/template"
 
@@ -101,11 +102,19 @@ func Generate(HTML bool, fileName string) string {
 
 // parseFiles, intialization. By Matt Harden @gmail.com
 func parseFiles(HTML bool, filenames ...string) (template, error) {
+	tname := filepath.Base(filenames[0])
+
 	if HTML {
+		// use html template
 		t, err := ht.ParseFiles(filenames...)
 		return t, err
 	} else {
-		t, err := tt.ParseFiles(filenames...)
+		// use text template
+		funcMap := tt.FuncMap{
+			"minus1": minus1,
+			"join":   join,
+		}
+		t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
 		return t, err
 	}
 }
@@ -121,7 +130,8 @@ func checkError(err error) {
 //==========================================================================
 // template custom functions
 
-var funcs = tt.FuncMap{"minus1": func(n int) int { return n - 1 }}
+// Get input less 1
+func minus1(n int) int { return n - 1 }
 
 // Custom template function to join string array
 func join(s []string) string { return strings.Join(s, ", ") }
