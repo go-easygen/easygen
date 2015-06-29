@@ -1,0 +1,4 @@
+{{range .Options}}
+	flags.{{.Type}}("{{.Name}}", {{.Value}}, "{{.Usage}}")
+	viper.BindPFlag("{{.Name}}", flags.Lookup("{{.Name}}"))
+{{end}}

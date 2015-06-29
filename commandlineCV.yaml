@@ -1,0 +1,30 @@
+Options:
+  - Name: debug
+    Type: Bool
+    Value: false
+    Usage: Turn on debugging.
+
+  - Name: addr
+    Type: String
+    Value: '"localhost:5002"'
+    Usage: Address of the service.
+
+  - Name: smtp-addr
+    Type: String
+    Value: '"localhost:25"'
+    Usage: Address of the SMTP server.
+
+  - Name: smtp-user
+    Type: String
+    Value: '""'
+    Usage: User for the SMTP server.
+
+  - Name: smtp-password
+    Type: String
+    Value: '""'
+    Usage: Password for the SMTP server.
+
+  - Name: email-from
+    Type: String
+    Value: '"noreply@abc.com"'
+    Usage: The from email address.

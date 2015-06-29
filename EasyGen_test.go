@@ -1,8 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
+
+////////////////////////////////////////////////////////////////////////////
+// Lists
 
 //==========================================================================
 // list0
@@ -43,4 +47,46 @@ func TestListFunc1(t *testing.T) {
 	if got := Generate(false, "listfunc1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
+}
+
+func ExampleFunc1() {
+	fmt.Print(Generate(false, "listfunc1"))
+	// Output:
+	// red, blue, white
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Commandline definitions
+
+func ExampleTestExample() {
+	fmt.Println(`  flags.Bool("debug", false, "Turn on debugging.")`)
+	fmt.Println(`  viper.BindPFlag("debug", flags.Lookup("debug"))`)
+	// Output:
+	//   flags.Bool("debug", false, "Turn on debugging.")
+	//   viper.BindPFlag("debug", flags.Lookup("debug"))
+}
+
+func ExampleCommandLineCobraViper() {
+	fmt.Print(Generate(false, "commandlineCV"))
+	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
+	// Output:
+	//
+	//	flags.Bool("debug", false, "Turn on debugging.")
+	//	viper.BindPFlag("debug", flags.Lookup("debug"))
+	//
+	//	flags.String("addr", "localhost:5002", "Address of the service.")
+	//	viper.BindPFlag("addr", flags.Lookup("addr"))
+	//
+	//	flags.String("smtp-addr", "localhost:25", "Address of the SMTP server.")
+	//	viper.BindPFlag("smtp-addr", flags.Lookup("smtp-addr"))
+	//
+	//	flags.String("smtp-user", "", "User for the SMTP server.")
+	//	viper.BindPFlag("smtp-user", flags.Lookup("smtp-user"))
+	//
+	//	flags.String("smtp-password", "", "Password for the SMTP server.")
+	//	viper.BindPFlag("smtp-password", flags.Lookup("smtp-password"))
+	//
+	//	flags.String("email-from", "noreply@abc.com", "The from email address.")
+	//	viper.BindPFlag("email-from", flags.Lookup("email-from"))
+	//
 }
