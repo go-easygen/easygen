@@ -59,6 +59,7 @@ func ExampleFunc1() {
 // Commandline definitions
 
 func ExampleTestExample() {
+  // Ref https://groups.google.com/d/msg/golang-nuts/9jKexxD19Js/xrNAQA1ACnMJ
 	fmt.Println(`  flags.Bool("debug", false, "Turn on debugging.")`)
 	fmt.Println(`  viper.BindPFlag("debug", flags.Lookup("debug"))`)
 	// Output:
@@ -67,8 +68,8 @@ func ExampleTestExample() {
 }
 
 func ExampleCommandLineCobraViper() {
-	fmt.Print(Generate(false, "commandlineCV"))
 	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
+	fmt.Print(Generate(false, "commandlineCV"))
 	// Output:
 	//
 	//	flags.Bool("debug", false, "Turn on debugging.")
@@ -89,4 +90,59 @@ func ExampleCommandLineCobraViper() {
 	//	flags.String("email-from", "noreply@abc.com", "The from email address.")
 	//	viper.BindPFlag("email-from", flags.Lookup("email-from"))
 	//
+}
+
+func ExampleCommandLineOptInitFull() {
+	// EasyGen commandlineCVFull | sed 's|^|\t// |;'
+	fmt.Print(Generate(false, "commandlineCVFull"))
+	// Output:
+	// func init() {
+	// 
+	//   viper.SetEnvPrefix("DISPATCH")
+	//   viper.AutomaticEnv()
+	// 
+	//   /*
+	// 
+	//     When AutomaticEnv called, Viper will check for an environment variable any
+	//     time a viper.Get request is made. It will apply the following rules. It
+	//     will check for a environment variable with a name matching the key
+	//     uppercased and prefixed with the EnvPrefix if set.
+	// 
+	//   */
+	// 
+	//   flags := mainCmd.Flags()
+	// 
+	//   flags.Bool("debug", false, "Turn on debugging.")
+	//   viper.BindPFlag("debug", flags.Lookup("debug"))
+	// 
+	//   flags.String("addr", "localhost:5002", "Address of the service.")
+	//   viper.BindPFlag("addr", flags.Lookup("addr"))
+	// 
+	//   flags.String("smtp-addr", "localhost:25", "Address of the SMTP server.")
+	//   viper.BindPFlag("smtp-addr", flags.Lookup("smtp-addr"))
+	// 
+	//   flags.String("smtp-user", "", "User for the SMTP server.")
+	//   viper.BindPFlag("smtp-user", flags.Lookup("smtp-user"))
+	// 
+	//   flags.String("smtp-password", "", "Password for the SMTP server.")
+	//   viper.BindPFlag("smtp-password", flags.Lookup("smtp-password"))
+	// 
+	//   flags.String("email-from", "noreply@abc.com", "The from email address.")
+	//   viper.BindPFlag("email-from", flags.Lookup("email-from"))
+	// 
+	//   // Viper supports reading from yaml, toml and/or json files. Viper can
+	//   // search multiple paths. Paths will be searched in the order they are
+	//   // provided. Searches stopped once Config File found.
+	//   
+	//   viper.SetConfigName("CommandLineCV") // name of config file (without extension)
+	// 
+	//   viper.AddConfigPath("/tmp")
+	//   viper.AddConfigPath(".")
+	// 
+	//   err := viper.ReadInConfig()
+	//   if err != nil {
+	//     println("No config file found. Using built-in defaults.")
+	//   }
+	// 
+	// }
 }

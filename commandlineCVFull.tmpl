@@ -1,0 +1,33 @@
+func init() {
+
+  viper.SetEnvPrefix("{{.CmdPrefix}}")
+  viper.AutomaticEnv()
+
+  /*
+
+    When AutomaticEnv called, Viper will check for an environment variable any
+    time a viper.Get request is made. It will apply the following rules. It
+    will check for a environment variable with a name matching the key
+    uppercased and prefixed with the EnvPrefix if set.
+
+  */
+
+  flags := {{.CmdMain}}.Flags()
+{{range .Options}}
+  flags.{{.Type}}("{{.Name}}", {{.Value}}, "{{.Usage}}")
+  viper.BindPFlag("{{.Name}}", flags.Lookup("{{.Name}}"))
+{{end}}
+  // Viper supports reading from yaml, toml and/or json files. Viper can
+  // search multiple paths. Paths will be searched in the order they are
+  // provided. Searches stopped once Config File found.
+
+  viper.SetConfigName("{{.ConfigName}}") // name of config file (without extension)
+{{range .ConfigPath}}
+  viper.AddConfigPath("{{.}}"){{end}}
+
+  err := viper.ReadInConfig()
+  if err != nil {
+    println("No config file found. Using built-in defaults.")
+  }
+
+}
