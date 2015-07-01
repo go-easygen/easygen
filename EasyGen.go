@@ -18,7 +18,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 	tt "text/template"
 
 	"gopkg.in/yaml.v2"
@@ -113,7 +112,6 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 	// use text template
 	funcMap := tt.FuncMap{
 		"minus1": minus1,
-		"join":   join,
 	}
 	t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
 	return t, err
@@ -126,12 +124,3 @@ func checkError(err error) {
 		os.Exit(1)
 	}
 }
-
-//==========================================================================
-// template custom functions
-
-// Get input less 1
-func minus1(n int) int { return n - 1 }
-
-// Custom template function to join string array
-func join(s []string) string { return strings.Join(s, ", ") }
