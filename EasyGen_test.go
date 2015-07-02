@@ -14,7 +14,7 @@ import (
 func TestList0(t *testing.T) {
 	t.Log("First and plainest list test")
 	const await = "The colors are: red, blue, white, .\n"
-	if got := Generate(false, "list0"); got != await {
+	if got := Generate(false, "Test/list0"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -25,7 +25,7 @@ func TestList0(t *testing.T) {
 func TestList1Text(t *testing.T) {
 	t.Log("Second test, with text template")
 	const await = "The quoted colors are: \"red\", \"blue\", \"white\", .\n"
-	if got := Generate(false, "list1"); got != await {
+	if got := Generate(false, "Test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -33,7 +33,7 @@ func TestList1Text(t *testing.T) {
 func TestList1HTML(t *testing.T) {
 	t.Log("Second test, with html template")
 	const await = "The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .\n"
-	if got := Generate(true, "list1"); got != await {
+	if got := Generate(true, "Test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -44,13 +44,13 @@ func TestList1HTML(t *testing.T) {
 func TestListFunc1(t *testing.T) {
 	t.Log("Test custom template function - minus1")
 	const await = "red, blue, white.\n"
-	if got := Generate(false, "listfunc1"); got != await {
+	if got := Generate(false, "Test/listfunc1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
 
 func ExampleFunc1() {
-	fmt.Print(Generate(false, "listfunc1"))
+	fmt.Print(Generate(false, "Test/listfunc1"))
 	// Output:
 	// red, blue, white.
 }
@@ -69,7 +69,7 @@ func ExampleTestExample() {
 
 func ExampleCommandLineCobraViper() {
 	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
-	fmt.Print(Generate(false, "commandlineCV"))
+	fmt.Print(Generate(false, "Test/commandlineCV"))
 	// Output:
 	//
 	//	flags.Bool("debug", false, "Turn on debugging.")
@@ -94,7 +94,7 @@ func ExampleCommandLineCobraViper() {
 
 func ExampleCommandLineOptInitFull() {
 	// EasyGen commandlineCVFull | sed 's|^|\t// |;'
-	fmt.Print(Generate(false, "commandlineCVFull"))
+	fmt.Print(Generate(false, "Test/commandlineCVFull"))
 	// Output:
 	// func init() {
 	//
