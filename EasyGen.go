@@ -20,6 +20,7 @@ import (
 	"path/filepath"
 	tt "text/template"
 
+	"github.com/danverbraganza/varcaser/varcaser"
 	"gopkg.in/yaml.v2"
 )
 
@@ -44,6 +45,12 @@ type template interface {
 // Global variables definitions
 
 var opts Options
+
+// pre-config some varcaser transformers
+var (
+	ck2lc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerCamelCase}
+	ck2uc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.UpperCamelCase}
+)
 
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions

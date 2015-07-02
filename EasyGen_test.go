@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"testing"
+
+	"github.com/danverbraganza/varcaser/varcaser"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -145,4 +147,20 @@ func ExampleCommandLineOptInitFull() {
 	//   }
 	//
 	// }
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Varible Names
+
+func ExampleVaribleNames() {
+	fmt.Printf("%s %s %s %s",
+		varcaser.Caser{From: varcaser.LowerCamelCase, To: varcaser.KebabCase}.
+			String("someInitMethod"),
+		varcaser.Caser{From: varcaser.LowerCamelCase,
+			To: varcaser.ScreamingSnakeCase}.
+			String("myConstantVariable"),
+		ck2lc.String("some-init-method"),
+		ck2uc.String("some-init-method"))
+	// Output:
+	// some-init-method MY_CONSTANT_VARIABLE someInitMethod SomeInitMethod
 }
