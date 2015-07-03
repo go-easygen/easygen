@@ -57,6 +57,28 @@ func ExampleFunc1() {
 	// red, blue, white.
 }
 
+//==========================================================================
+// list0 data + listfunc1 template
+// I.e.: EasyGen -tf Test/listfunc1 Test/list0
+func ExampleList0Func1() {
+	opts.templateFile = "Test/listfunc1"
+	fmt.Print(Generate(false, "Test/list0"))
+	opts.templateFile = ""
+	// Output:
+	// red, blue, white.
+}
+
+//==========================================================================
+// list0 data + string template
+// I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" Test/list0
+func ExampleList0StrTemplate() {
+	opts.templateStr = "{{range .Colors}}{{.}}, {{end}}"
+	fmt.Print(Generate(false, "Test/list0"))
+	opts.templateStr = ""
+	// Output:
+	// red, blue, white,
+}
+
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 

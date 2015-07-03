@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // Porgram: EasyGen
-// Purpose: Universal code/text generator that is easy to use
+// Purpose: Easy to use universal code/text generator
 // Authors: Tong Sun (c) 2015, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,9 @@ const progname = "EasyGen" // os.Args[0]
 
 // The Options structure holds the values for/from commandline
 type Options struct {
-	HTML bool
+	HTML         bool
+	templateStr  string
+	templateFile string
 }
 
 // common type for a *(text|html).Template value
@@ -56,14 +58,16 @@ var (
 // Commandline definitions
 
 func init() {
-	flag.BoolVar(&opts.HTML, "html", false, "Use html template instead of text")
+	flag.BoolVar(&opts.HTML, "html", false, "treat the template file as html instead of text")
+	flag.StringVar(&opts.templateStr, "ts", "", "template string (in text)")
+	flag.StringVar(&opts.templateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "\nUsage:\n %s [flags] TemplateFileName\n\nFlags:\n\n",
+	fmt.Fprintf(os.Stderr, "\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",
 		progname)
 	flag.PrintDefaults()
-	fmt.Fprintf(os.Stderr, "\nTemplateFileName: The name for the template and yaml file\n\tOnly the name part, without extension. Can include the path as well.\n")
+	fmt.Fprintf(os.Stderr, "\nYamlFileName: The name for the .yaml data and .tmpl template file\n\tOnly the name part, without extension. Can include the path as well.\n")
 	os.Exit(0)
 }
 
@@ -96,7 +100,13 @@ func Generate(HTML bool, fileName string) string {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
-	t, err := parseFiles(HTML, fileName+".tmpl")
+	// template file name
+	fileNameT := fileName
+	if len(opts.templateFile) > 0 {
+		fileNameT = opts.templateFile
+	}
+
+	t, err := parseFiles(HTML, fileNameT+".tmpl")
 	checkError(err)
 
 	buf := new(bytes.Buffer)
@@ -120,6 +130,12 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 	funcMap := tt.FuncMap{
 		"minus1": minus1,
 	}
+
+	if len(opts.templateStr) > 0 {
+		t, err := tt.New("TT").Funcs(funcMap).Parse(opts.templateStr)
+		return t, err
+	}
+
 	t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
 	return t, err
 }
