@@ -50,13 +50,15 @@ ok      github.com/suntong001/EasyGen   0.011s
 $ EasyGen
 
 Usage:
- EasyGen [flags] TemplateFileName
+ EasyGen [flags] YamlFileName
 
 Flags:
 
-  -html=false: Use html template instead of text
+  -html=false: treat the template file as html instead of text
+  -tf="": .tmpl template file name (default: same as .yaml file)
+  -ts="": template string (in text)
 
-TemplateFileName: The name for the template and yaml file
+YamlFileName: The name for the .yaml data and .tmpl template file
         Only the name part, without extension. Can include the path as well.
 ```
 
@@ -64,5 +66,25 @@ TemplateFileName: The name for the template and yaml file
 
 My (updated) blog about it is at [here](https://github.com/suntong001/blog/blob/master/GoOptP7-EasyGen.md).
 
+## Tips
 
+You can use `EasyGen` as an generic Google template testing tool with the `-ts` commandline option. For example,
 
+```
+echo "Age: 16" > /tmp/age.yaml
+
+$ EasyGen -ts "{{.Age}}" /tmp/age
+16
+
+$ EasyGen -ts '{{printf "%x" .Age}}' /tmp/age
+10
+
+echo '{FirstName: John, LastName: Doe}' > /tmp/name.yaml
+
+$ EasyGen -ts '{{.FirstName}}'\''s full name is {{printf "%s%s" .FirstName .LastName | len}} letters long.' /tmp/name
+John's full name is 7 letters long.
+
+$ EasyGen -ts '{{.FirstName}}'\''s full name is {{len (printf "%s%s" .FirstName .LastName)}} letters long.' /tmp/name
+John's full name is 7 letters long.
+
+```
