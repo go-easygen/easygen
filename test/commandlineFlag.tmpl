@@ -1,0 +1,43 @@
+package {{.PackageName}}
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+const progname = "{{.ProgramName}}" // os.Args[0]
+
+// The {{.StructName}} struct defines the structure to holds the commandline values
+type {{.StructName}} struct { {{range .Options}}
+	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
+
+// {{.StructVar}} holds the actual values from the command line paramters
+var {{.StructVar}} {{.StructName}} 
+
+////////////////////////////////////////////////////////////////////////////
+// Commandline definitions
+
+func init() { {{range .Options}}
+	flag.{{.Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
+		"{{.Usage}}"){{end}}
+}
+
+// The Usage function shows help on commandline usage
+func Usage() {
+	fmt.Fprintf(os.Stderr,
+		"{{.UsageLead}}",
+		progname)
+	flag.PrintDefaults()
+	fmt.Fprintf(os.Stderr,
+		"{{.UsageEnd}}")
+	os.Exit(0)
+}
+

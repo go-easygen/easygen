@@ -11,7 +11,6 @@ package easygenapi
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	ht "html/template"
 	"io"
@@ -26,15 +25,6 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-const progname = "EasyGen" // os.Args[0]
-
-// The Options structure holds the values for/from commandline
-type Options struct {
-	HTML         bool
-	TemplateStr  string
-	TemplateFile string
-}
-
 // common type for a *(text|html).Template value
 type template interface {
 	Execute(wr io.Writer, data interface{}) error
@@ -44,27 +34,6 @@ type template interface {
 
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
-
-// Opts holds all paramters from the command line
-var Opts Options
-
-////////////////////////////////////////////////////////////////////////////
-// Commandline definitions
-
-func init() {
-	flag.BoolVar(&Opts.HTML, "html", false, "treat the template file as html instead of text")
-	flag.StringVar(&Opts.TemplateStr, "ts", "", "template string (in text)")
-	flag.StringVar(&Opts.TemplateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
-}
-
-// The Usage function shows help on commandline usage
-func Usage() {
-	fmt.Fprintf(os.Stderr, "\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",
-		progname)
-	flag.PrintDefaults()
-	fmt.Fprintf(os.Stderr, "\nYamlFileName: The name for the .yaml data and .tmpl template file\n\tOnly the name part, without extension. Can include the path as well.\n")
-	os.Exit(0)
-}
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions

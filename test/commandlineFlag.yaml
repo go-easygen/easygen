@@ -1,0 +1,43 @@
+# program name, name for the executable
+ProgramName: easygen
+
+# package name
+# for standalone program that does not belong to any package, e.g., 
+# https://github.com/suntong001/easygen/blob/7791e4f0e5605543d27da1671a21376cdb9dcf2a/easygen/easygen.go
+# just ignore the first line, the `package` output, and copy the rest
+PackageName: easygenapi
+
+# Name of the structure to hold the values for/from commandline
+StructName: Options
+# The actual variable that hold the commandline paramter values
+StructVar: Opts
+
+Options:
+  - Name: HTML
+    Type: bool
+    Flag: html
+    Value: false
+    Usage: treat the template file as html instead of text
+
+  - Name: TemplateStr
+    Type: string
+    Flag: ts
+    Value: '""'
+    Usage: "template string (in text)"
+
+  - Name: TemplateFile
+    Type: string
+    Flag: tf
+    Value: '""'
+    Usage: ".tmpl template file name (default: same as .yaml file)"
+
+  - Name: debug
+    Type: int
+    Flag: debug
+    Value: 0
+    Usage: debugging level
+
+UsageLead: "\\nUsage:\\n %s [flags] YamlFileName\\n\\nFlags:\\n\\n"
+
+UsageEnd: "\\nYamlFileName: The name for the .yaml data and .tmpl template file\\n\\tOnly the name part, without extension. Can include the path as well.\\n"
+
