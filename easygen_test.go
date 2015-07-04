@@ -1,10 +1,11 @@
-package easygenapi
+package main
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/danverbraganza/varcaser/varcaser"
+	. "github.com/suntong001/easygen/easygenapi"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -16,7 +17,7 @@ import (
 func TestList0(t *testing.T) {
 	t.Log("First and plainest list test")
 	const await = "The colors are: red, blue, white, .\n"
-	if got := Generate(false, "Test/list0"); got != await {
+	if got := Generate(false, "test/list0"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -27,7 +28,7 @@ func TestList0(t *testing.T) {
 func TestList1Text(t *testing.T) {
 	t.Log("Second test, with text template")
 	const await = "The quoted colors are: \"red\", \"blue\", \"white\", .\n"
-	if got := Generate(false, "Test/list1"); got != await {
+	if got := Generate(false, "test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -35,7 +36,7 @@ func TestList1Text(t *testing.T) {
 func TestList1HTML(t *testing.T) {
 	t.Log("Second test, with html template")
 	const await = "The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .\n"
-	if got := Generate(true, "Test/list1"); got != await {
+	if got := Generate(true, "test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -46,35 +47,35 @@ func TestList1HTML(t *testing.T) {
 func TestListFunc1(t *testing.T) {
 	t.Log("Test custom template function - minus1")
 	const await = "red, blue, white.\n"
-	if got := Generate(false, "Test/listfunc1"); got != await {
+	if got := Generate(false, "test/listfunc1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
 
 func ExampleFunc1() {
-	fmt.Print(Generate(false, "Test/listfunc1"))
+	fmt.Print(Generate(false, "test/listfunc1"))
 	// Output:
 	// red, blue, white.
 }
 
 //==========================================================================
 // list0 data + listfunc1 template
-// I.e.: EasyGen -tf Test/listfunc1 Test/list0
+// I.e.: EasyGen -tf test/listfunc1 test/list0
 func ExampleList0Func1() {
-	opts.templateFile = "Test/listfunc1"
-	fmt.Print(Generate(false, "Test/list0"))
-	opts.templateFile = ""
+	Opts.TemplateFile = "test/listfunc1"
+	fmt.Print(Generate(false, "test/list0"))
+	Opts.TemplateFile = ""
 	// Output:
 	// red, blue, white.
 }
 
 //==========================================================================
 // list0 data + string template
-// I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" Test/list0
+// I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" test/list0
 func ExampleList0StrTemplate() {
-	opts.templateStr = "{{range .Colors}}{{.}}, {{end}}"
-	fmt.Print(Generate(false, "Test/list0"))
-	opts.templateStr = ""
+	Opts.TemplateStr = "{{range .Colors}}{{.}}, {{end}}"
+	fmt.Print(Generate(false, "test/list0"))
+	Opts.TemplateStr = ""
 	// Output:
 	// red, blue, white,
 }
@@ -93,7 +94,7 @@ func ExampleTestExample() {
 
 func ExampleCommandLineCobraViper() {
 	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
-	fmt.Print(Generate(false, "Test/commandlineCV"))
+	fmt.Print(Generate(false, "test/commandlineCV"))
 	// Output:
 	//
 	//	flags.Bool("debug", false, "Turn on debugging.")
@@ -118,7 +119,7 @@ func ExampleCommandLineCobraViper() {
 
 func ExampleCommandLineOptInitFull() {
 	// EasyGen commandlineCVFull | sed 's|^|\t// |;'
-	fmt.Print(Generate(false, "Test/commandlineCVFull"))
+	fmt.Print(Generate(false, "test/commandlineCVFull"))
 	// Output:
 	// func init() {
 	//
@@ -181,8 +182,8 @@ func ExampleVaribleNames() {
 		varcaser.Caser{From: varcaser.LowerCamelCase,
 			To: varcaser.ScreamingSnakeCase}.
 			String("myConstantVariable"),
-		ck2lc.String("some-init-method"),
-		ck2uc.String("some-init-method"))
+		Ck2lc.String("some-init-method"),
+		Ck2uc.String("some-init-method"))
 	// Output:
 	// some-init-method MY_CONSTANT_VARIABLE someInitMethod SomeInitMethod
 }

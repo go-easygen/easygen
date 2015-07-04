@@ -32,8 +32,8 @@ const progname = "EasyGen" // os.Args[0]
 // The Options structure holds the values for/from commandline
 type Options struct {
 	HTML         bool
-	templateStr  string
-	templateFile string
+	TemplateStr  string
+	TemplateFile string
 }
 
 // common type for a *(text|html).Template value
@@ -50,8 +50,8 @@ var Opts Options
 
 // pre-config some varcaser transformers
 var (
-	ck2lc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerCamelCase}
-	ck2uc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.UpperCamelCase}
+	Ck2lc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerCamelCase}
+	Ck2uc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.UpperCamelCase}
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ var (
 
 func init() {
 	flag.BoolVar(&Opts.HTML, "html", false, "treat the template file as html instead of text")
-	flag.StringVar(&Opts.templateStr, "ts", "", "template string (in text)")
-	flag.StringVar(&Opts.templateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
+	flag.StringVar(&Opts.TemplateStr, "ts", "", "template string (in text)")
+	flag.StringVar(&Opts.TemplateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
 }
 
 func Usage() {
@@ -86,8 +86,8 @@ func Generate(HTML bool, fileName string) string {
 
 	// template file name
 	fileNameT := fileName
-	if len(Opts.templateFile) > 0 {
-		fileNameT = Opts.templateFile
+	if len(Opts.TemplateFile) > 0 {
+		fileNameT = Opts.TemplateFile
 	}
 
 	t, err := parseFiles(HTML, fileNameT+".tmpl")
@@ -115,8 +115,8 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 		"minus1": minus1,
 	}
 
-	if len(Opts.templateStr) > 0 {
-		t, err := tt.New("TT").Funcs(funcMap).Parse(Opts.templateStr)
+	if len(Opts.TemplateStr) > 0 {
+		t, err := tt.New("TT").Funcs(funcMap).Parse(Opts.TemplateStr)
 		return t, err
 	}
 
