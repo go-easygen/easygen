@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/danverbraganza/varcaser/varcaser"
 	. "github.com/suntong001/easygen/easygenapi"
 )
 
@@ -78,6 +77,15 @@ func ExampleList0StrTemplate() {
 	Opts.TemplateStr = ""
 	// Output:
 	// red, blue, white,
+}
+
+//==========================================================================
+// listfunc2
+
+func ExampleFunc2() {
+	fmt.Print(Generate(false, "test/listfunc2"))
+	// Output:
+	// some-init-method 5 5 someInitMethod SomeInitMethod
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -176,14 +184,4 @@ func ExampleCommandLineOptInitFull() {
 // Varible Names
 
 func ExampleVaribleNames() {
-	fmt.Printf("%s %s %s %s",
-		varcaser.Caser{From: varcaser.LowerCamelCase, To: varcaser.KebabCase}.
-			String("someInitMethod"),
-		varcaser.Caser{From: varcaser.LowerCamelCase,
-			To: varcaser.ScreamingSnakeCase}.
-			String("myConstantVariable"),
-		Ck2lc.String("some-init-method"),
-		Ck2uc.String("some-init-method"))
-	// Output:
-	// some-init-method MY_CONSTANT_VARIABLE someInitMethod SomeInitMethod
 }

@@ -77,6 +77,12 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 	// use text template
 	funcMap := tt.FuncMap{
 		"minus1": minus1,
+		"cls2lc": cls2lc.String,
+		"cls2uc": cls2uc.String,
+		"cls2ss": cls2ss.String,
+		"ck2lc":  ck2lc.String,
+		"ck2uc":  ck2uc.String,
+		"ck2ss":  ck2ss.String,
 	}
 
 	if len(Opts.TemplateStr) > 0 {
