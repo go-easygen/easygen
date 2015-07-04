@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Program start
 
-package main
+package easygenapi
 
 import (
 	"bytes"
@@ -46,7 +46,7 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
-var opts Options
+var Opts Options
 
 // pre-config some varcaser transformers
 var (
@@ -58,33 +58,17 @@ var (
 // Commandline definitions
 
 func init() {
-	flag.BoolVar(&opts.HTML, "html", false, "treat the template file as html instead of text")
-	flag.StringVar(&opts.templateStr, "ts", "", "template string (in text)")
-	flag.StringVar(&opts.templateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
+	flag.BoolVar(&Opts.HTML, "html", false, "treat the template file as html instead of text")
+	flag.StringVar(&Opts.templateStr, "ts", "", "template string (in text)")
+	flag.StringVar(&Opts.templateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
 }
 
-func usage() {
+func Usage() {
 	fmt.Fprintf(os.Stderr, "\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",
 		progname)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, "\nYamlFileName: The name for the .yaml data and .tmpl template file\n\tOnly the name part, without extension. Can include the path as well.\n")
 	os.Exit(0)
-}
-
-////////////////////////////////////////////////////////////////////////////
-// Main
-
-func main() {
-	flag.Usage = usage
-	flag.Parse()
-
-	// One mandatory non-flag arguments
-	if len(flag.Args()) < 1 {
-		usage()
-	}
-	fileName := flag.Args()[0]
-
-	fmt.Print(Generate(opts.HTML, fileName))
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -102,8 +86,8 @@ func Generate(HTML bool, fileName string) string {
 
 	// template file name
 	fileNameT := fileName
-	if len(opts.templateFile) > 0 {
-		fileNameT = opts.templateFile
+	if len(Opts.templateFile) > 0 {
+		fileNameT = Opts.templateFile
 	}
 
 	t, err := parseFiles(HTML, fileNameT+".tmpl")
@@ -131,8 +115,8 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 		"minus1": minus1,
 	}
 
-	if len(opts.templateStr) > 0 {
-		t, err := tt.New("TT").Funcs(funcMap).Parse(opts.templateStr)
+	if len(Opts.templateStr) > 0 {
+		t, err := tt.New("TT").Funcs(funcMap).Parse(Opts.templateStr)
 		return t, err
 	}
 
