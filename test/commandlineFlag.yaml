@@ -2,9 +2,16 @@
 ProgramName: easygen
 
 # package name
-# for standalone program that does not belong to any package, e.g., 
-# https://github.com/suntong001/easygen/blob/7791e4f0e5605543d27da1671a21376cdb9dcf2a/easygen/easygen.go
-# just ignore the first line, the `package` output, and copy the rest
+# - For standalone program that does not belong to any package, e.g., 
+#   https://github.com/suntong001/easygen/blob/7791e4f0e5605543d27da1671a21376cdb9dcf2a/easygen/easygen.go
+#   just ignore the first line, the `package` output, and copy the rest
+# - If you don't mind using a separated file to handle commandline paramters,
+#   then name the package as "main". see the spin-out "TF-minus1.go" file under
+#   https://github.com/suntong001/easygen/tree/d1ab0b5fe80ddac57fe9ef51f6ccb3ab998cd5ee
+# - If you are using it in a pacakge, look no further than
+#   https://github.com/suntong001/easygen/blob/master/easygenapi/config.go
+#   which was a direct dump: easygen test/commandlineFlag > easygenapi/config.go
+#
 PackageName: easygenapi
 
 # Name of the structure to hold the values for/from commandline
