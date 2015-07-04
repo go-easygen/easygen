@@ -26,7 +26,7 @@ var {{.StructVar}} {{.StructName}}
 // Commandline definitions
 
 func init() { {{range .Options}}
-	flag.{{.Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
+	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}
 }
 
