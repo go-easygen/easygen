@@ -20,7 +20,6 @@ import (
 	"path/filepath"
 	tt "text/template"
 
-	"github.com/danverbraganza/varcaser/varcaser"
 	"gopkg.in/yaml.v2"
 )
 
@@ -46,13 +45,8 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
+// Opts holds all paramters from the command line
 var Opts Options
-
-// pre-config some varcaser transformers
-var (
-	Ck2lc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerCamelCase}
-	Ck2uc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.UpperCamelCase}
-)
 
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
@@ -63,6 +57,7 @@ func init() {
 	flag.StringVar(&Opts.TemplateFile, "tf", "", ".tmpl template file name (default: same as .yaml file)")
 }
 
+// The Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr, "\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",
 		progname)
