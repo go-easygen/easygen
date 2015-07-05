@@ -38,6 +38,18 @@ Options:
     Value: '""'
     Usage: ".tmpl template file name (default: same as .yaml file)"
 
+  - Name: ExtYaml
+    Type: string
+    Flag: ey
+    Value: '".yaml"'
+    Usage: "extension of yaml file"
+
+  - Name: ExtTmpl
+    Type: string
+    Flag: et
+    Value: '".tmpl"'
+    Usage: "extension of template file"
+
   - Name: debug
     Type: int
     Flag: debug

@@ -1,6 +1,6 @@
-// !!! !!! !!!
+// !!! !!!
 // WARNING: Code automatically generated. Editing discouraged.
-// !!! !!! !!!
+// !!! !!!
 
 package easygenapi
 
@@ -20,6 +20,8 @@ type Options struct {
 	HTML         bool   // treat the template file as html instead of text
 	TemplateStr  string // template string (in text)
 	TemplateFile string // .tmpl template file name (default: same as .yaml file)
+	ExtYaml      string // extension of yaml file
+	ExtTmpl      string // extension of template file
 	debug        int    // debugging level
 }
 
@@ -41,6 +43,10 @@ func init() {
 		"template string (in text)")
 	flag.StringVar(&Opts.TemplateFile, "tf", "",
 		".tmpl template file name (default: same as .yaml file)")
+	flag.StringVar(&Opts.ExtYaml, "ey", ".yaml",
+		"extension of yaml file")
+	flag.StringVar(&Opts.ExtTmpl, "et", ".tmpl",
+		"extension of template file")
 	flag.IntVar(&Opts.debug, "debug", 0,
 		"debugging level")
 
@@ -52,6 +58,14 @@ func init() {
 	if len(Opts.TemplateFile) == 0 ||
 		len(os.Getenv("EASYGEN_TF")) != 0 {
 		Opts.TemplateFile = os.Getenv("EASYGEN_TF")
+	}
+	if len(Opts.ExtYaml) == 0 ||
+		len(os.Getenv("EASYGEN_EY")) != 0 {
+		Opts.ExtYaml = os.Getenv("EASYGEN_EY")
+	}
+	if len(Opts.ExtTmpl) == 0 ||
+		len(os.Getenv("EASYGEN_ET")) != 0 {
+		Opts.ExtTmpl = os.Getenv("EASYGEN_ET")
 	}
 
 }

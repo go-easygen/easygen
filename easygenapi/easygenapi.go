@@ -40,7 +40,7 @@ type template interface {
 
 // Generate will produce output from the template according to driving data
 func Generate(HTML bool, fileName string) string {
-	source, err := ioutil.ReadFile(fileName + ".yaml")
+	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
 	checkError(err)
 
 	m := make(map[interface{}]interface{})
@@ -54,7 +54,7 @@ func Generate(HTML bool, fileName string) string {
 		fileNameT = Opts.TemplateFile
 	}
 
-	t, err := parseFiles(HTML, fileNameT+".tmpl")
+	t, err := parseFiles(HTML, fileNameT+Opts.ExtTmpl)
 	checkError(err)
 
 	buf := new(bytes.Buffer)
