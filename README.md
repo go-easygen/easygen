@@ -78,7 +78,7 @@ My (updated) blog about it is at [here](https://github.com/suntong001/blog/blob/
 <a name="tips" />
 ## Tips
 
-You can use `easygen` as an generic Google template testing tool with the `-ts` commandline option. For example,
+You can use `easygen` as an generic Go template testing tool with the `-ts` commandline option. For example,
 
 ```
 echo "Age: 16" > /tmp/age.yaml
@@ -106,6 +106,6 @@ some-init-method 5 5 someInitMethod SomeInitMethod
 
 ## Author(s)
 
-Tong SUN, suntong at/from cpan.org.
+Tong SUN, <suntong from cpan.org>.
 
 All patches welcome. 
