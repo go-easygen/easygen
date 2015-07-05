@@ -146,6 +146,6 @@ some-init-method 5 5 someInitMethod SomeInitMethod
 
 ## Author(s)
 
-Tong SUN, <suntong from cpan.org>.
+Tong SUN, suntong at/from cpan.org.
 
 All patches welcome. 
