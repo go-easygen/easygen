@@ -1,3 +1,7 @@
+// !!! !!! !!!
+// WARNING: Code automatically generated. Editing discouraged.
+// !!! !!! !!!
+
 package easygenapi
 
 import (
@@ -29,6 +33,8 @@ var Opts Options
 // Commandline definitions
 
 func init() {
+
+	// set default values for command line paramters
 	flag.BoolVar(&Opts.HTML, "html", false,
 		"treat the template file as html instead of text")
 	flag.StringVar(&Opts.TemplateStr, "ts", "",
@@ -37,6 +43,17 @@ func init() {
 		".tmpl template file name (default: same as .yaml file)")
 	flag.IntVar(&Opts.debug, "debug", 0,
 		"debugging level")
+
+	// Now override those default values from environment variables
+	if len(Opts.TemplateStr) == 0 ||
+		len(os.Getenv("EASYGEN_TS")) != 0 {
+		Opts.TemplateStr = os.Getenv("EASYGEN_TS")
+	}
+	if len(Opts.TemplateFile) == 0 ||
+		len(os.Getenv("EASYGEN_TF")) != 0 {
+		Opts.TemplateFile = os.Getenv("EASYGEN_TF")
+	}
+
 }
 
 // The Usage function shows help on commandline usage

@@ -83,6 +83,8 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 		"ck2lc":  ck2lc.String,
 		"ck2uc":  ck2uc.String,
 		"ck2ss":  ck2ss.String,
+		"clc2ss": clc2ss.String,
+		"cuc2ss": cuc2ss.String,
 	}
 
 	if len(Opts.TemplateStr) > 0 {

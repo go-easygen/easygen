@@ -1,3 +1,7 @@
+// !!! !!! !!!
+// WARNING: Code automatically generated. Editing discouraged.
+// !!! !!! !!!
+
 package {{.PackageName}}
 
 import (
@@ -25,9 +29,18 @@ var {{.StructVar}} {{.StructName}}
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 
-func init() { {{range .Options}}
+func init() {
+
+	// set default values for command line paramters {{range .Options}}
 	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}
+
+	// Now override those default values from environment variables {{range .Options}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}
+	if len({{$.StructVar}}.{{.Name}}) == 0 ||
+		len(os.Getenv("{{$envVar}}")) != 0 {
+		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
+	} {{end}}{{end}}
+
 }
 
 // The Usage function shows help on commandline usage
