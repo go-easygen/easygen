@@ -146,6 +146,8 @@ some-init-method 5 5 someInitMethod SomeInitMethod
 
 ## Author(s)
 
-Tong SUN, ![suntong from cpan.org](http://i.stack.imgur.com/CNcsd.png "email address").
+Tong SUN
+
+![suntong from cpan.org](http://i.stack.imgur.com/CNcsd.png "email address")
 
 All patches welcome. 
