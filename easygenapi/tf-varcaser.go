@@ -16,11 +16,7 @@ var (
 
 	ck2lc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerCamelCase}
 	ck2uc = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.UpperCamelCase}
-<<<<<<< HEAD
 	ck2ls = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.LowerSnakeCase}
-=======
-	ck2ls = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.lower_snake_case}
->>>>>>> 854eeb44cca3948e0c8fec92e675acd32545ea8b
 	ck2ss = varcaser.Caser{From: varcaser.KebabCase, To: varcaser.ScreamingSnakeCase}
 
 	clc2ss = varcaser.Caser{From: varcaser.LowerCamelCase, To: varcaser.ScreamingSnakeCase}
