@@ -13,7 +13,7 @@ import (
 	"flag"
 	"fmt"
 
-	. "github.com/suntong001/easygen/easygenapi"
+	"github.com/suntong001/easygen/easygenapi"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -29,14 +29,14 @@ import (
 // Main
 
 func main() {
-	flag.Usage = Usage
+	flag.Usage = easygenapi.Usage
 	flag.Parse()
 
 	// One mandatory non-flag arguments
 	if len(flag.Args()) < 1 {
-		Usage()
+		easygenapi.Usage()
 	}
 	fileName := flag.Args()[0]
 
-	fmt.Print(Generate(Opts.HTML, fileName))
+	fmt.Print(easygenapi.Generate(easygenapi.Opts.HTML, fileName))
 }
