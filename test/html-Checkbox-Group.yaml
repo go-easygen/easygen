@@ -1,0 +1,19 @@
+phone:
+
+  - Type: Android
+    Modules: 
+      - Samsung Galaxy
+      - Droid X
+      - HTC Desire
+
+  - Type: iPhone
+    Modules: 
+      - Apple iPhone 4
+      - Apple iPhone 5
+      - Apple iPhone 6
+
+  - Type: BlackBerry
+    Modules: 
+      - BlackBerry Bold 9650
+      - BlackBerry 10
+  

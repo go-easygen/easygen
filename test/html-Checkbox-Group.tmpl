@@ -1,0 +1,63 @@
+<!doctype html>
+
+<!--
+    !!! !!!
+    WARNING: Code automatically generated. Editing discouraged.
+    !!! !!!
+
+    Ref:
+    https://github.com/suntong001/easygen, and 
+    https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl
+  -->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <title>Multiple Checkbox Select/Deselect - DEMO</title>
+    <STYLE>body,input{font-family:Calibri,Arial;margin:0px}h1{margin:0 0 0 20px}html,body,#container{height:100%}body>#container{height:auto;min-height:100%}#header{height:50px;background-color:#ddd;border-bottom:1px solid #aaa;width:100%}#footer{font-size:12px;clear:both;position:relative;z-index:10;height:3em;margin-top:-3em;text-align:center}table{width:300px;border:1px solid;border-collapse:collapse;margin:0 0 0 20px;}th{background-color:#3e6db0;color:#fff;padding:5px}</STYLE>
+  </head>
+
+  <body>
+
+   <h2>Multiple Checkbox Group Select/Deselect - DEMO</h2>
+   <form name="choose">
+    <table border="1">
+      <tbody>
+{{range .phone}}{{$phoneType := ck2ls .Type}}
+	<tr>
+          <th>
+            <input type="checkbox" name="parent" id="{{.Type}}" data-type="{{$phoneType}}">
+          </th>
+          <th>{{.Type}} Cell phones</th>
+        </tr>{{range .Modules}}
+        <tr>
+          <td align="center">
+            <input type="checkbox" class="case" name="case" data-type="{{$phoneType}}" value="{{.}}">
+          </td>
+          <td>{{.}}</td>
+        </tr>{{end}}
+{{end}}	
+      </tbody>
+    </table>
+   </form>
+
+    <script>
+     $(function () {
+	 $('[name="case"][data-type]').change(function () {
+	     if ($('[name="case"][data-type="'+ $(this).attr('data-type') +'"]:not(:checked)').length > 0) {
+		 $('[name="parent"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', false);
+	     }
+	     else {        
+		 $('[name="parent"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', true);
+	     }
+	 });
+
+	 $('[name="parent"][data-type]').change(function () {
+	     $('[name="case"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', $(this).prop('checked'));
+	 });
+     });
+    </script>
+    
+  </body>
+</html>
