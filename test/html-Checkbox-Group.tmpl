@@ -43,7 +43,8 @@
    </form>
 
     <script>
-     $(function () {
+      $(function () {
+      // by ibrahimyilmaz, http://stackoverflow.com/users/2696626/ibrahimyilmaz
 	 $('[name="case"][data-type]').change(function () {
 	     if ($('[name="case"][data-type="'+ $(this).attr('data-type') +'"]:not(:checked)').length > 0) {
 		 $('[name="parent"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', false);
