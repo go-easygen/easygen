@@ -1,0 +1,99 @@
+<!doctype html>
+
+<!--
+    !!! !!!
+    WARNING: Code automatically generated. Editing discouraged.
+    !!! !!!
+
+    Ref:
+    https://github.com/suntong001/easygen, and 
+    https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl
+  -->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <title>Multiple Checkbox Select/Deselect - DEMO</title>
+    <STYLE>body,input{font-family:Calibri,Arial;margin:0px}h1{margin:0 0 0 20px}html,body,#container{height:100%}body>#container{height:auto;min-height:100%}#header{height:50px;background-color:#ddd;border-bottom:1px solid #aaa;width:100%}#footer{font-size:12px;clear:both;position:relative;z-index:10;height:3em;margin-top:-3em;text-align:center}table{width:300px;border:1px solid;border-collapse:collapse;margin:0 0 0 20px;}th{background-color:#3e6db0;color:#fff;padding:5px}</STYLE>
+  </head>
+
+  <body>
+
+    <h2>Multiple Checkbox Group Select/Deselect - DEMO</h2>
+
+    <p>This extends the <a href="http://viralpatel.net/blogs/multiple-checkbox-select-deselect-jquery-tutorial-example/"><em>Multiple Checkbox Select/Deselect Using JQuery</em></a> which has an <a href="http://viralpatel.net/blogs/demo/jquery/multiple-checkbox-select-deselect/jquery-select-multiple-checkbox.html">Online Demo here</a>, which demonstrates the functionality of selecting multiple items from a list to process them.</p>
+    <p>This extends the demo further -- it now includes several groups instead merely a single one.</p>
+    <ul>
+      <li>There is a select all checkbox for each group (in the table header). If user select/deselect the selectall checkbox, all the checkbox withing that group will get selected or deselected accordingly. Other groups are not affected.</li>
+      <li>Also,
+	<ul>
+	  <li>if user select all the checkbox one by one then the selectall checkbox should be automatically gets selected.</li>
+	  <li>And if user click selectall first and then unchecks any of the checkbox, then the selectall also should be unchecked automatically.</li>
+	  <li>Again, this is for withing that group. Other groups are not affected.</li>
+	</ul>
+      </li>
+    </ul>
+    <p/>
+  
+    <form name="choose">
+      <table border="1">
+	<tbody>
+{{range .phone}}{{$phoneType := ck2ls .Type}}
+	  <tr>
+	    <th>
+	      <input type="checkbox" name="caseall" id="{{.Type}}" data-type="{{$phoneType}}">
+	    </th>
+	    <th>{{.Type}} Cell phones</th>
+	  </tr>{{range .Modules}}
+	  <tr>
+	    <td align="center">
+	      <input type="checkbox" class="case" name="case" data-type="{{$phoneType}}" value="{{.}}">
+	    </td>
+	    <td>{{.}}</td>
+	  </tr>{{end}}
+{{end}}	
+	</tbody>
+      </table>
+      <p/>
+      <input type="submit">
+    </form>
+    <div id="s"></div>
+    
+    <p>FYI, this full working html source code is generated <em>automatically</em> by <a href="https://github.com/suntong001/easygen">easygen</a> with <a href="https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl">this</a> template. This html test code is the reason that I wrote <a href="https://github.com/suntong001/easygen">easygen</a>, to make it easy to write whatever test cases whatever the way I like. Further, changing is a breeze, you just change once and the script will do a "replace-all" for you, however complicated it can be. No any other tools can do such complicated "replace-all" for you.</p>
+
+    <script>
+      $(function () {
+      // initial version by ibrahimyilmaz
+      // http://stackoverflow.com/users/2696626/ibrahimyilmaz
+	  $('[name="case"][data-type]').change(function () {
+	      // Children changed. find unchecked childs with some data-type
+	      if ($('[name="case"][data-type="'+ $(this).attr('data-type') +'"]:not(:checked)').length > 0) {
+		  //if found set parent which has some data-type as unchecked
+		  $('[name="caseall"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', false);
+	      }
+	      else {  
+		  //if unchecked child not found, set parent which has some data-type as checked      
+		  $('[name="caseall"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', true);
+	      }
+	  });
+
+	  $('[name="caseall"][data-type]').change(function () {
+	      // Parent changed. Set all child with some data-type as parents checked/unchecked
+	      $('[name="case"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', $(this).prop('checked'));
+	  });
+      });
+
+     function showValues() {
+         $("#s").html($('[name="case"]:checked').serialize());
+     }
+
+    $( "form" ).submit(function( event ) {
+        event.preventDefault();
+        showValues();
+    });
+
+    </script>
+    
+  </body>
+</html>
