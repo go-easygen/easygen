@@ -13,7 +13,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <title>Multiple Checkbox Select/Deselect - DEMO</title>
     <STYLE>body,input{font-family:Calibri,Arial;margin:0px}h1{margin:0 0 0 20px}html,body,#container{height:100%}body>#container{height:auto;min-height:100%}#header{height:50px;background-color:#ddd;border-bottom:1px solid #aaa;width:100%}#footer{font-size:12px;clear:both;position:relative;z-index:10;height:3em;margin-top:-3em;text-align:center}table{width:300px;border:1px solid;border-collapse:collapse;margin:0 0 0 20px;}th{background-color:#3e6db0;color:#fff;padding:5px}</STYLE>
   </head>
@@ -42,43 +42,57 @@
 {{range .phone}}{{$phoneType := ck2ls .Type}}
 	  <tr>
 	    <th>
-	      <input type="checkbox" name="parent" id="{{.Type}}" data-type="{{$phoneType}}">
+	      <input type="checkbox" name="caseall" id="{{.Type}}" data-type="{{$phoneType}}">
 	    </th>
 	    <th>{{.Type}} Cell phones</th>
 	  </tr>{{range .Modules}}
 	  <tr>
 	    <td align="center">
-	      <input type="checkbox" name="children" data-type="{{$phoneType}}" value="{{.}}">
+	      <input type="checkbox" class="case" name="case" data-type="{{$phoneType}}" value="{{.}}">
 	    </td>
 	    <td>{{.}}</td>
 	  </tr>{{end}}
 {{end}}	
 	</tbody>
       </table>
+      <p/>
+      <input type="submit">
     </form>
-
+    <div id="s"></div>
+    
     <p>FYI, this full working html source code is generated <em>automatically</em> by <a href="https://github.com/suntong001/easygen">easygen</a> with <a href="https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl">this</a> template. This html test code is the reason that I wrote <a href="https://github.com/suntong001/easygen">easygen</a>, to make it easy to write whatever test cases whatever the way I like. Further, changing is a breeze, you just change once and the script will do a "replace-all" for you, however complicated it can be. No any other tools can do such complicated "replace-all" for you.</p>
 
     <script>
       $(function () {
-      // by ibrahimyilmaz, http://stackoverflow.com/users/2696626/ibrahimyilmaz
-	  $('[name="children"][data-type]').change(function () {
-	      //children changed. find unchecked childs with some data-type
-	      if ($('[name="children"][data-type="'+ $(this).attr('data-type') +'"]:not(:checked)').length > 0) {
+      // initial version by ibrahimyilmaz
+      // http://stackoverflow.com/users/2696626/ibrahimyilmaz
+	  $('[name="case"][data-type]').change(function () {
+	      // Children changed. find unchecked childs with some data-type
+	      if ($('[name="case"][data-type="'+ $(this).attr('data-type') +'"]:not(:checked)').length > 0) {
 		  //if found set parent which has some data-type as unchecked
-		  $('[name="parent"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', false);
+		  $('[name="caseall"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', false);
 	      }
 	      else {  
 		  //if unchecked child not found, set parent which has some data-type as checked      
-		  $('[name="parent"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', true);
+		  $('[name="caseall"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', true);
 	      }
 	  });
 
-	  $('[name="parent"][data-type]').change(function () {
-	      //Parent changed. Set all child with some data-type as parents checked/unchecked
-	      $('[name="children"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', $(this).prop('checked'));
+	  $('[name="caseall"][data-type]').change(function () {
+	      // Parent changed. Set all child with some data-type as parents checked/unchecked
+	      $('[name="case"][data-type="'+ $(this).attr('data-type') +'"]').prop('checked', $(this).prop('checked'));
 	  });
       });
+
+     function showValues() {
+         $("#s").html($('[name="case"]:checked').serialize());
+     }
+
+    $( "form" ).submit(function( event ) {
+        event.preventDefault();
+        showValues();
+    });
+
     </script>
     
   </body>
