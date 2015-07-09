@@ -7,7 +7,7 @@
 
     Ref:
     https://github.com/suntong001/easygen, and 
-    https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl
+    https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Post.tmpl
   -->
 
 <html lang="en">
@@ -21,22 +21,8 @@
   <body>
 
     <h2>Multiple Checkbox Group Select/Deselect - DEMO</h2>
-
-    <p>This extends the <a href="http://viralpatel.net/blogs/multiple-checkbox-select-deselect-jquery-tutorial-example/"><em>Multiple Checkbox Select/Deselect Using JQuery</em></a> which has an <a href="http://viralpatel.net/blogs/demo/jquery/multiple-checkbox-select-deselect/jquery-select-multiple-checkbox.html">Online Demo here</a>, which demonstrates the functionality of selecting multiple items from a list to process them.</p>
-    <p>This extends the demo further -- it now includes several groups instead merely a single one.</p>
-    <ul>
-      <li>There is a select all checkbox for each group (in the table header). If user select/deselect the selectall checkbox, all the checkbox withing that group will get selected or deselected accordingly. Other groups are not affected.</li>
-      <li>Also,
-	<ul>
-	  <li>if user select all the checkbox one by one then the selectall checkbox should be automatically gets selected.</li>
-	  <li>And if user click selectall first and then unchecks any of the checkbox, then the selectall also should be unchecked automatically.</li>
-	  <li>Again, this is for withing that group. Other groups are not affected.</li>
-	</ul>
-      </li>
-    </ul>
-    <p/>
   
-    <form name="choose">
+    <form name="choose" >
       <table border="1">
 	<tbody>
 {{range .phone}}{{$phoneType := ck2ls .Type}}
@@ -48,7 +34,7 @@
 	  </tr>{{range .Modules}}
 	  <tr>
 	    <td align="center">
-	      <input type="checkbox" class="case" name="case" data-type="{{$phoneType}}" value="{{.}}">
+	      <input type="checkbox" name="case" data-type="{{$phoneType}}" value="{{.}}">
 	    </td>
 	    <td>{{.}}</td>
 	  </tr>{{end}}
@@ -58,10 +44,7 @@
       <p/>
       <input type="submit">
     </form>
-    <div id="s"></div>
     
-    <p>FYI, this full working html source code is generated <em>automatically</em> by <a href="https://github.com/suntong001/easygen">easygen</a> with <a href="https://github.com/suntong001/easygen/blob/master/test/html-Checkbox-Group.tmpl">this</a> template. This html test code is the reason that I wrote <a href="https://github.com/suntong001/easygen">easygen</a>, to make it easy to write whatever test cases whatever the way I like. Further, changing is a breeze, you just change once and the script will do a "replace-all" for you, however complicated it can be. No any other tools can do such complicated "replace-all" for you.</p>
-
     <script>
       $(function () {
       // initial version by ibrahimyilmaz
@@ -90,7 +73,7 @@
 
     $( "form" ).submit(function( event ) {
         event.preventDefault();
-        showValues();
+        $.post("/logger", $('[name="case"]:checked').serialize())
     });
 
     </script>
