@@ -61,9 +61,7 @@ func ExampleFunc1() {
 // list0 data + listfunc1 template
 // I.e.: EasyGen -tf test/listfunc1 test/list0
 func ExampleList0Func1() {
-	easygenapi.Opts.TemplateFile = "test/listfunc1"
-	fmt.Print(easygenapi.Generate(false, "test/list0"))
-	easygenapi.Opts.TemplateFile = ""
+	fmt.Print(easygenapi.Generate2(false, "test/listfunc1", "test/list0"))
 	// Output:
 	// red, blue, white.
 }
@@ -72,9 +70,7 @@ func ExampleList0Func1() {
 // list0 data + string template
 // I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" test/list0
 func ExampleList0StrTemplate() {
-	easygenapi.Opts.TemplateStr = "{{range .Colors}}{{.}}, {{end}}"
-	fmt.Print(easygenapi.Generate(false, "test/list0"))
-	easygenapi.Opts.TemplateStr = ""
+	fmt.Print(easygenapi.Generate0(false, "{{range .Colors}}{{.}}, {{end}}", "test/list0"))
 	// Output:
 	// red, blue, white,
 }

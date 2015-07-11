@@ -38,6 +38,22 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+// Generate2 will produce output according to the given template and driving data files
+func Generate2(HTML bool, fileNameTempl string, fileName string) string {
+	Opts.TemplateFile = fileNameTempl
+	ret := Generate(HTML, fileName)
+	Opts.TemplateFile = ""
+	return ret
+}
+
+// Generate0 will produce output according from driving data without a template file
+func Generate0(HTML bool, strTempl string, fileName string) string {
+	Opts.TemplateStr = strTempl
+	ret := Generate(HTML, fileName)
+	Opts.TemplateStr = ""
+	return ret
+}
+
 // Generate will produce output from the template according to driving data
 func Generate(HTML bool, fileName string) string {
 	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
