@@ -194,6 +194,9 @@ $ easygen -rf="a(x*)b" -rt='${1}W' -ts="{{.StrTest}}, {{replace .StrTest}}, {{.S
 $ easygen -rf="HTML" -rt='XML' -ts="{{.StrTest}}, {{replacec .StrTest}}, {{replace .StrTest}}" test/strings0
 -ab-axxb- HTML Html html, -ab-axxb- XML Html html, -ab-axxb- XML XML XML
 
+$ EASYGEN_RF="HTML" EASYGEN_RT='XML' easygen -ts="{{.StrTest}}, {{replacec .StrTest}}, {{replace .StrTest}}" test/strings0
+-ab-axxb- HTML Html html, -ab-axxb- XML Html html, -ab-axxb- XML XML XML
+
 */
 
 /*
