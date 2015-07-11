@@ -22,6 +22,8 @@ type Options struct {
 	TemplateFile string // .tmpl template file name (default: same as .yaml file)
 	ExtYaml      string // extension of yaml file
 	ExtTmpl      string // extension of template file
+	StrFrom      string // replace from, the from string used for the replace function
+	StrTo        string // replace to, the to string used for the replace function
 	debug        int    // debugging level
 }
 
@@ -47,6 +49,10 @@ func init() {
 		"extension of yaml file")
 	flag.StringVar(&Opts.ExtTmpl, "et", ".tmpl",
 		"extension of template file")
+	flag.StringVar(&Opts.StrFrom, "rf", "",
+		"replace from, the from string used for the replace function")
+	flag.StringVar(&Opts.StrTo, "rt", "",
+		"replace to, the to string used for the replace function")
 	flag.IntVar(&Opts.debug, "debug", 0,
 		"debugging level")
 
@@ -66,6 +72,14 @@ func init() {
 	if len(Opts.ExtTmpl) == 0 ||
 		len(os.Getenv("EASYGEN_ET")) != 0 {
 		Opts.ExtTmpl = os.Getenv("EASYGEN_ET")
+	}
+	if len(Opts.StrFrom) == 0 ||
+		len(os.Getenv("EASYGEN_RF")) != 0 {
+		Opts.StrFrom = os.Getenv("EASYGEN_RF")
+	}
+	if len(Opts.StrTo) == 0 ||
+		len(os.Getenv("EASYGEN_RT")) != 0 {
+		Opts.StrTo = os.Getenv("EASYGEN_RT")
 	}
 
 }

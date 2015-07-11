@@ -181,3 +181,28 @@ func ExampleCommandLineOptInitFull() {
 
 func ExampleVaribleNames() {
 }
+
+////////////////////////////////////////////////////////////////////////////
+// Strings Test
+
+/*
+
+// Ref https://golang.org/pkg/regexp/#Regexp.ReplaceAllString
+$ easygen -rf="a(x*)b" -rt='${1}W' -ts="{{.StrTest}}, {{replace .StrTest}}, {{.StrTest | replace}}" test/strings0
+-ab-axxb- HTML Html html, -W-xxW- HTML Html html, -W-xxW- HTML Html html
+
+$ easygen -rf="HTML" -rt='XML' -ts="{{.StrTest}}, {{replacec .StrTest}}, {{replace .StrTest}}" test/strings0
+-ab-axxb- HTML Html html, -ab-axxb- XML Html html, -ab-axxb- XML XML XML
+
+*/
+
+/*
+func ExampleTestStrings() {
+  // panic: runtime error: invalid memory address or nil pointer dereference [recovered]
+	easygenapi.Opts.StrFrom = "a(x*)b"
+	easygenapi.Opts.StrTo = "${1}W"
+	fmt.Print(easygenapi.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
+	// Output:
+	// -ab-axxb- HTML Html html -W-xxW- HTML Html html -W-xxW- HTML Html html
+}
+*/

@@ -50,6 +50,18 @@ Options:
     Value: '".tmpl"'
     Usage: "extension of template file"
 
+  - Name: StrFrom
+    Type: string
+    Flag: rf
+    Value: '""'
+    Usage: "replace from, the from string used for the replace function"
+
+  - Name: StrTo
+    Type: string
+    Flag: rt
+    Value: '""'
+    Usage: "replace to, the to string used for the replace function"
+
   - Name: debug
     Type: int
     Flag: debug
