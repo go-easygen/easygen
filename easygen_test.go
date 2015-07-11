@@ -198,10 +198,12 @@ $ easygen -rf="HTML" -rt='XML' -ts="{{.StrTest}}, {{replacec .StrTest}}, {{repla
 
 /*
 func ExampleTestStrings() {
-  // panic: runtime error: invalid memory address or nil pointer dereference [recovered]
+	// panic: runtime error: invalid memory address or nil pointer dereference [recovered]
 	easygenapi.Opts.StrFrom = "a(x*)b"
 	easygenapi.Opts.StrTo = "${1}W"
-	fmt.Print(easygenapi.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
+	//fmt.Print(easygenapi.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
+	easygenapi.Opts.TemplateStr = `{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}`
+	fmt.Print(easygenapi.Generate(false, "test/strings0"))
 	// Output:
 	// -ab-axxb- HTML Html html -W-xxW- HTML Html html -W-xxW- HTML Html html
 }
