@@ -16,8 +16,8 @@ import (
 const progname = "{{.ProgramName}}" // os.Args[0]
 
 // The {{.StructName}} struct defines the structure to hold the commandline values
-type {{.StructName}} struct { {{range .Options}}
-	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}
+type {{.StructName}} struct { {{range .Options}}{{if ne .Name "SEPARATOR" }}
+	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}{{end}}
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -31,23 +31,32 @@ var {{.StructVar}} {{.StructName}}
 
 func init() {
 
-	// set default values for command line paramters {{range .Options}}
-	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
-		"{{.Usage}}"){{end}}
+	// set default values for command line paramters {{range .Options}}{{if eq .Name "SEPARATOR" }}
 
-	// Now override those default values from environment variables {{range .Options}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}
+{{else}}
+	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
+		"{{.Usage}}"){{end}}{{end}}
+
+	// Now override those default values from environment variables {{range .Options}}{{if eq .Name "SEPARATOR" }}
+
+{{else}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}
 	if len({{$.StructVar}}.{{.Name}}) == 0 ||
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
-	} {{end}}{{end}}
+	} {{end}}{{end}}{{end}}
 
 }
+
+{{if eq .UsageSummary "TRUE" }}
+const USAGE_SUMMARY = "{{range .Options}}{{if eq .Name "SEPARATOR" }}\n{{else}}  -{{.Flag}}\t{{.Usage}}\n{{end}}{{end}}\nDetails:\n\n"
+{{end}}
 
 // The Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr,
 		"{{.UsageLead}}",
-		progname)
+		progname){{if eq .UsageSummary "TRUE" }}
+	fmt.Fprintf(os.Stderr, USAGE_SUMMARY){{end}}
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
 		"{{.UsageEnd}}")
