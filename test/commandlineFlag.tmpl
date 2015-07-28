@@ -15,7 +15,7 @@ import (
 
 const progname = "{{.ProgramName}}" // os.Args[0]
 
-// The {{.StructName}} struct defines the structure to holds the commandline values
+// The {{.StructName}} struct defines the structure to hold the commandline values
 type {{.StructName}} struct { {{range .Options}}
 	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}
 }
