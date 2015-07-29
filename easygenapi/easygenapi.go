@@ -17,6 +17,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	tt "text/template"
 
 	"gopkg.in/yaml.v2"
@@ -109,6 +110,7 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 
 	// use text template
 	funcMap := tt.FuncMap{
+		"eqf":      strings.EqualFold,
 		"minus1":   minus1,
 		"replace":  replace,
 		"replacec": replacec,

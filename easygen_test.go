@@ -185,6 +185,12 @@ func ExampleVaribleNames() {
 ////////////////////////////////////////////////////////////////////////////
 // Strings Test
 
+func ExampleTestStringsCmp() {
+	fmt.Print(easygenapi.Generate0(false, `The {{if eq .StrTest "-AB-axxb- HTML Html html"}}eq says Yea{{else}}eq says Nay{{end}} but {{if eqf .StrTest "-AB-axxb- HTML Html html"}}eqf says Yea{{else}}eqf says Nay{{end}}.`, "test/strings0"))
+	// Output:
+	// The eq says Nay but eqf says Yea.
+}
+
 /*
 
 // Ref https://golang.org/pkg/regexp/#Regexp.ReplaceAllString
