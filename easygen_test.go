@@ -191,6 +191,12 @@ func ExampleTestStringsCmp() {
 	// The eq says Nay but eqf says Yea.
 }
 
+func ExampleTestStringSplit() {
+	fmt.Print(easygenapi.Generate0(false, `{{split .Colorlist}}`, "test/list0"))
+	// Output:
+	// [red blue white]
+}
+
 /*
 
 // Ref https://golang.org/pkg/regexp/#Regexp.ReplaceAllString

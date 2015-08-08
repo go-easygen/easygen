@@ -111,6 +111,7 @@ func parseFiles(HTML bool, filenames ...string) (template, error) {
 	// use text template
 	funcMap := tt.FuncMap{
 		"eqf":      strings.EqualFold,
+		"split":    strings.Fields,
 		"minus1":   minus1,
 		"replace":  replace,
 		"replacec": replacec,
