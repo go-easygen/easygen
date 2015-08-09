@@ -191,10 +191,16 @@ func ExampleTestStringsCmp() {
 	// The eq says Nay but eqf says Yea.
 }
 
-func ExampleTestStringSplit() {
+func ExampleTestStringSplit0() {
 	fmt.Print(easygenapi.Generate0(false, `{{split .Colorlist}}`, "test/list0"))
 	// Output:
 	// [red blue white]
+}
+
+func ExampleTestStringSplit1() {
+	fmt.Print(easygenapi.Generate0(false, `{{range (split .Colorlist)}}{{.}} {{end}}`, "test/list0"))
+	// Output:
+	// red blue white
 }
 
 /*
