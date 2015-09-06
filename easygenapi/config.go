@@ -15,16 +15,16 @@ import (
 
 const progname = "easygen" // os.Args[0]
 
-// The Options struct defines the structure to holds the commandline values
+// The Options struct defines the structure to hold the commandline values
 type Options struct {
 	HTML         bool   // treat the template file as html instead of text
 	TemplateStr  string // template string (in text)
-	TemplateFile string // .tmpl template file name (default: same as .yaml file)
-	ExtYaml      string // extension of yaml file
-	ExtTmpl      string // extension of template file
+	TemplateFile string // .tmpl template file `name` (default: same as .yaml file)
+	ExtYaml      string // `extension` of yaml file
+	ExtTmpl      string // `extension` of template file
 	StrFrom      string // replace from, the from string used for the replace function
 	StrTo        string // replace to, the to string used for the replace function
-	debug        int    // debugging level
+	debug        int    // debugging `level`
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -44,17 +44,17 @@ func init() {
 	flag.StringVar(&Opts.TemplateStr, "ts", "",
 		"template string (in text)")
 	flag.StringVar(&Opts.TemplateFile, "tf", "",
-		".tmpl template file name (default: same as .yaml file)")
+		".tmpl template file `name` (default: same as .yaml file)")
 	flag.StringVar(&Opts.ExtYaml, "ey", ".yaml",
-		"extension of yaml file")
+		"`extension` of yaml file")
 	flag.StringVar(&Opts.ExtTmpl, "et", ".tmpl",
-		"extension of template file")
+		"`extension` of template file")
 	flag.StringVar(&Opts.StrFrom, "rf", "",
 		"replace from, the from string used for the replace function")
 	flag.StringVar(&Opts.StrTo, "rt", "",
 		"replace to, the to string used for the replace function")
 	flag.IntVar(&Opts.debug, "debug", 0,
-		"debugging level")
+		"debugging `level`")
 
 	// Now override those default values from environment variables
 	if len(Opts.TemplateStr) == 0 ||

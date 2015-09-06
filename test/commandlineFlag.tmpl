@@ -24,26 +24,26 @@ type {{.StructName}} struct { {{range .Options}}{{if ne .Name "SEPARATOR" }}
 // Global variables definitions
 
 // {{.StructVar}} holds the actual values from the command line paramters
-var {{.StructVar}} {{.StructName}} 
+var {{.StructVar}} {{.StructName}}
 
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 
 func init() {
 
-	// set default values for command line paramters {{range .Options}}{{if eq .Name "SEPARATOR" }}
+	// set default values for command line paramters{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
 {{else}}
 	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}{{end}}
 
-	// Now override those default values from environment variables {{range .Options}}{{if eq .Name "SEPARATOR" }}
+	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
 {{else}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}
 	if len({{$.StructVar}}.{{.Name}}) == 0 ||
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
-	} {{end}}{{end}}{{end}}
+	}{{end}}{{end}}{{end}}
 
 }
 

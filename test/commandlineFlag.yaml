@@ -10,7 +10,7 @@ ProgramName: easygen
 #   https://github.com/suntong001/easygen/tree/d1ab0b5fe80ddac57fe9ef51f6ccb3ab998cd5ee
 # - If you are using it in a pacakge, look no further than
 #   https://github.com/suntong001/easygen/blob/master/easygenapi/config.go
-#   which was a direct dump: easygen test/commandlineFlag > easygenapi/config.go
+#   which was a direct dump: easygen test/commandlineFlag | gofmt > easygenapi/config.go
 #
 PackageName: easygenapi
 
@@ -36,19 +36,19 @@ Options:
     Type: string
     Flag: tf
     Value: '""'
-    Usage: ".tmpl template file name (default: same as .yaml file)"
+    Usage: ".tmpl template file `name` (default: same as .yaml file)"
 
   - Name: ExtYaml
     Type: string
     Flag: ey
     Value: '".yaml"'
-    Usage: "extension of yaml file"
+    Usage: "`extension` of yaml file"
 
   - Name: ExtTmpl
     Type: string
     Flag: et
     Value: '".tmpl"'
-    Usage: "extension of template file"
+    Usage: "`extension` of template file"
 
   - Name: StrFrom
     Type: string
@@ -66,7 +66,10 @@ Options:
     Type: int
     Flag: debug
     Value: 0
-    Usage: debugging level
+    Usage: "debugging `level`"
+
+# Whether to use the USAGE_SUMMARY in Usage help
+UsageSummary: ""
 
 UsageLead: "\\nUsage:\\n %s [flags] YamlFileName\\n\\nFlags:\\n\\n"
 
