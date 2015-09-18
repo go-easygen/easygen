@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/suntong001/easygen/easygenapi"
+	"github.com/suntong/easygen/easygenapi"
 )
 
 ////////////////////////////////////////////////////////////////////////////

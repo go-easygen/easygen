@@ -13,7 +13,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/suntong001/easygen/easygenapi"
+	"github.com/suntong/easygen/easygenapi"
 )
 
 ////////////////////////////////////////////////////////////////////////////
