@@ -14,3 +14,4 @@
 
  # inform the OS of partition table changes
  partprobe /dev/sdb
+ fdisk -l /dev/sdb
