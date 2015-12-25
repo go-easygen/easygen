@@ -1,0 +1,5 @@
+{{range .Partitions}}
+ mkdir /mnt/{{.Name}}{{end}}
+
+{{range .Partitions}}
+ mount LABEL={{.Name}} /mnt/{{.Name}}{{end}}

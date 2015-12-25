@@ -1,0 +1,37 @@
+$ sgdisk -p /dev/sdb
+Disk /dev/sdb: 732558336 sectors, 2.7 TiB
+Logical sector size: 4096 bytes
+Disk identifier (GUID): C4426321-9726-4022-BB20-2EF00B490465
+Partition table holds up to 128 entries
+First usable sector is 6, last usable sector is 732558330
+Partitions will be aligned on 256-sector boundaries
+Total free space is 250 sectors (1000.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1             256           51455   200.0 MiB   EF02  bios_boot
+   2           51456         5294335   20.0 GiB    8300  linux_boot
+   3         5294336        13158655   30.0 GiB    0700  windows
+   4        13158656        15780095   10.0 GiB    8200  linux_swap
+   5        15780096        18925823   12.0 GiB    8300  os1
+   6        18925824        22071551   12.0 GiB    8300  os2
+   7        22071552        25217279   12.0 GiB    8300  os3
+   8        25217280       732558330   2.6 TiB     8300  data
+
+$ fdisk -l /dev/sdb
+
+Disk /dev/sdb: 2.7 TiB, 3000558944256 bytes, 732558336 sectors
+Units: sectors of 1 * 4096 = 4096 bytes
+Sector size (logical/physical): 4096 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: C4426321-9726-4022-BB20-2EF00B490465
+
+Device        Start       End   Sectors  Size Type
+/dev/sdb1       256     51455     51200  200M BIOS boot
+/dev/sdb2     51456   5294335   5242880   20G Linux filesystem
+/dev/sdb3   5294336  13158655   7864320   30G Microsoft basic data
+/dev/sdb4  13158656  15780095   2621440   10G Linux swap
+/dev/sdb5  15780096  18925823   3145728   12G Linux filesystem
+/dev/sdb6  18925824  22071551   3145728   12G Linux filesystem
+/dev/sdb7  22071552  25217279   3145728   12G Linux filesystem
+/dev/sdb8  25217280 732558330 707341051  2.7T Linux filesystem
