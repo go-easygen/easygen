@@ -1,6 +1,7 @@
 
 # easygen - Easy to use universal code/text generator
 
+[ ![Codeship Status for suntong/easygen](https://codeship.com/projects/4f9d9b30-b8ad-0133-b733-0e8881fc1b37/status?branch=master)](https://codeship.com/projects/135255)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suntong/easygen)](https://goreportcard.com/report/github.com/suntong/easygen)
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
