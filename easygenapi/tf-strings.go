@@ -7,6 +7,7 @@ var (
 	rec *regexp.Regexp
 )
 
+// TFStringsInit does initialization for strings related template functions
 func TFStringsInit() {
 	re = regexp.MustCompile(`(?i)` + Opts.StrFrom)
 	// case sensitive string replace
