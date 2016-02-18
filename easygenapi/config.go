@@ -30,7 +30,7 @@ type Options struct {
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
-// Opts holds the actual values from the command line paramters
+// Opts holds the actual values from the command line parameters
 var Opts Options
 
 ////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ var Opts Options
 
 func init() {
 
-	// set default values for command line paramters
+	// set default values for command line parameters
 	flag.BoolVar(&Opts.HTML, "html", false,
 		"treat the template file as html instead of text")
 	flag.StringVar(&Opts.TemplateStr, "ts", "",
@@ -84,7 +84,7 @@ func init() {
 
 }
 
-// The Usage function shows help on commandline usage
+// Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr,
 		"\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",

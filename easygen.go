@@ -37,7 +37,7 @@ func main() {
 		easygenapi.Usage()
 	}
 	fileName := flag.Args()[0]
-	easygenapi.TF_strings_init()
+	easygenapi.TFStringsInit()
 
 	fmt.Print(easygenapi.Generate(easygenapi.Opts.HTML, fileName))
 }

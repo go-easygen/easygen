@@ -23,7 +23,7 @@ type {{.StructName}} struct { {{range .Options}}{{if ne .Name "SEPARATOR" }}
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
-// {{.StructVar}} holds the actual values from the command line paramters
+// {{.StructVar}} holds the actual values from the command line parameters
 var {{.StructVar}} {{.StructName}}
 
 ////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ var {{.StructVar}} {{.StructName}}
 
 func init() {
 
-	// set default values for command line paramters{{range .Options}}{{if eq .Name "SEPARATOR" }}
+	// set default values for command line parameters{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
 {{else}}
 	flag.{{ck2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
@@ -51,7 +51,7 @@ func init() {
 const USAGE_SUMMARY = "{{range .Options}}{{if eq .Name "SEPARATOR" }}\n{{else}}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}  -{{.Flag}}\t{{.Usage}} ({{$envVar}})\n{{end}}{{end}}\nDetails:\n\n"
 {{end}}
 
-// The Usage function shows help on commandline usage
+// Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr,
 		"{{.UsageLead}}",

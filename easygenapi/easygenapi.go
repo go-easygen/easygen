@@ -81,7 +81,7 @@ func Generate(HTML bool, fileName string) string {
 	return buf.String()
 }
 
-// parseFiles, intialization. By Matt Harden @gmail.com
+// parseFiles, initialization. By Matt Harden @gmail.com
 func parseFiles(HTML bool, filenames ...string) (template, error) {
 	tname := filepath.Base(filenames[0])
 

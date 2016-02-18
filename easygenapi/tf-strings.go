@@ -7,7 +7,7 @@ var (
 	rec *regexp.Regexp
 )
 
-func TF_strings_init() {
+func TFStringsInit() {
 	re = regexp.MustCompile(`(?i)` + Opts.StrFrom)
 	// case sensitive string replace
 	rec = regexp.MustCompile(Opts.StrFrom)
