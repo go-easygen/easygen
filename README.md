@@ -1,5 +1,8 @@
 
-# easygen – Easy to use universal code/text generator
+# easygen - Easy to use universal code/text generator
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/suntong/easygen)](https://goreportcard.com/report/github.com/suntong/easygen)
+[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Install
 
