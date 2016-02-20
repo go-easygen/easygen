@@ -2,7 +2,7 @@
 // WARNING: Code automatically generated. Editing discouraged.
 // !!! !!!
 
-package easygenapi
+package easygen
 
 import (
 	"flag"

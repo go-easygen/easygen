@@ -1,10 +1,10 @@
-package main
+package easygen
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/suntong/easygen/easygenapi"
+	"github.com/suntong/easygen"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ import (
 func TestList0(t *testing.T) {
 	t.Log("First and plainest list test")
 	const await = "The colors are: red, blue, white, .\n"
-	if got := easygenapi.Generate(false, "test/list0"); got != await {
+	if got := easygen.Generate(false, "test/list0"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -27,7 +27,7 @@ func TestList0(t *testing.T) {
 func TestList1Text(t *testing.T) {
 	t.Log("Second test, with text template")
 	const await = "The quoted colors are: \"red\", \"blue\", \"white\", .\n"
-	if got := easygenapi.Generate(false, "test/list1"); got != await {
+	if got := easygen.Generate(false, "test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -35,7 +35,7 @@ func TestList1Text(t *testing.T) {
 func TestList1HTML(t *testing.T) {
 	t.Log("Second test, with html template")
 	const await = "The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .\n"
-	if got := easygenapi.Generate(true, "test/list1"); got != await {
+	if got := easygen.Generate(true, "test/list1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
@@ -46,13 +46,13 @@ func TestList1HTML(t *testing.T) {
 func TestListFunc1(t *testing.T) {
 	t.Log("Test custom template function - minus1")
 	const await = "red, blue, white.\n"
-	if got := easygenapi.Generate(false, "test/listfunc1"); got != await {
+	if got := easygen.Generate(false, "test/listfunc1"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
 }
 
 func ExampleFunc1() {
-	fmt.Print(easygenapi.Generate(false, "test/listfunc1"))
+	fmt.Print(easygen.Generate(false, "test/listfunc1"))
 	// Output:
 	// red, blue, white.
 }
@@ -61,7 +61,7 @@ func ExampleFunc1() {
 // list0 data + listfunc1 template
 // I.e.: EasyGen -tf test/listfunc1 test/list0
 func ExampleList0Func1() {
-	fmt.Print(easygenapi.Generate2(false, "test/listfunc1", "test/list0"))
+	fmt.Print(easygen.Generate2(false, "test/listfunc1", "test/list0"))
 	// Output:
 	// red, blue, white.
 }
@@ -70,7 +70,7 @@ func ExampleList0Func1() {
 // list0 data + string template
 // I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" test/list0
 func ExampleList0StrTemplate() {
-	fmt.Print(easygenapi.Generate0(false, "{{range .Colors}}{{.}}, {{end}}", "test/list0"))
+	fmt.Print(easygen.Generate0(false, "{{range .Colors}}{{.}}, {{end}}", "test/list0"))
 	// Output:
 	// red, blue, white,
 }
@@ -79,7 +79,7 @@ func ExampleList0StrTemplate() {
 // listfunc2
 
 func ExampleFunc2() {
-	fmt.Print(easygenapi.Generate(false, "test/listfunc2"))
+	fmt.Print(easygen.Generate(false, "test/listfunc2"))
 	// Output:
 	// some-init-method 5 5 someInitMethod SomeInitMethod
 }
@@ -98,7 +98,7 @@ func ExampleTestExample() {
 
 func ExampleCommandLineCobraViper() {
 	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
-	fmt.Print(easygenapi.Generate(false, "test/commandlineCV"))
+	fmt.Print(easygen.Generate(false, "test/commandlineCV"))
 	// Output:
 	//
 	//	flags.Bool("debug", false, "Turn on debugging.")
@@ -123,7 +123,7 @@ func ExampleCommandLineCobraViper() {
 
 func ExampleCommandLineOptInitFull() {
 	// EasyGen commandlineCVFull | sed 's|^|\t// |;'
-	fmt.Print(easygenapi.Generate(false, "test/commandlineCVFull"))
+	fmt.Print(easygen.Generate(false, "test/commandlineCVFull"))
 	// Output:
 	// func init() {
 	//
@@ -186,19 +186,19 @@ func ExampleVaribleNames() {
 // Strings Test
 
 func ExampleTestStringsCmp() {
-	fmt.Print(easygenapi.Generate0(false, `The {{if eq .StrTest "-AB-axxb- HTML Html html"}}eq says Yea{{else}}eq says Nay{{end}} but {{if eqf .StrTest "-AB-axxb- HTML Html html"}}eqf says Yea{{else}}eqf says Nay{{end}}.`, "test/strings0"))
+	fmt.Print(easygen.Generate0(false, `The {{if eq .StrTest "-AB-axxb- HTML Html html"}}eq says Yea{{else}}eq says Nay{{end}} but {{if eqf .StrTest "-AB-axxb- HTML Html html"}}eqf says Yea{{else}}eqf says Nay{{end}}.`, "test/strings0"))
 	// Output:
 	// The eq says Nay but eqf says Yea.
 }
 
 func ExampleTestStringSplit0() {
-	fmt.Print(easygenapi.Generate0(false, `{{split .Colorlist}}`, "test/list0"))
+	fmt.Print(easygen.Generate0(false, `{{split .Colorlist}}`, "test/list0"))
 	// Output:
 	// [red blue white]
 }
 
 func ExampleTestStringSplit1() {
-	fmt.Print(easygenapi.Generate0(false, `{{range (split .Colorlist)}}{{.}} {{end}}`, "test/list0"))
+	fmt.Print(easygen.Generate0(false, `{{range (split .Colorlist)}}{{.}} {{end}}`, "test/list0"))
 	// Output:
 	// red blue white
 }
@@ -220,11 +220,11 @@ $ EASYGEN_RF="HTML" EASYGEN_RT='XML' easygen -ts="{{.StrTest}}, {{replacec .StrT
 /*
 func ExampleTestStrings() {
 	// panic: runtime error: invalid memory address or nil pointer dereference [recovered]
-	easygenapi.Opts.StrFrom = "a(x*)b"
-	easygenapi.Opts.StrTo = "${1}W"
-	//fmt.Print(easygenapi.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
-	easygenapi.Opts.TemplateStr = `{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}`
-	fmt.Print(easygenapi.Generate(false, "test/strings0"))
+	easygen.Opts.StrFrom = "a(x*)b"
+	easygen.Opts.StrTo = "${1}W"
+	//fmt.Print(easygen.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
+	easygen.Opts.TemplateStr = `{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}`
+	fmt.Print(easygen.Generate(false, "test/strings0"))
 	// Output:
 	// -ab-axxb- HTML Html html -W-xxW- HTML Html html -W-xxW- HTML Html html
 }

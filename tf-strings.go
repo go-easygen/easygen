@@ -1,4 +1,4 @@
-package easygenapi
+package easygen
 
 import "regexp"
 

@@ -13,7 +13,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/suntong/easygen/easygenapi"
+	"github.com/suntong/easygen"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -29,15 +29,15 @@ import (
 // Main
 
 func main() {
-	flag.Usage = easygenapi.Usage
+	flag.Usage = easygen.Usage
 	flag.Parse()
 
 	// One mandatory non-flag arguments
 	if len(flag.Args()) < 1 {
-		easygenapi.Usage()
+		easygen.Usage()
 	}
 	fileName := flag.Args()[0]
-	easygenapi.TFStringsInit()
+	easygen.TFStringsInit()
 
-	fmt.Print(easygenapi.Generate(easygenapi.Opts.HTML, fileName))
+	fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
 }
