@@ -2,7 +2,7 @@ CmdMain: mainCmd
 CmdPrefix: DISPATCH
 
 Options:
-  - Name: debug
+  - Name: Debug
     Type: Bool
     Value: false
     Usage: Turn on debugging.

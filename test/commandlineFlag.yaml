@@ -62,7 +62,7 @@ Options:
     Value: '""'
     Usage: "replace to, the to string used for the replace function"
 
-  - Name: debug
+  - Name: Debug
     Type: int
     Flag: debug
     Value: 0
