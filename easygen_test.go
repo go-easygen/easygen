@@ -89,11 +89,11 @@ func ExampleFunc2() {
 
 func ExampleTestExample() {
 	// Ref https://groups.google.com/d/msg/golang-nuts/9jKexxD19Js/xrNAQA1ACnMJ
-	fmt.Println(`  flags.Bool("debug", false, "Turn on debugging.")`)
-	fmt.Println(`  viper.BindPFlag("debug", flags.Lookup("debug"))`)
+	fmt.Println(`  flags.Bool("Debug", false, "Turn on debugging.")`)
+	fmt.Println(`  viper.BindPFlag("Debug", flags.Lookup("Debug"))`)
 	// Output:
-	//   flags.Bool("debug", false, "Turn on debugging.")
-	//   viper.BindPFlag("debug", flags.Lookup("debug"))
+	//   flags.Bool("Debug", false, "Turn on debugging.")
+	//   viper.BindPFlag("Debug", flags.Lookup("Debug"))
 }
 
 func ExampleCommandLineCobraViper() {
@@ -141,8 +141,8 @@ func ExampleCommandLineOptInitFull() {
 	//
 	//   flags := mainCmd.Flags()
 	//
-	//   flags.Bool("debug", false, "Turn on debugging.")
-	//   viper.BindPFlag("debug", flags.Lookup("debug"))
+	//   flags.Bool("Debug", false, "Turn on debugging.")
+	//   viper.BindPFlag("Debug", flags.Lookup("Debug"))
 	//
 	//   flags.String("addr", "localhost:5002", "Address of the service.")
 	//   viper.BindPFlag("addr", flags.Lookup("addr"))
