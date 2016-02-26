@@ -1,12 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////
-// Porgram: EasyGen
+// Package: easygen
 // Purpose: Easy to use universal code/text generator
-// Authors: Tong Sun (c) 2015, All rights reserved
+// Authors: Tong Sun (c) 2015-16, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////
-// Program start
+/*
 
+Package easygen is an easy to use universal code/text generator.
+
+It can be used as a text or html generator for arbitrary purposes with arbitrary data and templates.
+
+It can be used as a code generator, or anything that is structurally repetitive. Some command line parameter handling code generator are provided as examples, including the Go's built-in flag package, and the viper & cobra package.
+
+*/
 package easygen
 
 import (
@@ -39,7 +45,7 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
-// Generate2 will produce output according to the given template and driving data files
+// Generate2 will produce output according to the given template and driving data files, specified via fileNameTempl and fileName (for data) respectively
 func Generate2(HTML bool, fileNameTempl string, fileName string) string {
 	Opts.TemplateFile = fileNameTempl
 	ret := Generate(HTML, fileName)
@@ -47,7 +53,7 @@ func Generate2(HTML bool, fileNameTempl string, fileName string) string {
 	return ret
 }
 
-// Generate0 will produce output according from driving data without a template file
+// Generate0 will produce output according from driving data without a template file, using the string from strTempl as the template
 func Generate0(HTML bool, strTempl string, fileName string) string {
 	Opts.TemplateStr = strTempl
 	ret := Generate(HTML, fileName)
@@ -55,7 +61,7 @@ func Generate0(HTML bool, strTempl string, fileName string) string {
 	return ret
 }
 
-// Generate will produce output from the template according to driving data
+// Generate will produce output from the template according to the corresponding driving data, fileName is for both template and data file name
 func Generate(HTML bool, fileName string) string {
 	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
 	checkError(err)
