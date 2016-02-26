@@ -6,11 +6,13 @@
 
 /*
 
-Package easygen is an easy to use universal code/text generator.
+Package easygen is an easy to use universal code/text generator library.
 
 It can be used as a text or html generator for arbitrary purposes with arbitrary data and templates.
 
 It can be used as a code generator, or anything that is structurally repetitive. Some command line parameter handling code generator are provided as examples, including the Go's built-in flag package, and the viper & cobra package.
+
+Many examples have been provided to showcase its functionality, and different ways to use it.
 
 */
 package easygen
