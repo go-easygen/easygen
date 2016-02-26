@@ -1,4 +1,4 @@
-package easygen
+package easygen_test
 
 import (
 	"fmt"
@@ -51,7 +51,10 @@ func TestListFunc1(t *testing.T) {
 	}
 }
 
-func ExampleFunc1() {
+// Test the provided listfunc1, template and data
+func ExampleGenerate_listfunc1() {
+	// Equivalent testing on commandline:
+	//   easygen test/listfunc1
 	fmt.Print(easygen.Generate(false, "test/listfunc1"))
 	// Output:
 	// red, blue, white.
@@ -60,7 +63,11 @@ func ExampleFunc1() {
 //==========================================================================
 // list0 data + listfunc1 template
 // I.e.: EasyGen -tf test/listfunc1 test/list0
-func ExampleList0Func1() {
+
+// Test the provided listfunc1 template with list0 data
+func ExampleGenerate2_listfunc1List0() {
+	// Equivalent testing on commandline:
+	//   easygen -tf test/listfunc1 test/list0
 	fmt.Print(easygen.Generate2(false, "test/listfunc1", "test/list0"))
 	// Output:
 	// red, blue, white.
@@ -69,7 +76,11 @@ func ExampleList0Func1() {
 //==========================================================================
 // list0 data + string template
 // I.e.: EasyGen -ts "{{range .Colors}}{{.}}, {{end}}" test/list0
-func ExampleList0StrTemplate() {
+
+// Test string template with list0 data
+func ExampleGenerate0_list0StrTemplate() {
+	// Equivalent testing on commandline:
+	//   easygen -ts '{{range .Colors}}{{.}}, {{end}}' test/list0
 	fmt.Print(easygen.Generate0(false, "{{range .Colors}}{{.}}, {{end}}", "test/list0"))
 	// Output:
 	// red, blue, white,
@@ -78,7 +89,10 @@ func ExampleList0StrTemplate() {
 //==========================================================================
 // listfunc2
 
-func ExampleFunc2() {
+// Test the provided listfunc2, template and data
+func ExampleGenerate_listfunc2() {
+	// Equivalent testing on commandline:
+	//   easygen test/listfunc2
 	fmt.Print(easygen.Generate(false, "test/listfunc2"))
 	// Output:
 	// some-init-method 5 5 someInitMethod SomeInitMethod
@@ -96,8 +110,12 @@ func ExampleTestExample() {
 	//   viper.BindPFlag("Debug", flags.Lookup("Debug"))
 }
 
-func ExampleCommandLineCobraViper() {
-	// EasyGen commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
+//   easygen test/commandlineCV | sed 's|^\t|&//&|; s|^$|\t//|'
+
+// Test the provided Cobra/Viper command line flag auto generation
+func ExampleGenerate_commandLineCobraViper() {
+	// Equivalent testing on commandline:
+	//   easygen test/commandlineCV
 	fmt.Print(easygen.Generate(false, "test/commandlineCV"))
 	// Output:
 	//
@@ -121,8 +139,12 @@ func ExampleCommandLineCobraViper() {
 	//
 }
 
-func ExampleCommandLineOptInitFull() {
-	// EasyGen commandlineCVFull | sed 's|^|\t// |;'
+//   easygen test/commandlineCVFull | sed 's|^|\t// |;'
+
+// Test the provided Cobra/Viper command line flag init() function auto generation
+func ExampleGenerate_commandLineCobraViperInit() {
+	// Equivalent testing on commandline:
+	//   easygen test/commandlineCVFull
 	fmt.Print(easygen.Generate(false, "test/commandlineCVFull"))
 	// Output:
 	// func init() {
@@ -185,19 +207,28 @@ func ExampleVaribleNames() {
 ////////////////////////////////////////////////////////////////////////////
 // Strings Test
 
-func ExampleTestStringsCmp() {
+// Test string comparison in template
+func ExampleGenerate0_stringsCmp() {
+	// Equivalent testing on commandline:
+	//   easygen -ts '{{The {{if ... {{end}}.' test/strings0
 	fmt.Print(easygen.Generate0(false, `The {{if eq .StrTest "-AB-axxb- HTML Html html"}}eq says Yea{{else}}eq says Nay{{end}} but {{if eqf .StrTest "-AB-axxb- HTML Html html"}}eqf says Yea{{else}}eqf says Nay{{end}}.`, "test/strings0"))
 	// Output:
 	// The eq says Nay but eqf says Yea.
 }
 
-func ExampleTestStringSplit0() {
+// Test the string split function in template
+func ExampleGenerate0_split0() {
+	// Equivalent testing on commandline:
+	//   easygen -ts '{{split .Colorlist}}' test/list0
 	fmt.Print(easygen.Generate0(false, `{{split .Colorlist}}`, "test/list0"))
 	// Output:
 	// [red blue white]
 }
 
-func ExampleTestStringSplit1() {
+// Test the string split function in template again
+func ExampleGenerate0_split1() {
+	// Equivalent testing on commandline:
+	//   easygen -ts '{{range ... {{end}}' test/list0
 	fmt.Print(easygen.Generate0(false, `{{range (split .Colorlist)}}{{.}} {{end}}`, "test/list0"))
 	// Output:
 	// red blue white
