@@ -14,6 +14,23 @@ ProgramName: gogo
 #
 PackageName: main
 
+Name: gogo
+Var: app
+Desc: "Golang package manager"
+Text: '  gogo is a new golang package manager\n  very very good'
+NumArg: cli.ExactN(1)
+
+Options:
+  - Name: Version
+    Type: bool
+    Flag: v,version
+    Usage: display version
+
+  - Name: List
+    Type: bool
+    Flag: l,list
+    Usage: list all sub commands or not
+
 
 Command:
 
@@ -62,4 +79,30 @@ Command:
         Type: string
         Flag: o,out
         Usage: "output filename"
+
+  - Name: publish
+    Desc: "Publish golang application"
+    
+    Options:
+      - Name: Dir
+        Type: string
+        Flag: dir
+        Value: '"./"'
+        Usage: source code root dir
+
+      - Name: Suffix
+        Type: string
+        Flag: suffix
+        Value: '".go,.c,.s"'
+        Usage: "source file suffix"
+
+      - Name: Out
+        Type: string
+        Flag: o,out
+        Usage: "output filename"
+
+      - Name: List
+        Type: bool
+        Flag: l,list
+        Usage: "list all sub commands"
 

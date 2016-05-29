@@ -1,24 +1,65 @@
-// -*- go -*-{{range .Command}}
+// -*- go -*-
+////////////////////////////////////////////////////////////////////////////
+// Program: {{.Name}}
+// Purpose: {{.Desc}}
+////////////////////////////////////////////////////////////////////////////
+
 package {{$.PackageName}}
 
 import (
 	"github.com/mkideal/cli"
 )
 
-var _ = app.Register(&cli.Command{
+var {{.Name}}Cmd = {{.Var}}.Register(&cli.Command{
 	Name: "{{.Name}}",
 	Desc: "{{.Desc}}",
-{{if .Text}}	Text: "{{.Text}}",{{end}}
-	Argv: func() interface{} { return new({{.Name}}T) },
+{{if .Text}}	Text: "{{.Text}}",
+{{end}}	Argv: func() interface{} { return new({{.Name}}T) },
 	Fn:   {{.Name}},
-
+{{if .NumArg}}
 	NumArg:      {{.NumArg}},
 	CanSubRoute: true,
-})
+{{end}}})
 
 type {{.Name}}T struct {
 	cli.Helper{{range .Options}}
-	{{.Name}}  {{.Type}}  `cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
+}
+
+func {{.Name}}(ctx *cli.Context) error {
+	argv := ctx.Argv().(*{{.Name}}T)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[{{.Name}}]: %v\n", ctx.Args())
+
+	return nil
+}
+
+{{range .Command}}
+////////////////////////////////////////////////////////////////////////////
+// Program: {{.Name}}
+// Purpose: {{.Desc}}
+////////////////////////////////////////////////////////////////////////////
+
+package {{$.PackageName}}
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var {{.Name}}Cmd = {{$.Var}}.Register(&cli.Command{
+	Name: "{{.Name}}",
+	Desc: "{{.Desc}}",
+{{if .Text}}	Text: "{{.Text}}",
+{{end}}	Argv: func() interface{} { return new({{.Name}}T) },
+	Fn:   {{.Name}},
+{{if .NumArg}}
+	NumArg:      {{.NumArg}},
+	CanSubRoute: true,
+{{end}}})
+
+type {{.Name}}T struct {
+	cli.Helper{{range .Options}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
 }
 
 func {{.Name}}(ctx *cli.Context) error {
