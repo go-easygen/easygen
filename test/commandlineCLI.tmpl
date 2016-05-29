@@ -1,0 +1,31 @@
+// -*- go -*-{{range .Command}}
+package {{$.PackageName}}
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var _ = app.Register(&cli.Command{
+	Name: "{{.Name}}",
+	Desc: "{{.Desc}}",
+{{if .Text}}	Text: "{{.Text}}",{{end}}
+	Argv: func() interface{} { return new({{.Name}}T) },
+	Fn:   {{.Name}},
+
+	NumArg:      {{.NumArg}},
+	CanSubRoute: true,
+})
+
+type {{.Name}}T struct {
+	cli.Helper{{range .Options}}
+	{{.Name}}  {{.Type}}  `cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
+}
+
+func {{.Name}}(ctx *cli.Context) error {
+	argv := ctx.Argv().(*{{.Name}}T)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[{{.Name}}]: %v\n", ctx.Args())
+
+	return nil
+}
+{{end}}
