@@ -10,7 +10,7 @@ import (
 	"github.com/mkideal/cli"
 )
 
-var {{.Name}}Cmd = {{.Var}}.Register(&cli.Command{
+var {{.Var}} = &cli.Register(&cli.Command{
 	Name: "{{.Name}}",
 	Desc: "{{.Desc}}",
 {{if .Text}}	Text: "{{.Text}}",
