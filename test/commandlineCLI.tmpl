@@ -18,7 +18,6 @@ var {{.Var}} = &cli.Register(&cli.Command{
 	Fn:   {{.Name}},
 {{if .NumArg}}
 	NumArg:      {{.NumArg}},
-	CanSubRoute: true,
 {{end}}})
 
 type {{.Name}}T struct {
