@@ -1,0 +1,69 @@
+// -*- go -*-
+////////////////////////////////////////////////////////////////////////////
+// Program: {{.Name}}
+// Purpose: {{.Desc}}
+////////////////////////////////////////////////////////////////////////////
+
+package {{$.PackageName}}
+
+import (
+	"github.com/mkideal/cli"
+)
+
+////////////////////////////////////////////////////////////////////////////
+// {{.Name}}
+
+type {{.Var}}T struct {
+	cli.Helper{{range .Options}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}"usage:"{{.Usage}}"{{if .Value}} {{if eq .Name "Self" }}json:"-" parser:"jsonfile" {{end}}dft:{{.Value}}{{end}}`{{end}}
+}
+
+var {{.Var}} = &cli.Command{
+	Name: "{{.Name}}",
+	Desc: "{{.Desc}}",
+{{if .Text}}	Text: "{{.Text}}",
+{{end}}{{if .Global}}	Global: {{.Global}},
+	Argv: func() interface{} {  t := new({{.Var}}T); t.Self = t; return t },
+{{else}}	Argv: func() interface{} { return new({{.Name}}T) },
+{{end}}	Fn:   {{.Name}},
+{{if .NumArg}}
+	NumArg:      {{.NumArg}},
+{{end}}}
+
+// func {{.Name}}(ctx *cli.Context) error {
+// 	ctx.JSON(ctx.RootArgv())
+// 	ctx.JSON(ctx.Argv())
+// 	fmt.Println()
+
+// 	return nil
+// }
+
+{{range .Command}}
+
+////////////////////////////////////////////////////////////////////////////
+// {{.Name}}
+
+type {{.Name}}T struct {
+{{range .Options}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
+}
+
+var {{.Name}}Cmd = &cli.Command{
+	Name: "{{.Name}}",
+	Desc: "{{.Desc}}",
+{{if .Text}}	Text: "{{.Text}}",
+{{end}}	Argv: func() interface{} { return new({{.Name}}T) },
+	Fn:   {{.Name}},
+{{if .NumArg}}
+	NumArg:      {{.NumArg}},
+	CanSubRoute: true,
+{{end}}}
+
+// func {{.Name}}(ctx *cli.Context) error {
+// 	ctx.JSON(ctx.RootArgv())
+// 	ctx.JSON(ctx.Argv())
+// 	fmt.Println()
+
+// 	return nil
+// }
+{{end}}
