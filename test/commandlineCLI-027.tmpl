@@ -60,10 +60,11 @@ var {{.Name}}Cmd = &cli.Command{
 {{end}}}
 
 // func {{.Name}}(ctx *cli.Context) error {
-// 	ctx.JSON(ctx.RootArgv())
-// 	ctx.JSON(ctx.Argv())
-// 	fmt.Println()
-
+// 	rootArgv := ctx.RootArgv().(*{{$.Var}}T)
+// 	argv := ctx.Argv().(*{{.Name}}T)
+// 	jR, _ := json.Marshal(*rootArgv)
+// 	jC, _ := json.Marshal(*argv)
+// 	ctx.String("[{{.Name}}]:\n  %v\n  %v\n  %v\n", string(jR), string(jC), ctx.Args())
 // 	return nil
 // }
 {{end}}
