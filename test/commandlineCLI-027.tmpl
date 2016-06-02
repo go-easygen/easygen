@@ -13,18 +13,18 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // {{.Name}}
 
-type {{.Var}}T struct {
+type rootT struct {
 	cli.Helper{{range .Options}}
-	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}"usage:"{{.Usage}}"{{if .Value}} {{if eq .Name "Self" }}json:"-" parser:"jsonfile" {{end}}dft:{{.Value}}{{end}}`{{end}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}"usage:"{{.Usage}}"{{if eq .Name "Self" }} json:"-" parser:"jsonfile"{{end}}{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
 }
 
-var {{.Var}} = &cli.Command{
+var root = &cli.Command{
 	Name: "{{.Name}}",
 	Desc: "{{.Desc}}",
 {{if .Text}}	Text: "{{.Text}}",
 {{end}}{{if .Global}}	Global: {{.Global}},
-	Argv: func() interface{} {  t := new({{.Var}}T); t.Self = t; return t },
-{{else}}	Argv: func() interface{} { return new({{.Name}}T) },
+{{end}}{{if .Self}}	Argv: func() interface{} {  t := new(rootT); t.Self = t; return t },
+{{else}}	Argv: func() interface{} { return new(rootT) },
 {{end}}	Fn:   {{.Name}},
 {{if .NumArg}}
 	NumArg:      {{.NumArg}},
@@ -39,21 +39,21 @@ var {{.Var}} = &cli.Command{
 // }
 
 {{range .Command}}
-
 ////////////////////////////////////////////////////////////////////////////
 // {{.Name}}
 
 type {{.Name}}T struct {
 {{range .Options}}
-	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if eq .Name "Self" }} json:"-" parser:"jsonfile"{{end}}{{if .Value}} dft:{{.Value}}{{end}}`{{end}}
 }
 
 var {{.Name}}Cmd = &cli.Command{
 	Name: "{{.Name}}",
 	Desc: "{{.Desc}}",
 {{if .Text}}	Text: "{{.Text}}",
-{{end}}	Argv: func() interface{} { return new({{.Name}}T) },
-	Fn:   {{.Name}},
+{{end}}{{if .Self}}	Argv: func() interface{} {  t := new({{.Name}}T); t.Self = t; return t },
+{{else}}	Argv: func() interface{} { return new({{.Name}}T) },
+{{end}}	Fn:   {{.Name}},
 {{if .NumArg}}
 	NumArg:      {{.NumArg}},
 	CanSubRoute: true,

@@ -15,11 +15,11 @@ ProgramName: redo
 PackageName: main
 
 Name: redo
-Var: root
 Desc: "global option redo"
 Text: '  redo global option via automatic code-gen'
 Global: true
 NumArg: cli.ExactN(1)
+Self: true
 
 Options:
   - Name: Self
