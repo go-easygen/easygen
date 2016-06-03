@@ -26,13 +26,13 @@ Options:
     Type: '*rootT'
     Flag: c,config
     Usage: config file
-    Value: '"redo.json"'
+    Value: redo.json
 
   - Name: Host
     Type: string
     Flag: H,host
     Usage: host address
-    Value: '"$HOST"'
+    Value: "$HOST"
 
   - Name: Port
     Type: int
@@ -52,13 +52,13 @@ Command:
       - Name: Dir
         Type: string
         Flag: dir
-        Value: '"./"'
+        Value: "./"
         Usage: source code root dir
 
       - Name: Suffix
         Type: string
         Flag: suffix
-        Value: '".go,.c,.s"'
+        Value: ".go,.c,.s"
         Usage: "source file suffix"
 
       - Name: Out
@@ -75,13 +75,13 @@ Command:
       - Name: Dir
         Type: string
         Flag: dir
-        Value: '"./"'
+        Value: "./"
         Usage: source code root dir
 
       - Name: Suffix
         Type: string
         Flag: suffix
-        Value: '".go,.c,.s"'
+        Value: ".go,.c,.s"
         Usage: "source file suffix"
 
       - Name: Out
@@ -96,13 +96,13 @@ Command:
       - Name: Dir
         Type: string
         Flag: dir
-        Value: '"./"'
+        Value: "./"
         Usage: source code root dir
 
       - Name: Suffix
         Type: string
         Flag: suffix
-        Value: '".go,.c,.s"'
+        Value: ".go,.c,.s"
         Usage: "source file suffix"
 
       - Name: Out
