@@ -91,13 +91,13 @@ Command:
 
   - Name: publish
     Desc: "Publish the network application"
+    NumOption: cli.AtLeast(1)
     
     Options:
       - Name: Dir
         Type: string
-        Flag: dir
-        Value: "./"
-        Usage: source code root dir
+        Flag: '*d,dir'
+        Usage: publish dir
 
       - Name: Suffix
         Type: string
