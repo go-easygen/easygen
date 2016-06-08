@@ -64,7 +64,7 @@ var {{.Name}}Def = &cli.Command{
 {{if .Text}}	Text: "{{.Text}}",
 {{end}}{{if .Self}}	Argv: func() interface{} {  t := new({{.Name}}T); t.Self = t; return t },
 {{else}}	Argv: func() interface{} { return new({{.Name}}T) },
-{{end}}	Fn:   {{.Name}},
+{{end}}	Fn:   {{.Name}}CLI,
 {{if .NumOption}}
 	NumOption:      {{.NumOption}},
 {{end}}{{if .NumArg}}
@@ -72,7 +72,7 @@ var {{.Name}}Def = &cli.Command{
 	CanSubRoute: true,
 {{end}}}
 
-// func {{.Name}}(ctx *cli.Context) error {
+// func {{.Name}}CLI(ctx *cli.Context) error {
 // 	rootArgv := ctx.RootArgv().(*rootT)
 // 	argv := ctx.Argv().(*{{.Name}}T)
 // 	fmt.Printf("[{{.Name}}]:\n  %+v\n  %+v\n  %v\n", rootArgv, argv, ctx.Args())
