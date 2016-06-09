@@ -79,7 +79,7 @@ func Generate(HTML bool, fileName string) string {
 		fileNameT = Opts.TemplateFile
 	}
 
-	t, err := parseFiles(HTML, fileNameT+Opts.ExtTmpl)
+	t, err := ParseFiles(HTML, fileNameT+Opts.ExtTmpl)
 	checkError(err)
 
 	buf := new(bytes.Buffer)
@@ -89,8 +89,10 @@ func Generate(HTML bool, fileName string) string {
 	return buf.String()
 }
 
-// parseFiles, initialization. By Matt Harden @gmail.com
-func parseFiles(HTML bool, filenames ...string) (template, error) {
+// ParseFiles wraps parsing text or HTML template files into a single
+// function, dictated by the first parameter "HTML".
+// By Matt Harden @gmail.com
+func ParseFiles(HTML bool, filenames ...string) (template, error) {
 	tname := filepath.Base(filenames[0])
 
 	// use text template
