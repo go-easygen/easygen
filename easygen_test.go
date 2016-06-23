@@ -2,9 +2,10 @@ package easygen_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
-	"github.com/suntong/easygen"
+	"github.com/go-easygen/easygen"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -19,6 +20,22 @@ func TestList0(t *testing.T) {
 	if got := easygen.Generate(false, "test/list0"); got != await {
 		t.Errorf("Mismatch:, got '%s' instead", got)
 	}
+}
+
+//==========================================================================
+// list0 data + Env var
+
+// Test Env variable with list0 data
+func ExampleList0_Env() {
+	// Equivalent testing on commandline:
+	//   easygen -tf test/list0E test/list0
+	fmt.Println(os.Getenv("SHELL"))
+	fmt.Print(easygen.Generate2(false, "test/list0E", "test/list0"))
+	// Output:
+	// /bin/bash
+	// The colors are: red, blue, white, .
+	// The system shell is: /bin/bash
+	// Different shells are: /bin/bash-red, /bin/bash-blue, /bin/bash-white,
 }
 
 //==========================================================================

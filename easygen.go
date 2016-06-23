@@ -73,6 +73,14 @@ func Generate(HTML bool, fileName string) string {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
+	env := make(map[string]string)
+	for _, e := range os.Environ() {
+		sep := strings.Index(e, "=")
+		env[e[0:sep]] = e[sep+1:]
+	}
+	m["ENV"] = env
+	//fmt.Printf("] %+v\n", m)
+
 	// template file name
 	fileNameT := fileName
 	if len(Opts.TemplateFile) > 0 {

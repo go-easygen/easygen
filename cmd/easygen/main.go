@@ -27,7 +27,7 @@ import (
 )
 
 import (
-	"github.com/suntong/easygen"
+	"github.com/go-easygen/easygen"
 )
 
 ////////////////////////////////////////////////////////////////////////////
