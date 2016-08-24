@@ -26,7 +26,9 @@ var root = &cli.Command{
 {{end}}{{if .Self}}	Argv: func() interface{} {  t := new(rootT); t.Self = t; return t },
 {{else}}	Argv: func() interface{} { return new(rootT) },
 {{end}}	Fn:   {{.Name}},
-{{if .NumArg}}
+{{if .NumOption}}
+	NumOption:      {{.NumOption}},
+{{end}}{{if .NumArg}}
 	NumArg:      {{.NumArg}},
 {{end}}}
 
