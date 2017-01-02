@@ -1,28 +1,24 @@
 Cases:
-  -
-    Type: TestCase
-    Name: simple
-    Op: '.hello'
-    In: '{"hello":"world"}'
-    Out: '"world"'
+  - TestCase:
+      Name: simple
+      Op: '.hello'
+      In: '{"hello":"world"}'
+      Out: '"world"'
 
-  -
-    Type: TestCase
-    Name: nested
-    Op: '.a.b'
-    In: '{"a":{"b":"world"}}'
-    Out: '"world"'
+  - TestCase:
+      Name: nested
+      Op: '.a.b'
+      In: '{"a":{"b":"world"}}'
+      Out: '"world"'
 
-  -
-    Type: TestCase
-    Name: index
-    Op: '.[1]'
-    In: '["a","b","c"]'
-    Out: '"b"'
+  - TestCase:
+      Name: index
+      Op: '.[1]'
+      In: '["a","b","c"]'
+      Out: '"b"'
 
-  -
-    Type: TestCase
-    Name: range
-    Op: '.[1:2]'
-    In: '["a","b","c"]'
-    Out: '["b","c"]'
+  - TestCase:
+      Name: range
+      Op: '.[1:2]'
+      In: '["a","b","c"]'
+      Out: '["b","c"]'
