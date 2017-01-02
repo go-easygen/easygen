@@ -31,10 +31,10 @@ func TestParse(t *testing.T) {
 		Expected string
 		HasError bool
 	}{{range .Cases}}
-		"{{.TestCase.Name}}": {
-			In:       `{{.TestCase.In}}`,
-			Op:       `{{.TestCase.Op}}`,
-			Expected: `{{.TestCase.Out}}`,
+		"{{.Name}}": {
+			In:       `{{.In}}`,
+			Op:       `{{.Op}}`,
+			Expected: `{{.Out}}`,
 		},{{end}}
 	}
 
