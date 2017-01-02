@@ -32,7 +32,7 @@ func TestParse(t *testing.T) {
 		Op       string
 		Expected string
 		HasError bool
-	}
+	}{ 
 		// Tests are groups of three lines: program, input, expected output
 		// Blank lines and lines starting with # are ignored
 		// 
