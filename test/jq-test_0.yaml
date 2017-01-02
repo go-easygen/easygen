@@ -1,4 +1,21 @@
 Cases:
+
+  - Comment:
+      Str: 'Tests are groups of three lines: program, input, expected output'
+
+  - Comment:
+      Str: 'Blank lines and lines starting with # are ignored'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Simple value tests to check parser. Input is irrelevant'
+
+  - Comment:
+      Str: ''
+
+
   - TestCase:
       Name: simple
       Op: '.hello'
