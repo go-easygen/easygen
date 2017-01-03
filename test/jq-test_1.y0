@@ -1,0 +1,14 @@
+# Test cases Copyright (c) 2016 of project
+# https://github.com/stedolan/jq
+
+# Test cases converted to YAML format by
+#  Tong Sun Copyright (c) 2016
+#  https://github.com/go-easygen/easygen
+
+# To update,
+#   cp jq-test_1.y0 jq-test_1.yaml
+#   curl -s https://raw.githubusercontent.com/stedolan/jq/master/tests/jq.test | tr -d '\015' | sed '/^#/s/$/\n/' | perl -n0000e 'if (/^ *#/) { s|^ *# *||; print "  - Comment:\n      Str: $_" } elsif (/jq: error: |byte order mark/) { next; } else { @tc= split /\n/, $_; print "  - TestCase:\n      Name: case". ++$i. "\n      Op: $tc[0]\n      In: $tc[1]\n      Out: $tc[2]\n\n" }' | sed -r "/^      Str: .*'/s/'//g; /^      Str: |^      (Op|In|Out): [^']*$/{ s/((Str|Op|In|Out): )/\1'/; s/\$/'/; }" >> jq-test_1.yaml
+#   easygen -tf jq-test_jq jq-test_1 | sed 's|// *$|//|' | gofmt > jq-test_1.go_
+
+Cases:
+

@@ -1,0 +1,1898 @@
+# Test cases Copyright (c) 2016 of project
+# https://github.com/stedolan/jq
+
+# Test cases converted to YAML format by
+#  Tong Sun Copyright (c) 2016
+#  https://github.com/go-easygen/easygen
+
+# To update,
+#   cp jq-test_1.y0 jq-test_1.yaml
+#   curl -s https://raw.githubusercontent.com/stedolan/jq/master/tests/jq.test | tr -d '\015' | sed '/^#/s/$/\n/' | perl -n0000e 'if (/^ *#/) { s|^ *# *||; print "  - Comment:\n      Str: $_" } elsif (/jq: error: |byte order mark/) { next; } else { @tc= split /\n/, $_; print "  - TestCase:\n      Name: case". ++$i. "\n      Op: $tc[0]\n      In: $tc[1]\n      Out: $tc[2]\n\n" }' | sed -r "/^      Str: .*'/s/'//g; /^      Str: |^      (Op|In|Out): [^']*$/{ s/((Str|Op|In|Out): )/\1'/; s/\$/'/; }" >> jq-test_1.yaml
+#   easygen -tf jq-test_jq jq-test_1 | sed 's|// *$|//|' | gofmt > jq-test_1.go_
+
+Cases:
+
+  - Comment:
+      Str: 'Tests are groups of three lines: program, input, expected output'
+
+  - Comment:
+      Str: 'Blank lines and lines starting with # are ignored'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Simple value tests to check parser. Input is irrelevant'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case1
+      Op: 'true'
+      In: 'null'
+      Out: 'true'
+
+  - TestCase:
+      Name: case2
+      Op: 'false'
+      In: 'null'
+      Out: 'false'
+
+  - TestCase:
+      Name: case3
+      Op: 'null'
+      In: '42'
+      Out: 'null'
+
+  - TestCase:
+      Name: case4
+      Op: '1'
+      In: 'null'
+      Out: '1'
+
+  - TestCase:
+      Name: case5
+      Op: '-1'
+      In: 'null'
+      Out: '-1'
+
+  - Comment:
+      Str: 'FIXME: much more number testing needed'
+
+  - TestCase:
+      Name: case6
+      Op: '{}'
+      In: 'null'
+      Out: '{}'
+
+  - TestCase:
+      Name: case7
+      Op: '[]'
+      In: 'null'
+      Out: '[]'
+
+  - TestCase:
+      Name: case8
+      Op: '{x: -1}'
+      In: 'null'
+      Out: '{"x": -1}'
+
+  - Comment:
+      Str: 'The input line starts with a 0xFEFF (byte order mark) codepoint'
+
+  - Comment:
+      Str: 'No, there is no reason to have a byte order mark in UTF8 text.'
+
+  - Comment:
+      Str: 'But apparently people do, so jq shouldnt break on it.'
+
+  - Comment:
+      Str: 'We test escapes by matching them against Unicode codepoints'
+
+  - Comment:
+      Str: 'FIXME: more tests needed for weird unicode stuff (e.g. utf16 pairs)'
+
+  - TestCase:
+      Name: case9
+      Op: '"Aa\r\n\t\b\f\u03bc"'
+      In: 'null'
+      Out: '"Aa\u000d\u000a\u0009\u0008\u000c\u03bc"'
+
+  - TestCase:
+      Name: case10
+      Op: '.'
+      In: '"Aa\r\n\t\b\f\u03bc"'
+      Out: '"Aa\u000d\u000a\u0009\u0008\u000c\u03bc"'
+
+  - TestCase:
+      Name: case11
+      Op: '"inter\("pol" + "ation")"'
+      In: 'null'
+      Out: '"interpolation"'
+
+  - TestCase:
+      Name: case12
+      Op: '@text,@json,([1,.] | (@csv, @tsv)),@html,@uri,@sh,@base64'
+      In: "<>&'\"\t"
+      Out: "<>&'\"\t"
+
+  - Comment:
+      Str: 'regression test for #436'
+
+  - TestCase:
+      Name: case13
+      Op: '@base64'
+      In: '"foóbar\n"'
+      Out: '"Zm/Ds2Jhcgo="'
+
+  - TestCase:
+      Name: case14
+      Op: '@uri'
+      In: '"\u03bc"'
+      Out: '"%CE%BC"'
+
+  - TestCase:
+      Name: case15
+      Op: '@html "<b>\(.)</b>"'
+      In: '"<script>hax</script>"'
+      Out: '"<b>&lt;script&gt;hax&lt;/script&gt;</b>"'
+
+  - TestCase:
+      Name: case16
+      Op: '[.[]|tojson|fromjson]'
+      In: '["foo", 1, ["a", 1, "b", 2, {"foo":"bar"}]]'
+      Out: '["foo",1,["a",1,"b",2,{"foo":"bar"}]]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Dictionary construction syntax'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case17
+      Op: '{a: 1}'
+      In: 'null'
+      Out: '{"a":1}'
+
+  - TestCase:
+      Name: case18
+      Op: '{a,b,(.d):.a,e:.b}'
+      In: '{"a":1, "b":2, "c":3, "d":"c"}'
+      Out: '{"a":1, "b":2, "c":1, "e":2}'
+
+  - TestCase:
+      Name: case19
+      Op: '{"a",b,"a$\(1+1)"}'
+      In: '{"a":1, "b":2, "c":3, "a$2":4}'
+      Out: '{"a":1, "b":2, "a$2":4}'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Field access, piping'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case20
+      Op: '.foo'
+      In: '{"foo": 42, "bar": 43}'
+      Out: '42'
+
+  - TestCase:
+      Name: case21
+      Op: '.foo | .bar'
+      In: '{"foo": {"bar": 42}, "bar": "badvalue"}'
+      Out: '42'
+
+  - TestCase:
+      Name: case22
+      Op: '.foo.bar'
+      In: '{"foo": {"bar": 42}, "bar": "badvalue"}'
+      Out: '42'
+
+  - TestCase:
+      Name: case23
+      Op: '.foo_bar'
+      In: '{"foo_bar": 2}'
+      Out: '2'
+
+  - TestCase:
+      Name: case24
+      Op: '.["foo"].bar'
+      In: '{"foo": {"bar": 42}, "bar": "badvalue"}'
+      Out: '42'
+
+  - TestCase:
+      Name: case25
+      Op: '."foo"."bar"'
+      In: '{"foo": {"bar": 20}}'
+      Out: '20'
+
+  - TestCase:
+      Name: case26
+      Op: '[.[]|.foo?]'
+      In: '[1,[2],{"foo":3,"bar":4},{},{"foo":5}]'
+      Out: '[3,null,5]'
+
+  - TestCase:
+      Name: case27
+      Op: '[.[]|.foo?.bar?]'
+      In: '[1,[2],[],{"foo":3},{"foo":{"bar":4}},{}]'
+      Out: '[4,null]'
+
+  - TestCase:
+      Name: case28
+      Op: '[..]'
+      In: '[1,[[2]],{ "a":[1]}]'
+      Out: '[[1,[[2]],{"a":[1]}],1,[[2]],[2],2,{"a":[1]},[1],1]'
+
+  - TestCase:
+      Name: case29
+      Op: '[.[]|.[]?]'
+      In: '[1,null,[],[1,[2,[[3]]]],[{}],[{"a":[1,[2]]}]]'
+      Out: '[1,[2,[[3]]],{},{"a":[1,[2]]}]'
+
+  - TestCase:
+      Name: case30
+      Op: '[.[]|.[1:3]?]'
+      In: '[1,null,true,false,"abcdef",{},{"a":1,"b":2},[],[1,2,3,4,5],[1,2]]'
+      Out: '[null,"bc",[],[2,3],[2]]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Negative array indices'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case31
+      Op: 'try (.foo[-1] = 0) catch .'
+      In: 'null'
+      Out: '"Out of bounds negative array index"'
+
+  - TestCase:
+      Name: case32
+      Op: 'try (.foo[-2] = 0) catch .'
+      In: 'null'
+      Out: '"Out of bounds negative array index"'
+
+  - TestCase:
+      Name: case33
+      Op: '.[-1] = 5'
+      In: '[0,1,2]'
+      Out: '[0,1,5]'
+
+  - TestCase:
+      Name: case34
+      Op: '.[-2] = 5'
+      In: '[0,1,2]'
+      Out: '[0,5,2]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Multiple outputs, iteration'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case35
+      Op: '.[]'
+      In: '[1,2,3]'
+      Out: '1'
+
+  - TestCase:
+      Name: case36
+      Op: '1,1'
+      In: '[]'
+      Out: '1'
+
+  - TestCase:
+      Name: case37
+      Op: '1,.'
+      In: '[]'
+      Out: '1'
+
+  - TestCase:
+      Name: case38
+      Op: '[.]'
+      In: '[2]'
+      Out: '[[2]]'
+
+  - TestCase:
+      Name: case39
+      Op: '[[2]]'
+      In: '[3]'
+      Out: '[[2]]'
+
+  - TestCase:
+      Name: case40
+      Op: '[{}]'
+      In: '[2]'
+      Out: '[{}]'
+
+  - TestCase:
+      Name: case41
+      Op: '[.[]]'
+      In: '["a"]'
+      Out: '["a"]'
+
+  - TestCase:
+      Name: case42
+      Op: '[(.,1),((.,.[]),(2,3))]'
+      In: '["a","b"]'
+      Out: '[["a","b"],1,["a","b"],"a","b",2,3]'
+
+  - TestCase:
+      Name: case43
+      Op: '[([5,5][]),.,.[]]'
+      In: '[1,2,3]'
+      Out: '[5,5,[1,2,3],1,2,3]'
+
+  - TestCase:
+      Name: case44
+      Op: '{x: (1,2)},{x:3} | .x'
+      In: 'null'
+      Out: '1'
+
+  - TestCase:
+      Name: case45
+      Op: '.[-2]'
+      In: '[1,2,3]'
+      Out: '2'
+
+  - TestCase:
+      Name: case46
+      Op: '[range(0;10)]'
+      In: 'null'
+      Out: '[0,1,2,3,4,5,6,7,8,9]'
+
+  - TestCase:
+      Name: case47
+      Op: '[range(0,1;3,4)]'
+      In: 'null'
+      Out: '[0,1,2, 0,1,2,3, 1,2, 1,2,3]'
+
+  - TestCase:
+      Name: case48
+      Op: '[range(0;10;3)]'
+      In: 'null'
+      Out: '[0,3,6,9]'
+
+  - TestCase:
+      Name: case49
+      Op: '[range(0;10;-1)]'
+      In: 'null'
+      Out: '[]'
+
+  - TestCase:
+      Name: case50
+      Op: '[range(0;-5;-1)]'
+      In: 'null'
+      Out: '[0,-1,-2,-3,-4]'
+
+  - TestCase:
+      Name: case51
+      Op: '[range(0,1;4,5;1,2)]'
+      In: 'null'
+      Out: '[0,1,2,3,0,2, 0,1,2,3,4,0,2,4, 1,2,3,1,3, 1,2,3,4,1,3]'
+
+  - TestCase:
+      Name: case52
+      Op: '[while(.<100; .*2)]'
+      In: '1'
+      Out: '[1,2,4,8,16,32,64]'
+
+  - TestCase:
+      Name: case53
+      Op: '[(label $here | .[] | if .>1 then break $here else . end), "hi!"]'
+      In: '[0,1,2]'
+      Out: '[0,1,"hi!"]'
+
+  - TestCase:
+      Name: case54
+      Op: '[(label $here | .[] | if .>1 then break $here else . end), "hi!"]'
+      In: '[0,2,1]'
+      Out: '[0,"hi!"]'
+
+  - TestCase:
+      Name: case55
+      Op: '[.[]|[.,1]|until(.[0] < 1; [.[0] - 1, .[1] * .[0]])|.[1]]'
+      In: '[1,2,3,4,5]'
+      Out: '[1,2,6,24,120]'
+
+  - TestCase:
+      Name: case56
+      Op: '[label $out | foreach .[] as $item ([3, null]; if .[0] < 1 then break $out else [.[0] -1, $item] end; .[1])]'
+      In: '[11,22,33,44,55,66,77,88,99]'
+      Out: '[11,22,33]'
+
+  - TestCase:
+      Name: case57
+      Op: '[foreach range(5) as $item (0; $item)]'
+      In: 'null'
+      Out: '[0,1,2,3,4]'
+
+  - TestCase:
+      Name: case58
+      Op: '[foreach .[] as [$i, $j] (0; . + $i - $j)]'
+      In: '[[2,1], [5,3], [6,4]]'
+      Out: '[1,3,5]'
+
+  - TestCase:
+      Name: case59
+      Op: '[foreach .[] as {a:$a} (0; . + $a; -.)]'
+      In: '[{"a":1}, {"b":2}, {"a":3, "b":4}]'
+      Out: '[-1, -1, -4]'
+
+  - TestCase:
+      Name: case60
+      Op: '[limit(3; .[])]'
+      In: '[11,22,33,44,55,66,77,88,99]'
+      Out: '[11,22,33]'
+
+  - TestCase:
+      Name: case61
+      Op: '[first(range(.)), last(range(.)), nth(0; range(.)), nth(5; range(.)), try nth(-1; range(.)) catch .]'
+      In: '10'
+      Out: [0,9,0,5,"nth doesn't support negative indices"]
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Check that various builtins evalute all arguments where appropriate,'
+
+  - Comment:
+      Str: 'doing cartesian products where appropriate.'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Check that limit does work for each value produced by n!'
+
+  - TestCase:
+      Name: case62
+      Op: '[limit(5,7; range(9))]'
+      In: 'null'
+      Out: '[0,1,2,3,4,0,1,2,3,4,5,6]'
+
+  - Comment:
+      Str: 'Same check for nth'
+
+  - TestCase:
+      Name: case63
+      Op: '[nth(5,7; range(9;0;-1))]'
+      In: 'null'
+      Out: '[4,2]'
+
+  - Comment:
+      Str: 'Same check for range/3'
+
+  - TestCase:
+      Name: case64
+      Op: '[range(0,1,2;4,3,2;2,3)]'
+      In: 'null'
+      Out: '[0,2,0,3,0,2,0,0,0,1,3,1,1,1,1,1,2,2,2,2]'
+
+  - Comment:
+      Str: 'Same check for range/1'
+
+  - TestCase:
+      Name: case65
+      Op: '[range(3,5)]'
+      In: 'null'
+      Out: '[0,1,2,0,1,2,3,4]'
+
+  - Comment:
+      Str: 'Same check for index/1, rindex/1, indices/1'
+
+  - TestCase:
+      Name: case66
+      Op: '[(index(",","|"), rindex(",","|")), indices(",","|")]'
+      In: '"a,b|c,d,e||f,g,h,|,|,i,j"'
+      Out: '[1,3,22,19,[1,5,7,12,14,16,18,20,22],[3,9,10,17,19]]'
+
+  - Comment:
+      Str: 'Same check for join/1'
+
+  - TestCase:
+      Name: case67
+      Op: 'join(",","/")'
+      In: '["a","b","c","d"]'
+      Out: '"a,b,c,d"'
+
+  - TestCase:
+      Name: case68
+      Op: '[.[]|join("a")]'
+      In: '[[],[""],["",""],["","",""]]'
+      Out: '["","","a","aa"]'
+
+  - Comment:
+      Str: 'Same check for flatten/1'
+
+  - TestCase:
+      Name: case69
+      Op: 'flatten(3,2,1)'
+      In: '[0, [1], [[2]], [[[3]]]]'
+      Out: '[0,1,2,3]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Slices'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case70
+      Op: '[.[3:2], .[-5:4], .[:-2], .[-2:], .[3:3][1:], .[10:]]'
+      In: '[0,1,2,3,4,5,6]'
+      Out: '[[], [2,3], [0,1,2,3,4], [5,6], [], []]'
+
+  - TestCase:
+      Name: case71
+      Op: '[.[3:2], .[-5:4], .[:-2], .[-2:], .[3:3][1:], .[10:]]'
+      In: '"abcdefghi"'
+      Out: '["","","abcdefg","hi","",""]'
+
+  - TestCase:
+      Name: case72
+      Op: 'del(.[2:4],.[0],.[-2:])'
+      In: '[0,1,2,3,4,5,6,7]'
+      Out: '[1,4,5]'
+
+  - TestCase:
+      Name: case73
+      Op: '.[2:4] = ([], ["a","b"], ["a","b","c"])'
+      In: '[0,1,2,3,4,5,6,7]'
+      Out: '[0,1,4,5,6,7]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Variables'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case74
+      Op: '1 as $x | 2 as $y | [$x,$y,$x]'
+      In: 'null'
+      Out: '[1,2,1]'
+
+  - TestCase:
+      Name: case75
+      Op: '[1,2,3][] as $x | [[4,5,6,7][$x]]'
+      In: 'null'
+      Out: '[5]'
+
+  - TestCase:
+      Name: case76
+      Op: '42 as $x | . | . | . + 432 | $x + 1'
+      In: '34324'
+      Out: '43'
+
+  - TestCase:
+      Name: case77
+      Op: '1 as $x | [$x,$x,$x as $x | $x]'
+      In: 'null'
+      Out: '[1,1,1]'
+
+  - TestCase:
+      Name: case78
+      Op: '[1, {c:3, d:4}] as [$a, {c:$b, b:$c}] | $a, $b, $c'
+      In: 'null'
+      Out: '1'
+
+  - TestCase:
+      Name: case79
+      Op: '. as {as: $kw, "str": $str, ("e"+"x"+"p"): $exp} | [$kw, $str, $exp]'
+      In: '{"as": 1, "str": 2, "exp": 3}'
+      Out: '[1, 2, 3]'
+
+  - TestCase:
+      Name: case80
+      Op: '.[] as [$a, $b] | [$b, $a]'
+      In: '[[1], [1, 2, 3]]'
+      Out: '[null, 1]'
+
+  - TestCase:
+      Name: case81
+      Op: '. as $i | . as [$i] | $i'
+      In: '[0]'
+      Out: '0'
+
+  - TestCase:
+      Name: case82
+      Op: '. as [$i] | . as $i | $i'
+      In: '[0]'
+      Out: '[0]'
+
+  - Comment:
+      Str: '[.,(.[] | {x:.},.),.,.[]]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Builtin functions'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case83
+      Op: '1+1'
+      In: 'null'
+      Out: '2'
+
+  - TestCase:
+      Name: case84
+      Op: '1+1'
+      In: '"wtasdf"'
+      Out: '2.0'
+
+  - TestCase:
+      Name: case85
+      Op: '2-1'
+      In: 'null'
+      Out: '1'
+
+  - TestCase:
+      Name: case86
+      Op: '2-(-1)'
+      In: 'null'
+      Out: '3'
+
+  - TestCase:
+      Name: case87
+      Op: '1e+0+0.001e3'
+      In: '"I wonder what this will be?"'
+      Out: '20e-1'
+
+  - TestCase:
+      Name: case88
+      Op: '.+4'
+      In: '15'
+      Out: '19.0'
+
+  - TestCase:
+      Name: case89
+      Op: '.+null'
+      In: '{"a":42}'
+      Out: '{"a":42}'
+
+  - TestCase:
+      Name: case90
+      Op: 'null+.'
+      In: 'null'
+      Out: 'null'
+
+  - TestCase:
+      Name: case91
+      Op: '.a+.b'
+      In: '{"a":42}'
+      Out: '42'
+
+  - TestCase:
+      Name: case92
+      Op: '[1,2,3] + [.]'
+      In: 'null'
+      Out: '[1,2,3,null]'
+
+  - TestCase:
+      Name: case93
+      Op: '{"a":1} + {"b":2} + {"c":3}'
+      In: '"asdfasdf"'
+      Out: '{"a":1, "b":2, "c":3}'
+
+  - TestCase:
+      Name: case94
+      Op: '"asdf" + "jkl;" + . + . + .'
+      In: '"some string"'
+      Out: '"asdfjkl;some stringsome stringsome string"'
+
+  - TestCase:
+      Name: case95
+      Op: '"\u0000\u0020\u0000" + .'
+      In: '"\u0000\u0020\u0000"'
+      Out: '"\u0000 \u0000\u0000 \u0000"'
+
+  - TestCase:
+      Name: case96
+      Op: '42 - .'
+      In: '11'
+      Out: '31'
+
+  - TestCase:
+      Name: case97
+      Op: '[1,2,3,4,1] - [.,3]'
+      In: '1'
+      Out: '[2,4]'
+
+  - TestCase:
+      Name: case98
+      Op: '[10 * 20, 20 / .]'
+      In: '4'
+      Out: '[200, 5]'
+
+  - TestCase:
+      Name: case99
+      Op: '1 + 2 * 2 + 10 / 2'
+      In: 'null'
+      Out: '10'
+
+  - TestCase:
+      Name: case100
+      Op: '[16 / 4 / 2, 16 / 4 * 2, 16 - 4 - 2, 16 - 4 + 2]'
+      In: 'null'
+      Out: '[2, 8, 10, 14]'
+
+  - TestCase:
+      Name: case101
+      Op: '25 % 7'
+      In: 'null'
+      Out: '4'
+
+  - TestCase:
+      Name: case102
+      Op: '49732 % 472'
+      In: 'null'
+      Out: '172'
+
+  - TestCase:
+      Name: case103
+      Op: '1 + tonumber + ("10" | tonumber)'
+      In: '4'
+      Out: '15'
+
+  - TestCase:
+      Name: case104
+      Op: '[{"a":42},.object,10,.num,false,true,null,"b",[1,4]] | .[] as $x | [$x == .[]]'
+      In: '{"object": {"a":42}, "num":10.0}'
+      Out: '[true,  true,  false, false, false, false, false, false, false]'
+
+  - TestCase:
+      Name: case105
+      Op: '[.[] | length]'
+      In: '[[], {}, [1,2], {"a":42}, "asdf", "\u03bc"]'
+      Out: '[0, 0, 2, 1, 4, 1]'
+
+  - TestCase:
+      Name: case106
+      Op: 'utf8bytelength'
+      In: '"asdf\u03bc"'
+      Out: '6'
+
+  - TestCase:
+      Name: case107
+      Op: '[.[] | try utf8bytelength catch .]'
+      In: '[[], {}, [1,2], 55, true, false]'
+      Out: '["array ([]) only strings have UTF-8 byte length","object ({}) only strings have UTF-8 byte length","array ([1,2]) only strings have UTF-8 byte length","number (55) only strings have UTF-8 byte length","boolean (true) only strings have UTF-8 byte length","boolean (false) only strings have UTF-8 byte length"]'
+
+  - TestCase:
+      Name: case108
+      Op: 'map(keys)'
+      In: '[{}, {"abcd":1,"abc":2,"abcde":3}, {"x":1, "z": 3, "y":2}]'
+      Out: '[[], ["abc","abcd","abcde"], ["x","y","z"]]'
+
+  - TestCase:
+      Name: case109
+      Op: '[1,2,empty,3,empty,4]'
+      In: 'null'
+      Out: '[1,2,3,4]'
+
+  - TestCase:
+      Name: case110
+      Op: 'map(add)'
+      In: '[[], [1,2,3], ["a","b","c"], [[3],[4,5],[6]], [{"a":1}, {"b":2}, {"a":3}]]'
+      Out: '[null, 6, "abc", [3,4,5,6], {"a":3, "b": 2}]'
+
+  - TestCase:
+      Name: case111
+      Op: 'map_values(.+1)'
+      In: '[0,1,2]'
+      Out: '[1,2,3]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'User-defined functions'
+
+  - Comment:
+      Str: 'Oh god.'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case112
+      Op: 'def f: . + 1; def g: def g: . + 100; f | g | f; (f | g), g'
+      In: '3.0'
+      Out: '106.0'
+
+  - TestCase:
+      Name: case113
+      Op: 'def f: (1000,2000); f'
+      In: '123412345'
+      Out: '1000'
+
+  - TestCase:
+      Name: case114
+      Op: 'def f(a;b;c;d;e;f): [a+1,b,c,d,e,f]; f(.[0];.[1];.[0];.[0];.[0];.[0])'
+      In: '[1,2]'
+      Out: '[2,2,1,1,1,1]'
+
+  - Comment:
+      Str: 'Test precedence of def vs |'
+
+  - TestCase:
+      Name: case115
+      Op: 'def a: 0; . | a'
+      In: 'null'
+      Out: '0'
+
+  - Comment:
+      Str: 'Many arguments'
+
+  - TestCase:
+      Name: case116
+      Op: 'def f(a;b;c;d;e;f;g;h;i;j): [j,i,h,g,f,e,d,c,b,a]; f(.[0];.[1];.[2];.[3];.[4];.[5];.[6];.[7];.[8];.[9])'
+      In: '[0,1,2,3,4,5,6,7,8,9]'
+      Out: '[9,8,7,6,5,4,3,2,1,0]'
+
+  - TestCase:
+      Name: case117
+      Op: '([1,2] + [4,5])'
+      In: '[1,2,3]'
+      Out: '[1,2,4,5]'
+
+  - TestCase:
+      Name: case118
+      Op: 'true'
+      In: '[1]'
+      Out: 'true'
+
+  - TestCase:
+      Name: case119
+      Op: 'null,1,null'
+      In: '"hello"'
+      Out: 'null'
+
+  - TestCase:
+      Name: case120
+      Op: '[1,2,3]'
+      In: '[5,6]'
+      Out: '[1,2,3]'
+
+  - TestCase:
+      Name: case121
+      Op: '[.[]|floor]'
+      In: '[-1.1,1.1,1.9]'
+      Out: '[-2, 1, 1]'
+
+  - TestCase:
+      Name: case122
+      Op: '[.[]|sqrt]'
+      In: '[4,9]'
+      Out: '[2,3]'
+
+  - TestCase:
+      Name: case123
+      Op: '(add / length) as $m | map((. - $m) as $d | $d * $d) | add / length | sqrt'
+      In: '[2,4,4,4,5,5,7,9]'
+      Out: '2'
+
+  - Comment:
+      Str: 'Should write a test that calls the -lm function from C (or bc(1)) to'
+
+  - Comment:
+      Str: 'check that they match the corresponding jq functions.  However,'
+
+  - Comment:
+      Str: 'theres so little template code standing between that it suffices to'
+
+  - Comment:
+      Str: 'test a handful of these.  The results were checked by eye against'
+
+  - Comment:
+      Str: 'bc(1).'
+
+  - TestCase:
+      Name: case124
+      Op: 'atan * 4 * 1000000|floor / 1000000'
+      In: '1'
+      Out: '3.141592'
+
+  - TestCase:
+      Name: case125
+      Op: '[(3.141592 / 2) * (range(0;20) / 20)|cos * 1000000|floor / 1000000]'
+      In: 'null'
+      Out: '[1,0.996917,0.987688,0.972369,0.951056,0.923879,0.891006,0.85264,0.809017,0.760406,0.707106,0.649448,0.587785,0.522498,0.45399,0.382683,0.309017,0.233445,0.156434,0.078459]'
+
+  - TestCase:
+      Name: case126
+      Op: '[(3.141592 / 2) * (range(0;20) / 20)|sin * 1000000|floor / 1000000]'
+      In: 'null'
+      Out: '[0,0.078459,0.156434,0.233445,0.309016,0.382683,0.45399,0.522498,0.587785,0.649447,0.707106,0.760405,0.809016,0.85264,0.891006,0.923879,0.951056,0.972369,0.987688,0.996917]'
+
+  - TestCase:
+      Name: case127
+      Op: 'def f(x): x | x; f([.], . + [42])'
+      In: '[1,2,3]'
+      Out: '[[[1,2,3]]]'
+
+  - Comment:
+      Str: 'test multiple function arities and redefinition'
+
+  - TestCase:
+      Name: case128
+      Op: 'def f: .+1; def g: f; def f: .+100; def f(a):a+.+11; [(g|f(20)), f]'
+      In: '1'
+      Out: '[33,101]'
+
+  - Comment:
+      Str: 'test closures and lexical scoping'
+
+  - TestCase:
+      Name: case129
+      Op: 'def id(x):x; 2000 as $x | def f(x):1 as $x | id([$x, x, x]); def g(x): 100 as $x | f($x,$x+x); g($x)'
+      In: '"more testing"'
+      Out: '[1,100,2100.0,100,2100.0]'
+
+  - Comment:
+      Str: 'test def f($a) syntax'
+
+  - TestCase:
+      Name: case130
+      Op: 'def x(a;b): a as $a | b as $b | $a + $b; def y($a;$b): $a + $b; def check(a;b): [x(a;b)] == [y(a;b)]; check(.[];.[]*2)'
+      In: '[1,2,3]'
+      Out: 'true'
+
+  - Comment:
+      Str: 'test backtracking through function calls and returns'
+
+  - Comment:
+      Str: 'this test is *evil*'
+
+  - TestCase:
+      Name: case131
+      Op: '[[20,10][1,0] as $x | def f: (100,200) as $y | def g: [$x + $y, .]; . + $x | g; f[0] | [f][0][1] | f]'
+      In: '999999999'
+      Out: '[[110.0, 130.0], [210.0, 130.0], [110.0, 230.0], [210.0, 230.0], [120.0, 160.0], [220.0, 160.0], [120.0, 260.0], [220.0, 260.0]]'
+
+  - Comment:
+      Str: 'test recursion'
+
+  - TestCase:
+      Name: case132
+      Op: 'def fac: if . == 1 then 1 else . * (. - 1 | fac) end; [.[] | fac]'
+      In: '[1,2,3,4]'
+      Out: '[1,2,6,24]'
+
+  - Comment:
+      Str: 'test stack overflow and reallocation'
+
+  - Comment:
+      Str: 'this test is disabled for now, it takes a realllllly long time.'
+
+  - Comment:
+      Str: 'def f: if length > 1000 then . else .+[1]|f end; f | length'
+
+  - Comment:
+      Str: '[]'
+
+  - Comment:
+      Str: '1001'
+
+  - TestCase:
+      Name: case133
+      Op: 'reduce .[] as $x (0; . + $x)'
+      In: '[1,2,4]'
+      Out: '7'
+
+  - TestCase:
+      Name: case134
+      Op: 'reduce .[] as [$i, {j:$j}] (0; . + $i - $j)'
+      In: '[[2,{"j":1}], [5,{"j":3}], [6,{"j":4}]]'
+      Out: '5'
+
+  - TestCase:
+      Name: case135
+      Op: 'reduce [[1,2,10], [3,4,10]][] as [$i,$j] (0; . + $i * $j)'
+      In: 'null'
+      Out: '14'
+
+  - TestCase:
+      Name: case136
+      Op: '. as $dot|any($dot[];not)'
+      In: '[1,2,3,4,true,false,1,2,3,4,5]'
+      Out: 'true'
+
+  - TestCase:
+      Name: case137
+      Op: '. as $dot|any($dot[];not)'
+      In: '[1,2,3,4,true]'
+      Out: 'false'
+
+  - TestCase:
+      Name: case138
+      Op: '. as $dot|all($dot[];.)'
+      In: '[1,2,3,4,true,false,1,2,3,4,5]'
+      Out: 'false'
+
+  - TestCase:
+      Name: case139
+      Op: '. as $dot|all($dot[];.)'
+      In: '[1,2,3,4,true]'
+      Out: 'true'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Paths'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case140
+      Op: 'path(.foo[0,1])'
+      In: 'null'
+      Out: '["foo", 0]'
+
+  - TestCase:
+      Name: case141
+      Op: 'path(.[] | select(.>3))'
+      In: '[1,5,3]'
+      Out: '[1]'
+
+  - TestCase:
+      Name: case142
+      Op: 'path(.)'
+      In: '42'
+      Out: '[]'
+
+  - TestCase:
+      Name: case143
+      Op: 'try path(.a | map(select(.b == 0))) catch .'
+      In: '{"a":[{"b":0}]}'
+      Out: '"Invalid path expression with result [{\"b\":0}]"'
+
+  - TestCase:
+      Name: case144
+      Op: 'try path(.a | map(select(.b == 0)) | .[0]) catch .'
+      In: '{"a":[{"b":0}]}'
+      Out: '"Invalid path expression near attempt to access element 0 of [{\"b\":0}]"'
+
+  - TestCase:
+      Name: case145
+      Op: 'try path(.a | map(select(.b == 0)) | .c) catch .'
+      In: '{"a":[{"b":0}]}'
+      Out: '"Invalid path expression near attempt to access element \"c\" of [{\"b\":0}]"'
+
+  - TestCase:
+      Name: case146
+      Op: 'try path(.a | map(select(.b == 0)) | .[]) catch .'
+      In: '{"a":[{"b":0}]}'
+      Out: '"Invalid path expression near attempt to iterate through [{\"b\":0}]"'
+
+  - TestCase:
+      Name: case147
+      Op: 'path(.a[path(.b)[0]])'
+      In: '{"a":{"b":0}}'
+      Out: '["a","b"]'
+
+  - TestCase:
+      Name: case148
+      Op: '[paths]'
+      In: '[1,[[],{"a":2}]]'
+      Out: '[[0],[1],[1,0],[1,1],[1,1,"a"]]'
+
+  - TestCase:
+      Name: case149
+      Op: '[leaf_paths]'
+      In: '[1,[[],{"a":2}]]'
+      Out: '[[0],[1,1,"a"]]'
+
+  - TestCase:
+      Name: case150
+      Op: '["foo",1] as $p | getpath($p), setpath($p; 20), delpaths([$p])'
+      In: '{"bar": 42, "foo": ["a", "b", "c", "d"]}'
+      Out: '"b"'
+
+  - TestCase:
+      Name: case151
+      Op: 'map(getpath([2])), map(setpath([2]; 42)), map(delpaths([[2]]))'
+      In: '[[0], [0,1], [0,1,2]]'
+      Out: '[null, null, 2]'
+
+  - TestCase:
+      Name: case152
+      Op: 'map(delpaths([[0,"foo"]]))'
+      In: '[[{"foo":2, "x":1}], [{"bar":2}]]'
+      Out: '[[{"x":1}], [{"bar":2}]]'
+
+  - TestCase:
+      Name: case153
+      Op: '["foo",1] as $p | getpath($p), setpath($p; 20), delpaths([$p])'
+      In: '{"bar":false}'
+      Out: 'null'
+
+  - TestCase:
+      Name: case154
+      Op: 'delpaths([[-200]])'
+      In: '[1,2,3]'
+      Out: '[1,2,3]'
+
+  - TestCase:
+      Name: case155
+      Op: 'try delpaths(0) catch .'
+      In: '{}'
+      Out: '"Paths must be specified as an array"'
+
+  - TestCase:
+      Name: case156
+      Op: 'del(.), del(empty), del((.foo,.bar,.baz) | .[2,3,0]), del(.foo[0], .bar[0], .foo, .baz.bar[0].x)'
+      In: '{"foo": [0,1,2,3,4], "bar": [0,1]}'
+      Out: 'null'
+
+  - TestCase:
+      Name: case157
+      Op: 'del(.[1], .[-6], .[2], .[-3:9])'
+      In: '[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]'
+      Out: '[0, 3, 5, 6, 9]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Assignment'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case158
+      Op: '.message = "goodbye"'
+      In: '{"message": "hello"}'
+      Out: '{"message": "goodbye"}'
+
+  - TestCase:
+      Name: case159
+      Op: '.foo = .bar'
+      In: '{"bar":42}'
+      Out: '{"foo":42, "bar":42}'
+
+  - TestCase:
+      Name: case160
+      Op: '.foo |= .+1'
+      In: '{"foo": 42}'
+      Out: '{"foo": 43}'
+
+  - TestCase:
+      Name: case161
+      Op: '.[] += 2, .[] *= 2, .[] -= 2, .[] /= 2, .[] %=2'
+      In: '[1,3,5]'
+      Out: '[3,5,7]'
+
+  - TestCase:
+      Name: case162
+      Op: '[.[] % 7]'
+      In: '[-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7]'
+      Out: '[0,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,0]'
+
+  - TestCase:
+      Name: case163
+      Op: '.foo += .foo'
+      In: '{"foo":2}'
+      Out: '{"foo":4}'
+
+  - TestCase:
+      Name: case164
+      Op: '.[0].a |= {"old":., "new":(.+1)}'
+      In: '[{"a":1,"b":2}]'
+      Out: '[{"a":{"old":1, "new":2},"b":2}]'
+
+  - TestCase:
+      Name: case165
+      Op: 'def inc(x): x |= .+1; inc(.[].a)'
+      In: '[{"a":1,"b":2},{"a":2,"b":4},{"a":7,"b":8}]'
+      Out: '[{"a":2,"b":2},{"a":3,"b":4},{"a":8,"b":8}]'
+
+  - TestCase:
+      Name: case166
+      Op: '.[2][3] = 1'
+      In: '[4]'
+      Out: '[4, null, [null, null, null, 1]]'
+
+  - TestCase:
+      Name: case167
+      Op: '.foo[2].bar = 1'
+      In: '{"foo":[11], "bar":42}'
+      Out: '{"foo":[11,null,{"bar":1}], "bar":42}'
+
+  - TestCase:
+      Name: case168
+      Op: 'try ((map(select(.a == 1))[].b) = 10) catch .'
+      In: '[{"a":0},{"a":1}]'
+      Out: '"Invalid path expression near attempt to iterate through [{\"a\":1}]"'
+
+  - TestCase:
+      Name: case169
+      Op: 'try ((map(select(.a == 1))[].a) |= .+1) catch .'
+      In: '[{"a":0},{"a":1}]'
+      Out: '"Invalid path expression near attempt to iterate through [{\"a\":1}]"'
+
+  - TestCase:
+      Name: case170
+      Op: 'def x: .[1,2]; x=10'
+      In: '[0,1,2]'
+      Out: '[0,10,10]'
+
+  - TestCase:
+      Name: case171
+      Op: 'try (def x: reverse; x=10) catch .'
+      In: '[0,1,2]'
+      Out: '"Invalid path expression with result [2,1,0]"'
+
+  - TestCase:
+      Name: case172
+      Op: '.[] = 1'
+      In: '[1,null,Infinity,-Infinity,NaN,-NaN]'
+      Out: '[1,1,1,1,1,1]'
+
+  - Comment:
+      Str: ''
+
+  - Comment:
+      Str: 'Conditionals'
+
+  - Comment:
+      Str: ''
+
+  - TestCase:
+      Name: case173
+      Op: '[.[] | if .foo then "yep" else "nope" end]'
+      In: '[{"foo":0},{"foo":1},{"foo":[]},{"foo":true},{"foo":false},{"foo":null},{"foo":"foo"},{}]'
+      Out: '["yep","yep","yep","yep","nope","nope","yep","nope"]'
+
+  - TestCase:
+      Name: case174
+      Op: '[.[] | if .baz then "strange" elif .foo then "yep" else "nope" end]'
+      In: '[{"foo":0},{"foo":1},{"foo":[]},{"foo":true},{"foo":false},{"foo":null},{"foo":"foo"},{}]'
+      Out: '["yep","yep","yep","yep","nope","nope","yep","nope"]'
+
+  - TestCase:
+      Name: case175
+      Op: '[if 1,null,2 then 3 else 4 end]'
+      In: 'null'
+      Out: '[3,4,3]'
+
+  - TestCase:
+      Name: case176
+      Op: '[if empty then 3 else 4 end]'
+      In: 'null'
+      Out: '[]'
+
+  - TestCase:
+      Name: case177
+      Op: '[if 1 then 3,4 else 5 end]'
+      In: 'null'
+      Out: '[3,4]'
+
+  - TestCase:
+      Name: case178
+      Op: '[if null then 3 else 5,6 end]'
+      In: 'null'
+      Out: '[5,6]'
+
+  - TestCase:
+      Name: case179
+      Op: '[.[] | [.foo[] // .bar]]'
+      In: '[{"foo":[1,2], "bar": 42}, {"foo":[1], "bar": null}, {"foo":[null,false,3], "bar": 18}, {"foo":[], "bar":42}, {"foo": [null,false,null], "bar": 41}]'
+      Out: '[[1,2], [1], [3], [42], [41]]'
+
+  - TestCase:
+      Name: case180
+      Op: '.[] //= .[0]'
+      In: '["hello",true,false,[false],null]'
+      Out: '["hello",true,"hello",[false],"hello"]'
+
+  - TestCase:
+      Name: case181
+      Op: '.[] | [.[0] and .[1], .[0] or .[1]]'
+      In: '[[true,[]], [false,1], [42,null], [null,false]]'
+      Out: '[true,true]'
+
+  - TestCase:
+      Name: case182
+      Op: '[.[] | not]'
+      In: '[1,0,false,null,true,"hello"]'
+      Out: '[false,false,true,true,false,false]'
+
+  - Comment:
+      Str: 'Check numeric comparison binops'
+
+  - TestCase:
+      Name: case183
+      Op: '[10 > 0, 10 > 10, 10 > 20, 10 < 0, 10 < 10, 10 < 20]'
+      In: '{}'
+      Out: '[true,false,false,false,false,true]'
+
+  - TestCase:
+      Name: case184
+      Op: '[10 >= 0, 10 >= 10, 10 >= 20, 10 <= 0, 10 <= 10, 10 <= 20]'
+      In: '{}'
+      Out: '[true,true,false,false,true,true]'
+
+  - Comment:
+      Str: 'And some in/equality tests'
+
+  - TestCase:
+      Name: case185
+      Op: '[ 10 == 10, 10 != 10, 10 != 11, 10 == 11]'
+      In: '{}'
+      Out: '[true,false,true,false]'
+
+  - TestCase:
+      Name: case186
+      Op: '["hello" == "hello", "hello" != "hello", "hello" == "world", "hello" != "world" ]'
+      In: '{}'
+      Out: '[true,false,false,true]'
+
+  - TestCase:
+      Name: case187
+      Op: '[[1,2,3] == [1,2,3], [1,2,3] != [1,2,3], [1,2,3] == [4,5,6], [1,2,3] != [4,5,6]]'
+      In: '{}'
+      Out: '[true,false,false,true]'
+
+  - TestCase:
+      Name: case188
+      Op: '[{"foo":42} == {"foo":42},{"foo":42} != {"foo":42}, {"foo":42} != {"bar":42}, {"foo":42} == {"bar":42}]'
+      In: '{}'
+      Out: '[true,false,true,false]'
+
+  - Comment:
+      Str: 'ugly complicated thing'
+
+  - TestCase:
+      Name: case189
+      Op: '[{"foo":[1,2,{"bar":18},"world"]} == {"foo":[1,2,{"bar":18},"world"]},{"foo":[1,2,{"bar":18},"world"]} == {"foo":[1,2,{"bar":19},"world"]}]'
+      In: '{}'
+      Out: '[true,false]'
+
+  - Comment:
+      Str: 'containment operator'
+
+  - TestCase:
+      Name: case190
+      Op: '[("foo" | contains("foo")), ("foobar" | contains("foo")), ("foo" | contains("foobar"))]'
+      In: '{}'
+      Out: '[true, true, false]'
+
+  - Comment:
+      Str: 'Try/catch and general `?` operator'
+
+  - TestCase:
+      Name: case191
+      Op: '[.[]|try if . == 0 then error("foo") elif . == 1 then .a elif . == 2 then empty else . end catch .]'
+      In: '[0,1,2,3]'
+      Out: '["foo","Cannot index number with string \"a\"",3]'
+
+  - TestCase:
+      Name: case192
+      Op: '[.[]|(.a, .a)?]'
+      In: '[null,true,{"a":1}]'
+      Out: '[null,null,1,1]'
+
+  - TestCase:
+      Name: case193
+      Op: '[[.[]|[.a,.a]]?]'
+      In: '[null,true,{"a":1}]'
+      Out: '[]'
+
+  - TestCase:
+      Name: case194
+      Op: 'try error("\($__loc__)") catch .'
+      In: 'null'
+      Out: '"{\"file\":\"<top-level>\",\"line\":1}"'
+
+  - Comment:
+      Str: 'string operations'
+
+  - TestCase:
+      Name: case195
+      Op: '[.[]|startswith("foo")]'
+      In: '["fo", "foo", "barfoo", "foobar", "barfoob"]'
+      Out: '[false, true, false, true, false]'
+
+  - TestCase:
+      Name: case196
+      Op: '[.[]|endswith("foo")]'
+      In: '["fo", "foo", "barfoo", "foobar", "barfoob"]'
+      Out: '[false, true, true, false, false]'
+
+  - TestCase:
+      Name: case197
+      Op: '[.[] | split(", ")]'
+      In: '["a,b, c, d, e,f",", a,b, c, d, e,f, "]'
+      Out: '[["a,b","c","d","e,f"],["","a,b","c","d","e,f",""]]'
+
+  - TestCase:
+      Name: case198
+      Op: 'split("")'
+      In: '"abc"'
+      Out: '["a","b","c"]'
+
+  - TestCase:
+      Name: case199
+      Op: '[.[]|ltrimstr("foo")]'
+      In: '["fo", "foo", "barfoo", "foobar", "afoo"]'
+      Out: '["fo","","barfoo","bar","afoo"]'
+
+  - TestCase:
+      Name: case200
+      Op: '[.[]|rtrimstr("foo")]'
+      In: '["fo", "foo", "barfoo", "foobar", "foob"]'
+      Out: '["fo","","bar","foobar","foob"]'
+
+  - TestCase:
+      Name: case201
+      Op: '[(index(","), rindex(",")), indices(",")]'
+      In: '"a,bc,def,ghij,klmno"'
+      Out: '[1,13,[1,4,8,13]]'
+
+  - TestCase:
+      Name: case202
+      Op: 'indices(1)'
+      In: '[0,1,1,2,3,4,1,5]'
+      Out: '[1,2,6]'
+
+  - TestCase:
+      Name: case203
+      Op: 'indices([1,2])'
+      In: '[0,1,2,3,1,4,2,5,1,2,6,7]'
+      Out: '[1,8]'
+
+  - TestCase:
+      Name: case204
+      Op: 'indices([1,2])'
+      In: '[1]'
+      Out: '[]'
+
+  - TestCase:
+      Name: case205
+      Op: 'indices(", ")'
+      In: '"a,b, cd,e, fgh, ijkl"'
+      Out: '[3,9,14]'
+
+  - TestCase:
+      Name: case206
+      Op: '[.[]|split(",")]'
+      In: '["a, bc, def, ghij, jklmn, a,b, c,d, e,f", "a,b,c,d, e,f,g,h"]'
+      Out: '[["a"," bc"," def"," ghij"," jklmn"," a","b"," c","d"," e","f"],["a","b","c","d"," e","f","g","h"]]'
+
+  - TestCase:
+      Name: case207
+      Op: '[.[]|split(", ")]'
+      In: '["a, bc, def, ghij, jklmn, a,b, c,d, e,f", "a,b,c,d, e,f,g,h"]'
+      Out: '[["a","bc","def","ghij","jklmn","a,b","c,d","e,f"],["a,b,c,d","e,f,g,h"]]'
+
+  - TestCase:
+      Name: case208
+      Op: '[.[] * 3]'
+      In: '["a", "ab", "abc"]'
+      Out: '["aaa", "ababab", "abcabcabc"]'
+
+  - TestCase:
+      Name: case209
+      Op: '[.[] / ","]'
+      In: '["a, bc, def, ghij, jklmn, a,b, c,d, e,f", "a,b,c,d, e,f,g,h"]'
+      Out: '[["a"," bc"," def"," ghij"," jklmn"," a","b"," c","d"," e","f"],["a","b","c","d"," e","f","g","h"]]'
+
+  - TestCase:
+      Name: case210
+      Op: '[.[] / ", "]'
+      In: '["a, bc, def, ghij, jklmn, a,b, c,d, e,f", "a,b,c,d, e,f,g,h"]'
+      Out: '[["a","bc","def","ghij","jklmn","a,b","c,d","e,f"],["a,b,c,d","e,f,g,h"]]'
+
+  - TestCase:
+      Name: case211
+      Op: 'map(.[1] as $needle | .[0] | contains($needle))'
+      In: '[[[],[]], [[1,2,3], [1,2]], [[1,2,3], [3,1]], [[1,2,3], [4]], [[1,2,3], [1,4]]]'
+      Out: '[true, true, true, false, false]'
+
+  - TestCase:
+      Name: case212
+      Op: 'map(.[1] as $needle | .[0] | contains($needle))'
+      In: '[[["foobar", "foobaz"], ["baz", "bar"]], [["foobar", "foobaz"], ["foo"]], [["foobar", "foobaz"], ["blap"]]]'
+      Out: '[true, true, false]'
+
+  - TestCase:
+      Name: case213
+      Op: '[({foo: 12, bar:13} | contains({foo: 12})), ({foo: 12} | contains({})), ({foo: 12, bar:13} | contains({baz:14}))]'
+      In: '{}'
+      Out: '[true, true, false]'
+
+  - TestCase:
+      Name: case214
+      Op: '{foo: {baz: 12, blap: {bar: 13}}, bar: 14} | contains({bar: 14, foo: {blap: {}}})'
+      In: '{}'
+      Out: 'true'
+
+  - TestCase:
+      Name: case215
+      Op: '{foo: {baz: 12, blap: {bar: 13}}, bar: 14} | contains({bar: 14, foo: {blap: {bar: 14}}})'
+      In: '{}'
+      Out: 'false'
+
+  - TestCase:
+      Name: case216
+      Op: 'sort'
+      In: '[42,[2,5,3,11],10,{"a":42,"b":2},{"a":42},true,2,[2,6],"hello",null,[2,5,6],{"a":[],"b":1},"abc","ab",[3,10],{},false,"abcd",null]'
+      Out: '[null,null,false,true,2,10,42,"ab","abc","abcd","hello",[2,5,3,11],[2,5,6],[2,6],[3,10],{},{"a":42},{"a":42,"b":2},{"a":[],"b":1}]'
+
+  - TestCase:
+      Name: case217
+      Op: '(sort_by(.b) | sort_by(.a)), sort_by(.a, .b), sort_by(.b, .c), group_by(.b), group_by(.a + .b - .c == 2)'
+      In: '[{"a": 1, "b": 4, "c": 14}, {"a": 4, "b": 1, "c": 3}, {"a": 1, "b": 4, "c": 3}, {"a": 0, "b": 2, "c": 43}]'
+      Out: '[{"a": 0, "b": 2, "c": 43}, {"a": 1, "b": 4, "c": 14}, {"a": 1, "b": 4, "c": 3}, {"a": 4, "b": 1, "c": 3}]'
+
+  - TestCase:
+      Name: case218
+      Op: 'unique'
+      In: '[1,2,5,3,5,3,1,3]'
+      Out: '[1,2,3,5]'
+
+  - TestCase:
+      Name: case219
+      Op: 'unique'
+      In: '[]'
+      Out: '[]'
+
+  - TestCase:
+      Name: case220
+      Op: '[min, max, min_by(.[1]), max_by(.[1]), min_by(.[2]), max_by(.[2])]'
+      In: '[[4,2,"a"],[3,1,"a"],[2,4,"a"],[1,3,"a"]]'
+      Out: '[[1,3,"a"],[4,2,"a"],[3,1,"a"],[2,4,"a"],[4,2,"a"],[1,3,"a"]]'
+
+  - TestCase:
+      Name: case221
+      Op: '[min,max,min_by(.),max_by(.)]'
+      In: '[]'
+      Out: '[null,null,null,null]'
+
+  - TestCase:
+      Name: case222
+      Op: '.foo[.baz]'
+      In: '{"foo":{"bar":4},"baz":"bar"}'
+      Out: '4'
+
+  - TestCase:
+      Name: case223
+      Op: .[] | .error = "no, it's OK"
+      In: '[{"error":true}]'
+      Out: {"error": "no, it's OK"}
+
+  - TestCase:
+      Name: case224
+      Op: '[{a:1}] | .[] | .a=999'
+      In: 'null'
+      Out: '{"a": 999}'
+
+  - TestCase:
+      Name: case225
+      Op: 'to_entries'
+      In: '{"a": 1, "b": 2}'
+      Out: '[{"key":"a", "value":1}, {"key":"b", "value":2}]'
+
+  - TestCase:
+      Name: case226
+      Op: 'from_entries'
+      In: '[{"key":"a", "value":1}, {"Key":"b", "Value":2}, {"name":"c", "value":3}, {"Name":"d", "Value":4}]'
+      Out: '{"a": 1, "b": 2, "c": 3, "d": 4}'
+
+  - TestCase:
+      Name: case227
+      Op: 'with_entries(.key |= "KEY_" + .)'
+      In: '{"a": 1, "b": 2}'
+      Out: '{"KEY_a": 1, "KEY_b": 2}'
+
+  - TestCase:
+      Name: case228
+      Op: 'map(has("foo"))'
+      In: '[{"foo": 42}, {}]'
+      Out: '[true, false]'
+
+  - TestCase:
+      Name: case229
+      Op: 'map(has(2))'
+      In: '[[0,1], ["a","b","c"]]'
+      Out: '[false, true]'
+
+  - TestCase:
+      Name: case230
+      Op: 'keys'
+      In: '[42,3,35]'
+      Out: '[0,1,2]'
+
+  - TestCase:
+      Name: case231
+      Op: '[][.]'
+      In: '1000000000000000000'
+      Out: 'null'
+
+  - TestCase:
+      Name: case232
+      Op: 'map([1,2][0:.])'
+      In: '[-1, 1, 2, 3, 1000000000000000000]'
+      Out: '[[1], [1], [1,2], [1,2], [1,2]]'
+
+  - Comment:
+      Str: 'Test recursive object merge'
+
+  - TestCase:
+      Name: case233
+      Op: '{"k": {"a": 1, "b": 2}} * .'
+      In: '{"k": {"a": 0,"c": 3}}'
+      Out: '{"k": {"a": 0, "b": 2, "c": 3}}'
+
+  - TestCase:
+      Name: case234
+      Op: '{"k": {"a": 1, "b": 2}, "hello": {"x": 1}} * .'
+      In: '{"k": {"a": 0,"c": 3}, "hello": 1}'
+      Out: '{"k": {"a": 0, "b": 2, "c": 3}, "hello": 1}'
+
+  - TestCase:
+      Name: case235
+      Op: '{"k": {"a": 1, "b": 2}, "hello": 1} * .'
+      In: '{"k": {"a": 0,"c": 3}, "hello": {"x": 1}}'
+      Out: '{"k": {"a": 0, "b": 2, "c": 3}, "hello": {"x": 1}}'
+
+  - TestCase:
+      Name: case236
+      Op: '{"a": {"b": 1}, "c": {"d": 2}, "e": 5} * .'
+      In: '{"a": {"b": 2}, "c": {"d": 3, "f": 9}}'
+      Out: '{"a": {"b": 2}, "c": {"d": 3, "f": 9}, "e": 5}'
+
+  - TestCase:
+      Name: case237
+      Op: '[.[]|arrays]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[[],[3,[]]]'
+
+  - TestCase:
+      Name: case238
+      Op: '[.[]|objects]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[{}]'
+
+  - TestCase:
+      Name: case239
+      Op: '[.[]|iterables]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[[],[3,[]],{}]'
+
+  - TestCase:
+      Name: case240
+      Op: '[.[]|scalars]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[1,2,"foo",true,false,null]'
+
+  - TestCase:
+      Name: case241
+      Op: '[.[]|values]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[1,2,"foo",[],[3,[]],{},true,false]'
+
+  - TestCase:
+      Name: case242
+      Op: '[.[]|booleans]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[true,false]'
+
+  - TestCase:
+      Name: case243
+      Op: '[.[]|nulls]'
+      In: '[1,2,"foo",[],[3,[]],{},true,false,null]'
+      Out: '[null]'
+
+  - TestCase:
+      Name: case244
+      Op: 'flatten'
+      In: '[0, [1], [[2]], [[[3]]]]'
+      Out: '[0, 1, 2, 3]'
+
+  - TestCase:
+      Name: case245
+      Op: 'flatten(0)'
+      In: '[0, [1], [[2]], [[[3]]]]'
+      Out: '[0, [1], [[2]], [[[3]]]]'
+
+  - TestCase:
+      Name: case246
+      Op: 'flatten(2)'
+      In: '[0, [1], [[2]], [[[3]]]]'
+      Out: '[0, 1, 2, [3]]'
+
+  - TestCase:
+      Name: case247
+      Op: 'flatten(2)'
+      In: '[0, [1, [2]], [1, [[3], 2]]]'
+      Out: '[0, 1, 2, 1, [3], 2]'
+
+  - TestCase:
+      Name: case248
+      Op: 'try flatten(-1) catch .'
+      In: '[0, [1], [[2]], [[[3]]]]'
+      Out: '"flatten depth must not be negative"'
+
+  - TestCase:
+      Name: case249
+      Op: 'transpose'
+      In: '[[1], [2,3]]'
+      Out: '[[1,2],[null,3]]'
+
+  - TestCase:
+      Name: case250
+      Op: 'ascii_upcase'
+      In: '"useful but not for é"'
+      Out: '"USEFUL BUT NOT FOR é"'
+
+  - TestCase:
+      Name: case251
+      Op: 'bsearch(4)'
+      In: '[1,2,3]'
+      Out: '-4'
+
+  - Comment:
+      Str: 'strptime tests are in optional.test'
+
+  - TestCase:
+      Name: case252
+      Op: 'strftime("%Y-%m-%dT%H:%M:%SZ")'
+      In: '[2015,2,5,23,51,47,4,63]'
+      Out: '"2015-03-05T23:51:47Z"'
+
+  - TestCase:
+      Name: case253
+      Op: 'strftime("%A, %B %d, %Y")'
+      In: '1435677542.822351'
+      Out: '"Tuesday, June 30, 2015"'
+
+  - TestCase:
+      Name: case254
+      Op: 'gmtime'
+      In: '1425599507'
+      Out: '[2015,2,5,23,51,47,4,63]'
+
+  - Comment:
+      Str: 'module system'
+
+  - TestCase:
+      Name: case255
+      Op: 'import "a" as foo; import "b" as bar; def fooa: foo::a; [fooa, bar::a, bar::b, foo::a]'
+      In: 'null'
+      Out: '["a","b","c","a"]'
+
+  - TestCase:
+      Name: case256
+      Op: 'import "c" as foo; [foo::a, foo::c]'
+      In: 'null'
+      Out: '[0,"acmehbah"]'
+
+  - TestCase:
+      Name: case257
+      Op: 'include "c"; [a, c]'
+      In: 'null'
+      Out: '[0,"acmehbah"]'
+
+  - TestCase:
+      Name: case258
+      Op: 'modulemeta'
+      In: '"c"'
+      Out: '{"whatever":null,"deps":[{"as":"foo","is_data":false,"relpath":"a"},{"search":"./","as":"d","is_data":false,"relpath":"d"},{"search":"./","as":"d2","is_data":false,"relpath":"d"},{"search":"./../lib/jq","as":"e","is_data":false,"relpath":"e"},{"search":"./../lib/jq","as":"f","is_data":false,"relpath":"f"},{"as":"d","is_data":true,"relpath":"data"}]}'
+
+  - TestCase:
+      Name: case259
+      Op: 'import "test_bind_order" as check; check::check'
+      In: 'null'
+      Out: 'true'
+
+  - TestCase:
+      Name: case260
+      Op: 'try -. catch .'
+      In: '"very-long-string"'
+      Out: '"string (\"very-long-...) cannot be negated"'
+
+  - TestCase:
+      Name: case261
+      Op: 'join(",")'
+      In: '["1",2,true,false,3.4]'
+      Out: '"1,2,true,false,3.4"'
+
+  - TestCase:
+      Name: case262
+      Op: '.[] | join(",")'
+      In: '[[], [null], [null,null], [null,null,null]]'
+      Out: '""'
+
+  - TestCase:
+      Name: case263
+      Op: '.[] | join(",")'
+      In: '[["a",null], [null,"a"]]'
+      Out: '"a,"'
+
+  - TestCase:
+      Name: case264
+      Op: 'try join(",") catch .'
+      In: '["1","2",{"a":{"b":{"c":33}}}]'
+      Out: '"string (\"1,2,\") and object ({\"a\":{\"b\":{...) cannot be added"'
+
+  - TestCase:
+      Name: case265
+      Op: 'try join(",") catch .'
+      In: '["1","2",[3,4,5]]'
+      Out: '"string (\"1,2,\") and array ([3,4,5]) cannot be added"'
+
+  - TestCase:
+      Name: case266
+      Op: '{if:0,and:1,or:2,then:3,else:4,elif:5,end:6,as:7,def:8,reduce:9,foreach:10,try:11,catch:12,label:13,import:14,include:15,module:16}'
+      In: 'null'
+      Out: '{"if":0,"and":1,"or":2,"then":3,"else":4,"elif":5,"end":6,"as":7,"def":8,"reduce":9,"foreach":10,"try":11,"catch":12,"label":13,"import":14,"include":15,"module":16}'
+
+  - TestCase:
+      Name: case267
+      Op: 'try (1/.) catch .'
+      In: '0'
+      Out: '"number (1) and number (0) cannot be divided because the divisor is zero"'
+
+  - TestCase:
+      Name: case268
+      Op: 'try (1%.) catch .'
+      In: '0'
+      Out: '"number (1) and number (0) cannot be divided (remainder) because the divisor is zero"'
+
+  - Comment:
+      Str: 'Basic numbers tests: integers, powers of two'
+
+  - TestCase:
+      Name: case269
+      Op: '[range(-52;52;1)] as $powers | [$powers[]|pow(2;.)|log2] == $powers'
+      In: 'null'
+      Out: 'true'
+
+  - TestCase:
+      Name: case270
+      Op: '[range(-99/2;99/2;1)] as $orig | [$orig[]|pow(2;.)|log2] as $back | ($orig|keys)[]|. as $k | (($orig|.[$k])-($back|.[$k]))|if . < 0 then . * -1 else . end|select(.>.00005)'
+      In: 'null'
+      Out: ''
+
+  - TestCase:
+      Name: case271
+      Op: '(.[{}] = 0)?'
+      In: 'null'
+      Out: ''
+
