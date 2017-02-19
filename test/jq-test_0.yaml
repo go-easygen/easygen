@@ -7,13 +7,13 @@ Cases:
       Str: 'Blank lines and lines starting with # are ignored'
 
   - Comment:
-      Str: ''
+      Str: 
 
   - Comment:
       Str: 'Simple value tests to check parser. Input is irrelevant'
 
   - Comment:
-      Str: ''
+      Str: 
 
 
   - TestCase:
