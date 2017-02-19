@@ -55,6 +55,13 @@ var root = &cli.Command{
 ////////////////////////////////////////////////////////////////////////////
 // {{.Name}}
 
+// func {{.Name}}CLI(ctx *cli.Context) error {
+// 	rootArgv := ctx.RootArgv().(*rootT)
+// 	argv := ctx.Argv().(*{{.Name}}T)
+// 	fmt.Printf("[{{.Name}}]:\n  %+v\n  %+v\n  %v\n", rootArgv, argv, ctx.Args())
+// 	return nil
+// }
+
 type {{.Name}}T struct {
 {{range .Options}}
 	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if eq .Name "Self" }} json:"-" parser:"jsonfile"{{end}}{{if .Value}} dft:"{{.Value}}"{{end}}`{{end}}
@@ -73,11 +80,4 @@ var {{.Name}}Def = &cli.Command{
 	NumArg:      {{.NumArg}},
 	CanSubRoute: true,
 {{end}}}
-
-// func {{.Name}}CLI(ctx *cli.Context) error {
-// 	rootArgv := ctx.RootArgv().(*rootT)
-// 	argv := ctx.Argv().(*{{.Name}}T)
-// 	fmt.Printf("[{{.Name}}]:\n  %+v\n  %+v\n  %v\n", rootArgv, argv, ctx.Args())
-// 	return nil
-// }
 {{end}}
