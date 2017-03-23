@@ -15,7 +15,7 @@ import (
 
 type rootT struct {
 	cli.Helper{{range .Options}}
-	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}"usage:"{{.Usage}}"{{if eq .Name "Self" }} json:"-" parser:"jsonfile"{{end}}{{if .Value}} dft:"{{.Value}}"{{end}}`{{end}}
+	{{.Name}}	{{.Type}}	`cli:"{{.Flag}}" usage:"{{.Usage}}"{{if eq .Name "Self" }} json:"-" parser:"jsonfile"{{end}}{{if .Value}} dft:"{{.Value}}"{{end}}`{{end}}
 }
 
 var root = &cli.Command{
