@@ -30,7 +30,10 @@ var root = &cli.Command{
 	NumOption:      {{.NumOption}},
 {{end}}{{if .NumArg}}
 	NumArg:      {{.NumArg}},
+{{end}}{{if .CanSubRoute}}
+	CanSubRoute:      {{.CanSubRoute}},
 {{end}}}
+
 
 // func main() {
 // 	cli.SetUsageStyle(cli.ManualStyle) // up-down, for left-right, use NormalStyle
