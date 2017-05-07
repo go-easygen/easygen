@@ -82,5 +82,7 @@ var {{.Name}}Def = &cli.Command{
 {{end}}{{if .NumArg}}
 	NumArg:      {{.NumArg}},
 	CanSubRoute: true,
+{{end}}{{if .CanSubRoute}}
+	CanSubRoute:      {{.CanSubRoute}},
 {{end}}}
 {{end}}
