@@ -114,33 +114,42 @@ func Generate(HTML bool, fileName string) string {
 // function, dictated by the first parameter "HTML".
 // By Matt Harden @gmail.com
 func ParseFiles(HTML bool, filenames ...string) (template, error) {
-	tname := filepath.Base(filenames[0])
+	var tname string
 
-	// use text template
-	funcMapHT := ht.FuncMap{
-		"minus1": minus1,
-		"cls2lc": cls2lc.String,
-		"cls2uc": cls2uc.String,
-		"cls2ss": cls2ss.String,
-		"ck2lc":  ck2lc.String,
-		"ck2uc":  ck2uc.String,
-		"ck2ls":  ck2ls.String,
-		"ck2ss":  ck2ss.String,
-		"clc2ss": clc2ss.String,
-		"cuc2ss": cuc2ss.String,
+	if len(Opts.TemplateStr) > 0 {
+		if HTML {
+			tname = "HT"
+		} else {
+			tname = "TT"
+		}
+	} else if len(filenames) == 0 {
+		return nil, fmt.Errorf("ParseFiles called without template filename")
+	} else {
+		tname = filepath.Base(filenames[0])
 	}
-
-	_ = funcMapHT
 
 	if HTML {
 		// use html template
-		t, err := ht.ParseFiles(filenames...)
-		//t, err := ht.New("HT").Funcs(funcMapHT).ParseFiles(filenames...)
-		return t, err
+		htmlTemplate := ht.New(tname).Funcs(ht.FuncMap{
+			"minus1": minus1,
+			"cls2lc": cls2lc.String,
+			"cls2uc": cls2uc.String,
+			"cls2ss": cls2ss.String,
+			"ck2lc":  ck2lc.String,
+			"ck2uc":  ck2uc.String,
+			"ck2ls":  ck2ls.String,
+			"ck2ss":  ck2ss.String,
+			"clc2ss": clc2ss.String,
+			"cuc2ss": cuc2ss.String,
+		})
+		if len(Opts.TemplateStr) > 0 {
+			return htmlTemplate.Parse(Opts.TemplateStr)
+		}
+		return htmlTemplate.ParseFiles(filenames...)
 	}
 
 	// use text template
-	funcMap := tt.FuncMap{
+	textTemplate := tt.New(tname).Funcs(tt.FuncMap{
 		"eqf":      strings.EqualFold,
 		"split":    strings.Fields,
 		"minus1":   minus1,
@@ -155,15 +164,12 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		"ck2ss":    ck2ss.String,
 		"clc2ss":   clc2ss.String,
 		"cuc2ss":   cuc2ss.String,
-	}
+	})
 
 	if len(Opts.TemplateStr) > 0 {
-		t, err := tt.New("TT").Funcs(funcMap).Parse(Opts.TemplateStr)
-		return t, err
+		return textTemplate.Parse(Opts.TemplateStr)
 	}
-
-	t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
-	return t, err
+	return textTemplate.ParseFiles(filenames...)
 }
 
 // Exit if error occurs
