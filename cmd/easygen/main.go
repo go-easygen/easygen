@@ -95,11 +95,12 @@ func main() {
 	flag.Parse()
 
 	// One mandatory non-flag arguments
-	if len(flag.Args()) < 1 {
+	if flag.NArg() < 1 {
 		easygen.Usage()
 	}
-	fileName := flag.Args()[0]
 	easygen.TFStringsInit()
 
-	fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
+	for _, fileName := range flag.Args() {
+		fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
+	}
 }

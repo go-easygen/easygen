@@ -39,7 +39,7 @@ var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
 // Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr,
-		"\nUsage:\n %s [flags] YamlFileName\n\nFlags:\n\n",
+		"\nUsage:\n %s [flags] YamlFileName [YamlFileName...]\n\nFlags:\n\n",
 		progname)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
