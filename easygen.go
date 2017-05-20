@@ -178,7 +178,7 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 // Exit if error occurs
 func checkError(err error) {
 	if err != nil {
-		fmt.Printf("[%s] Fatal error - %s\n", progname, err)
+		fmt.Fprintf(os.Stderr, "[%s] Fatal error - %s\n", progname, err)
 		os.Exit(1)
 	}
 }
