@@ -65,7 +65,7 @@ func Generate0(HTML bool, strTempl string, fileName string) string {
 
 // Generate will produce output from the template according to the corresponding driving data, fileName is for both template and data file name
 func Generate(HTML bool, fileName string) string {
-	var fileNameT string // Name of the template file
+	var templates []string
 
 	// Allow to use fileName with and without the @Opts.ExtYaml suffix.
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
@@ -74,14 +74,16 @@ func Generate(HTML bool, fileName string) string {
 
 	// Allow to use @Opts.TemplateFile without the @Opts.ExtTmpl suffix.
 	if len(Opts.TemplateFile) > 0 {
-		fileNameT = Opts.TemplateFile
-		if _, err := os.Stat(fileNameT); os.IsNotExist(err) {
-			fileNameT += Opts.ExtTmpl
+		for _, template := range strings.Split(Opts.TemplateFile, ",") {
+			if _, err := os.Stat(template); os.IsNotExist(err) {
+				template += Opts.ExtTmpl
+			}
+			templates = append(templates, template)
 		}
 	} else if idx := strings.LastIndex(fileName, "."); idx > 0 {
-		fileNameT = fileName[:idx] + Opts.ExtTmpl
+		templates = []string{fileName[:idx] + Opts.ExtTmpl}
 	} else {
-		fileNameT = fileName + Opts.ExtTmpl
+		templates = []string{fileName + Opts.ExtTmpl}
 	}
 
 	source, err := ioutil.ReadFile(fileName)
@@ -100,13 +102,14 @@ func Generate(HTML bool, fileName string) string {
 	m["ENV"] = env
 	//fmt.Printf("] %+v\n", m)
 
-	t, err := ParseFiles(HTML, fileNameT)
-	checkError(err)
-
 	buf := new(bytes.Buffer)
-	err = t.Execute(buf, m)
-	checkError(err)
+	for _, template := range templates {
+		t, err := ParseFiles(HTML, template)
+		checkError(err)
 
+		err = t.Execute(buf, m)
+		checkError(err)
+	}
 	return buf.String()
 }
 

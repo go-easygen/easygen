@@ -47,7 +47,7 @@ func init() {
 	flag.StringVar(&easygen.Opts.TemplateStr, "ts", "",
 		"template string (in text)")
 	flag.StringVar(&easygen.Opts.TemplateFile, "tf", "",
-		".tmpl template file `name` (default: same as .yaml file)")
+		".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)")
 	flag.StringVar(&easygen.Opts.ExtYaml, "ey", ".yaml",
 		"`extension` of yaml file")
 	flag.StringVar(&easygen.Opts.ExtTmpl, "et", ".tmpl",
