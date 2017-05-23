@@ -1,0 +1,19 @@
+{{- if .EnumComments -}}
+/**
+  {{- range .EnumComments }}
+ * {{.}}
+  {{- end }}
+ */
+{{- else -}}
+/** {{ cls2uc .EnumName }} is the representation of {{.EnumName}} */
+{{- end }}
+public enum {{cls2uc .EnumName}} {
+{{- range $i, $val := .Values -}}
+  {{- if .Comment }}
+  {{- if gt $i 0 }}
+  {{ end }}
+    // {{.Comment}}
+  {{- end }}
+    {{ .Name }}{{if eq (len $.Values|minus1) ($i)}};{{else}},{{end}}
+{{- end }}
+}
