@@ -1,0 +1,19 @@
+{{- if .EnumComments -}}
+  {{- range .EnumComments }}
+// {{.}}
+  {{- end -}}
+{{- end }}
+enum {{.EnumName}} {
+{{- range $i, $val := .Values -}}
+  {{- if .Comment }}
+  {{- if gt $i 0 }}
+  {{ end }}
+	// {{.Comment}}
+  {{- end -}}
+  {{- if .Value }}
+	{{ .Name }} = {{.Value }},
+  {{- else }}
+	{{ .Name }},
+  {{- end -}}
+{{- end }}
+};

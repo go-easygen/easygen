@@ -47,10 +47,14 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
-// Generate2 will produce output according to the given template and driving data files, specified via fileNameTempl and fileName (for data) respectively
-func Generate2(HTML bool, fileNameTempl string, fileName string) string {
+// Generate2 will produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileNames (for data) respectively.
+func Generate2(HTML bool, fileNameTempl string, fileNames ...string) (ret string) {
 	Opts.TemplateFile = fileNameTempl
-	ret := Generate(HTML, fileName)
+
+	for _, fileName := range fileNames {
+		ret += Generate(HTML, fileName)
+	}
 	Opts.TemplateFile = ""
 	return ret
 }

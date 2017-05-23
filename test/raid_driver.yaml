@@ -1,0 +1,7 @@
+EnumName: raid_driver
+
+Values:
+  - Name: HW
+    String: "Hardware-RAID"
+  - Name: SW
+    String: "Software-RAID"

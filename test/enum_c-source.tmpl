@@ -1,0 +1,35 @@
+{{/*
+   Randomly pick the first element if no EnumDefault is set.
+*/}}
+{{ with $DEFAULT := or (.EnumDefault) (index .Values 0 "Name") -}}
+/** Try to extract an enum {{$.EnumName}} value from @str; fall back to "{{$DEFAULT}}". */
+const enum {{$.EnumName}}
+str_to_{{$.EnumName}}(const char * const *str)
+{
+{{- range $i, $val := $.Values }}
+	{{ if gt $i 0 -}}} else {{end -}}if (strcasecmp(str, "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}") == 0) {
+		return {{ .Name }};
+{{- range .AltString }}
+	} else if (strcasecmp(str, "{{.}}") == 0) {
+		return {{ $val.Name }};
+{{- end }}
+{{- if eq (len $.Values|minus1) ($i)}}{{/* Sentinel */}}
+	}
+{{- end -}}
+{{- end }}
+	return {{$DEFAULT}};
+}
+{{- end }}
+
+/** Stringer function for {{.EnumName}}. */
+const char *
+{{.EnumName}}_to_str(const enum {{.EnumName}} val)
+{
+	switch (val) {
+{{- range .Values }}
+	case {{.Name}}:
+		return "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}";
+{{- end }}
+	}
+}
+
