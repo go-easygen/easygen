@@ -47,7 +47,7 @@ func init() {
 	flag.StringVar(&easygen.Opts.TemplateStr, "ts", "",
 		"template string (in text)")
 	flag.StringVar(&easygen.Opts.TemplateFile, "tf", "",
-		".tmpl template file `name` (default: same as .yaml file)")
+		".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)")
 	flag.StringVar(&easygen.Opts.ExtYaml, "ey", ".yaml",
 		"`extension` of yaml file")
 	flag.StringVar(&easygen.Opts.ExtTmpl, "et", ".tmpl",
@@ -95,11 +95,12 @@ func main() {
 	flag.Parse()
 
 	// One mandatory non-flag arguments
-	if len(flag.Args()) < 1 {
+	if flag.NArg() < 1 {
 		easygen.Usage()
 	}
-	fileName := flag.Args()[0]
 	easygen.TFStringsInit()
 
-	fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
+	for _, fileName := range flag.Args() {
+		fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
+	}
 }

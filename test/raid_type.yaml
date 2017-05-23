@@ -1,0 +1,19 @@
+# EnumName is the type of the Enum in C (Java/Go will use CamelCase)
+EnumName: raid_type
+
+# EnumComments contain documentation that goes above @EnumName
+EnumComments:
+  - Simplified enumeration of available RAID devices
+
+# List of enum values
+Values:
+  - Name: RAID0
+    String: "RAID0"          # stringified value (defaults to @Name as string)
+    Value: 100
+    AltString: [ "RAID-0" ]  # list of alternatives that translate into @Value
+
+  - Name: RAID1
+    AltString: [ "RAID-1" ]
+
+# The default value to return if nothing else is known
+EnumDefault: RAID0

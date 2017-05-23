@@ -216,6 +216,67 @@ func ExampleGenerate_commandLineCobraViperInit() {
 }
 
 ////////////////////////////////////////////////////////////////////////////
+// Enums
+// Test running the same input .yaml file with multiple templates.
+func ExampleEnumMultipleTemplates() {
+	// Equivalent testing on commandline:
+	// easygen -tf test/enum_c-header,test/enum_c-source  test/raid_type.yaml
+	fmt.Print(easygen.Generate2(false, "test/enum_c-header,test/enum_c-source", "test/raid_type.yaml"))
+	// Output:
+	// // Simplified enumeration of available RAID devices
+	// enum raid_type {
+	// 	RAID0 = 100,
+	// 	RAID1,
+	// };
+	//
+	// /** Try to extract an enum raid_type value from @str; fall back to "RAID0". */
+	// const enum raid_type
+	// str_to_raid_type(const char * const *str)
+	// {
+	// 	if (strcasecmp(str, "RAID0") == 0) {
+	// 		return RAID0;
+	// 	} else if (strcasecmp(str, "RAID-0") == 0) {
+	// 		return RAID0;
+	// 	} else if (strcasecmp(str, "RAID1") == 0) {
+	// 		return RAID1;
+	// 	} else if (strcasecmp(str, "RAID-1") == 0) {
+	// 		return RAID1;
+	// 	}
+	// 	return RAID0;
+	// }
+	//
+	// /** Stringer function for raid_type. */
+	// const char *
+	// raid_type_to_str(const enum raid_type val)
+	// {
+	// 	switch (val) {
+	// 	case RAID0:
+	// 		return "RAID0";
+	// 	case RAID1:
+	// 		return "RAID1";
+	// 	}
+	// }
+}
+
+// Test running the same input .tmpl template file with multiple .yaml inputs.
+func ExampleEnumMultipleInputs() {
+	// Equivalent testing on commandline:
+	// easygen -tf test/enum_c-header test/raid_type test/raid_driver
+	fmt.Print(easygen.Generate2(false, "test/enum_c-header", "test/raid_type", "test/raid_driver"))
+	// Output:
+	// // Simplified enumeration of available RAID devices
+	// enum raid_type {
+	// 	RAID0 = 100,
+	// 	RAID1,
+	// };
+	//
+	// enum raid_driver {
+	// 	HW,
+	// 	SW,
+	// };
+}
+
+////////////////////////////////////////////////////////////////////////////
 // Varible Names
 
 func ExampleVaribleNames() {

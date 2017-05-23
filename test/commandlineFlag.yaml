@@ -36,7 +36,7 @@ Options:
     Type: string
     Flag: tf
     Value: '""'
-    Usage: ".tmpl template file `name` (default: same as .yaml file)"
+    Usage: ".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)"
 
   - Name: ExtYaml
     Type: string
@@ -71,7 +71,7 @@ Options:
 # Whether to use the USAGE_SUMMARY in Usage help
 UsageSummary: ""
 
-UsageLead: "\\nUsage:\\n %s [flags] YamlFileName\\n\\nFlags:\\n\\n"
+UsageLead: "\\nUsage:\\n %s [flags] YamlFileName [YamlFileName...]\\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\nYamlFileName: The name for the .yaml data and .tmpl template file\\n\\tOnly the name part, without extension. Can include the path as well.\\n"
+UsageEnd: "\\nYamlFileName(s): The name for the .yaml data and .tmpl template file\\n\\tOnly the name part, without extension. Can include the path as well.\\n"
 

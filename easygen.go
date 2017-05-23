@@ -47,10 +47,14 @@ type template interface {
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
-// Generate2 will produce output according to the given template and driving data files, specified via fileNameTempl and fileName (for data) respectively
-func Generate2(HTML bool, fileNameTempl string, fileName string) string {
+// Generate2 will produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileNames (for data) respectively.
+func Generate2(HTML bool, fileNameTempl string, fileNames ...string) (ret string) {
 	Opts.TemplateFile = fileNameTempl
-	ret := Generate(HTML, fileName)
+
+	for _, fileName := range fileNames {
+		ret += Generate(HTML, fileName)
+	}
 	Opts.TemplateFile = ""
 	return ret
 }
@@ -65,7 +69,28 @@ func Generate0(HTML bool, strTempl string, fileName string) string {
 
 // Generate will produce output from the template according to the corresponding driving data, fileName is for both template and data file name
 func Generate(HTML bool, fileName string) string {
-	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
+	var templates []string
+
+	// Allow to use fileName with and without the @Opts.ExtYaml suffix.
+	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+		fileName += Opts.ExtYaml
+	}
+
+	// Allow to use @Opts.TemplateFile without the @Opts.ExtTmpl suffix.
+	if len(Opts.TemplateFile) > 0 {
+		for _, template := range strings.Split(Opts.TemplateFile, ",") {
+			if _, err := os.Stat(template); os.IsNotExist(err) {
+				template += Opts.ExtTmpl
+			}
+			templates = append(templates, template)
+		}
+	} else if idx := strings.LastIndex(fileName, "."); idx > 0 {
+		templates = []string{fileName[:idx] + Opts.ExtTmpl}
+	} else {
+		templates = []string{fileName + Opts.ExtTmpl}
+	}
+
+	source, err := ioutil.ReadFile(fileName)
 	checkError(err)
 
 	m := make(map[interface{}]interface{})
@@ -81,19 +106,14 @@ func Generate(HTML bool, fileName string) string {
 	m["ENV"] = env
 	//fmt.Printf("] %+v\n", m)
 
-	// template file name
-	fileNameT := fileName
-	if len(Opts.TemplateFile) > 0 {
-		fileNameT = Opts.TemplateFile
-	}
-
-	t, err := ParseFiles(HTML, fileNameT+Opts.ExtTmpl)
-	checkError(err)
-
 	buf := new(bytes.Buffer)
-	err = t.Execute(buf, m)
-	checkError(err)
+	for _, template := range templates {
+		t, err := ParseFiles(HTML, template)
+		checkError(err)
 
+		err = t.Execute(buf, m)
+		checkError(err)
+	}
 	return buf.String()
 }
 
@@ -101,33 +121,42 @@ func Generate(HTML bool, fileName string) string {
 // function, dictated by the first parameter "HTML".
 // By Matt Harden @gmail.com
 func ParseFiles(HTML bool, filenames ...string) (template, error) {
-	tname := filepath.Base(filenames[0])
+	var tname string
 
-	// use text template
-	funcMapHT := ht.FuncMap{
-		"minus1": minus1,
-		"cls2lc": cls2lc.String,
-		"cls2uc": cls2uc.String,
-		"cls2ss": cls2ss.String,
-		"ck2lc":  ck2lc.String,
-		"ck2uc":  ck2uc.String,
-		"ck2ls":  ck2ls.String,
-		"ck2ss":  ck2ss.String,
-		"clc2ss": clc2ss.String,
-		"cuc2ss": cuc2ss.String,
+	if len(Opts.TemplateStr) > 0 {
+		if HTML {
+			tname = "HT"
+		} else {
+			tname = "TT"
+		}
+	} else if len(filenames) == 0 {
+		return nil, fmt.Errorf("ParseFiles called without template filename")
+	} else {
+		tname = filepath.Base(filenames[0])
 	}
-
-	_ = funcMapHT
 
 	if HTML {
 		// use html template
-		t, err := ht.ParseFiles(filenames...)
-		//t, err := ht.New("HT").Funcs(funcMapHT).ParseFiles(filenames...)
-		return t, err
+		htmlTemplate := ht.New(tname).Funcs(ht.FuncMap{
+			"minus1": minus1,
+			"cls2lc": cls2lc.String,
+			"cls2uc": cls2uc.String,
+			"cls2ss": cls2ss.String,
+			"ck2lc":  ck2lc.String,
+			"ck2uc":  ck2uc.String,
+			"ck2ls":  ck2ls.String,
+			"ck2ss":  ck2ss.String,
+			"clc2ss": clc2ss.String,
+			"cuc2ss": cuc2ss.String,
+		})
+		if len(Opts.TemplateStr) > 0 {
+			return htmlTemplate.Parse(Opts.TemplateStr)
+		}
+		return htmlTemplate.ParseFiles(filenames...)
 	}
 
 	// use text template
-	funcMap := tt.FuncMap{
+	textTemplate := tt.New(tname).Funcs(tt.FuncMap{
 		"eqf":      strings.EqualFold,
 		"split":    strings.Fields,
 		"minus1":   minus1,
@@ -142,21 +171,18 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		"ck2ss":    ck2ss.String,
 		"clc2ss":   clc2ss.String,
 		"cuc2ss":   cuc2ss.String,
-	}
+	})
 
 	if len(Opts.TemplateStr) > 0 {
-		t, err := tt.New("TT").Funcs(funcMap).Parse(Opts.TemplateStr)
-		return t, err
+		return textTemplate.Parse(Opts.TemplateStr)
 	}
-
-	t, err := tt.New(tname).Funcs(funcMap).ParseFiles(filenames...)
-	return t, err
+	return textTemplate.ParseFiles(filenames...)
 }
 
 // Exit if error occurs
 func checkError(err error) {
 	if err != nil {
-		fmt.Printf("[%s] Fatal error - %v", progname, err.Error())
+		fmt.Fprintf(os.Stderr, "[%s] Fatal error - %s\n", progname, err)
 		os.Exit(1)
 	}
 }
