@@ -1,0 +1,86 @@
+{{- /*
+NOTE: This produces the _same_ enum values as for C enums, as long the input format is one of:
+      a) enum first  { a, b, c}
+      b) enum second { a = 0x5, b, c }
+The first is handled by iota, the other uses https://golang.org/ref/spec#ConstSpec
+
+Currently NOT supported is a mixed form: enum mixed { a, b=0x20, c, d=0x30, e }
+*/ -}}
+{{ if .EnumComments -}}
+  {{- range .EnumComments }}
+// {{.}}
+  {{- end -}}
+{{- else -}}
+// {{ cls2uc .EnumName }} is the representation of {{.EnumName}}
+{{- end }}
+type {{ cls2uc .EnumName}} uint32
+
+const (
+{{- range $i, $j :=  .Values -}}
+  {{- if eq $i 0 }}
+	{{ .Name }} {{ cls2uc $.EnumName }} = {{if .Value}}{{.Value}} + {{end}}iota
+  {{- else }}
+	{{ .Name }}{{if .Value}} {{ cls2uc $.EnumName }} = {{ .Value }}{{end}}
+  {{- end }}
+{{- end }}
+)
+
+{{ with $type := cls2uc $.EnumName -}}
+// Implements fmt.Stringer
+func (e {{$type}}) String() string {
+	switch e {
+{{- range $.Values }}
+	case {{.Name}}:
+		return "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}"
+{{- end }}
+	}
+	return fmt.Sprintf("unknown {{$type}} %d", e)
+}
+
+// {{$type}}FromString attempts to parse @s as stringified {{$type}}.
+func {{cls2uc $.EnumName}}FromString(s string) ({{$type}}, error) {
+	switch s {
+{{- range $i, $val := $.Values }}
+	case "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}":
+		return {{ .Name }}, nil
+  {{- range .AltString }}
+	case "{{.}}":
+		return {{ $val.Name }}, nil
+  {{- end }}
+{{- end }}
+	}
+	return 0, fmt.Errorf("invalid {{$type}} %q", s)
+}
+
+// Implements json.Marshaler
+func (i {{$type}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal(i.String())
+}
+
+// Implements json.Unmarshaler
+func (i *{{$type}}) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return fmt.Errorf("failed to parse '%s' as {{$type}}: %s", string(data), err)
+	} else if *i, err = {{$type}}FromString(s); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Implements yaml.Marshaler
+func (i {{$type}}) MarshalYAML() (interface{}, error) {
+	return i.String(), nil
+}
+
+// Implements yaml.Unmarshaler
+func (i *{{$type}}) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var s string
+	if err := unmarshal(&s); err != nil {
+		return fmt.Errorf("failed to unmarshal {{$type}} from YAML: %s", err)
+	} else if *i, err = {{$type}}FromString(s); err != nil {
+		return err
+	}
+	return nil
+}
+{{- end}}
