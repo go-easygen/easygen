@@ -1,12 +1,27 @@
+# easygen
+
+[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GoDoc](https://godoc.org/github.com/go-easygen/easygen?status.svg)](http://godoc.org/github.com/go-easygen/easygen)
+[![Go Report Card](https://goreportcard.com/badge/github.com/go-easygen/easygen)](https://goreportcard.com/report/github.com/go-easygen/easygen)
+[![travis Status](https://travis-ci.org/go-easygen/easygen.svg?branch=master)](https://travis-ci.org/go-easygen/easygen)
+[ ![Codeship Status for go-easygen/easygen](https://codeship.com/projects/4f9d9b30-b8ad-0133-b733-0e8881fc1b37/status?branch=master)](https://codeship.com/projects/135255)
+
+## TOC
+- [easygen - Easy to use universal code/text generator](#easygen---easy-to-use-universal-codetext-generator)
+  - [Usage](#usage)
+  - [$ easygen](#-easygen)
+- [easygen - Easy to use universal code/text generator](#easygen---easy-to-use-universal-codetext-generator-1)
+  - [Install](#install)
+  - [Test](#test)
+  - [Details](#details)
+  - [Command line flag handling code auto-generation](#command-line-flag-handling-code-auto-generation)
+  - [Testing the templates on the fly](#testing-the-templates-on-the-fly)
+  - [Tips](#tips)
+  - [Author(s) & Contributor(s)](#author(s)-&-contributor(s))
 
 # easygen - Easy to use universal code/text generator
 
-[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Go Doc](https://img.shields.io/badge/godoc-reference-4b68a3.svg)](https://godoc.org/github.com/suntong/easygen)
-[![Go Report Card](https://goreportcard.com/badge/github.com/suntong/easygen)](https://goreportcard.com/report/github.com/suntong/easygen)
-[ ![Codeship Status for suntong/easygen](https://codeship.com/projects/4f9d9b30-b8ad-0133-b733-0e8881fc1b37/status?branch=master)](https://codeship.com/projects/135255)
-
-Command easygen is an easy to use universal code/text generator.
+Command `easygen` is an easy to use universal code/text generator.
 
 It can be used as a text or html generator for arbitrary purposes with arbitrary data and templates.
 
@@ -14,9 +29,40 @@ It can be used as a code generator, or anything that is structurally repetitive.
 
 You can even use easygen as a generic Go template testing tool using the `-ts` commandline option, and much much more.
 
+
+## Usage
+
+## $ easygen
+```sh
+Usage:
+ easygen [flags] YamlFileName [YamlFileName...]
+
+Flags:
+
+  -debug level
+    	debugging level
+  -et extension
+    	extension of template file (default ".tmpl")
+  -ey extension
+    	extension of yaml file (default ".yaml")
+  -html
+    	treat the template file as html instead of text
+  -rf string
+    	replace from, the from string used for the replace function
+  -rt string
+    	replace to, the to string used for the replace function
+  -tf name(s)
+    	.tmpl (comma-separated) template file name(s) (default: same as .yaml file)
+  -ts string
+    	template string (in text)
+
+YamlFileName: The name for the .yaml data and .tmpl template file
+	Only the name part, without extension. Can include the path as well.
+```
+
 ## Install
 
-	go get github.com/suntong/easygen/...
+	go get github.com/go-easygen/easygen/...
 	ls -l $GOPATH/bin
 
 You should find an `easygen` executable newly created in there. 
@@ -25,10 +71,10 @@ You should find an `easygen` executable newly created in there.
 
 	export PATH=$PATH:$GOPATH/bin
 
-	$ easygen $GOPATH/src/github.com/suntong/easygen/test/list0
+	$ easygen $GOPATH/src/github.com/go-easygen/easygen/test/list0
 	The colors are: red, blue, white, .
 
-	cd $GOPATH/src/github.com/suntong/easygen
+	cd $GOPATH/src/github.com/go-easygen/easygen
 
 	$ easygen test/list1 
 	The quoted colors are: "red", "blue", "white", .
@@ -37,39 +83,8 @@ You should find an `easygen` executable newly created in there.
 	red, blue, white.
 
 
-And also check out the provided [more examples](https://godoc.org/github.com/suntong/easygen#pkg-examples) in the [![Go Doc](https://img.shields.io/badge/godoc-reference-4b68a3.svg)](https://godoc.org/github.com/suntong/easygen) document.
+And also check out the provided [more examples](https://godoc.org/github.com/go-easygen/easygen#pkg-examples) in the [![Go Doc](https://img.shields.io/badge/godoc-reference-4b68a3.svg)](https://godoc.org/github.com/go-easygen/easygen) document.
 
-## Help
-
-```
-$ easygen
-
-Usage:
- easygen [flags] YamlFileName
-
-Flags:
-
-  -debug level
-        debugging level
-  -et extension
-        extension of template file (default ".tmpl")
-  -ey extension
-        extension of yaml file (default ".yaml")
-  -html
-        treat the template file as html instead of text
-  -rf string
-        replace from, the from string used for the replace function
-  -rt string
-        replace to, the to string used for the replace function
-  -tf name
-        .tmpl template file name (default: same as .yaml file)
-  -ts string
-        template string (in text)
-
-YamlFileName: The name for the .yaml data and .tmpl template file
-        Only the name part, without extension. Can include the path as well.
-
-```
 
 ## Details
 
@@ -80,7 +95,9 @@ YamlFileName: The name for the .yaml data and .tmpl template file
 - [Moving beyond code-gen and mock-up, using easygen in real life creating GPT partitions](https://suntong.github.io/blogs/2015/12/26/creating-gpt-partitions-easily-on-the-command-line)
 
 <a name="clfhcag" />
+
 ## Command line flag handling code auto-generation
+
 [ ](https://suntong.github.io/blogs/)
 
 As explained above, one practical use of `easygen` is to auto-generating Go code for command line parameter handling, for both [`viper` and `cobra`](https://github.com/suntong/blog/blob/master/GoOptP7-easygen.md), and Go's [built-in `flag` package](https://sfxpt.wordpress.com/2015/07/04/easygen-is-now-coding-itself/).
@@ -121,7 +138,9 @@ As such, if you have a different naming convention than using `.tmpl` for templa
 
 
 <a name="tips" />
+
 ## Tips
+
 [ ](https://suntong.github.io/blogs/)
 
 You can use `easygen` as an generic Go template testing tool with the `-ts` commandline option. For example,
@@ -150,10 +169,12 @@ some-init-method 5 5 someInitMethod SomeInitMethod
 
 ```
 
-## Author(s)
+## Author(s) & Contributor(s)
 
-Tong SUN
-
+Tong SUN  
 ![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
+
+Gerrit Renker  
+https://github.com/grrtrr
 
 All patches welcome. 
