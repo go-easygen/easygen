@@ -9,8 +9,7 @@
 ## TOC
 - [easygen - Easy to use universal code/text generator](#easygen---easy-to-use-universal-codetext-generator)
   - [Usage](#usage)
-  - [$ easygen](#-easygen)
-- [easygen - Easy to use universal code/text generator](#easygen---easy-to-use-universal-codetext-generator-1)
+    - [$ easygen](#-easygen)
   - [Install](#install)
   - [Test](#test)
   - [Details](#details)
@@ -32,7 +31,7 @@ You can even use easygen as a generic Go template testing tool using the `-ts` c
 
 ## Usage
 
-## $ easygen
+### $ easygen
 ```sh
 Usage:
  easygen [flags] YamlFileName [YamlFileName...]

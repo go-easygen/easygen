@@ -21,9 +21,7 @@ You can even use easygen as a generic Go template testing tool using the `-ts` c
 
 ## Usage
 
-## $ {{exec "easygen" | color "sh"}}
-
-# easygen - Easy to use universal code/text generator
+### $ {{exec "easygen" | color "sh"}}
 
 ## Install
 
