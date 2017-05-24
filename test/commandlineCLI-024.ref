@@ -1,0 +1,145 @@
+// -*- go -*-
+////////////////////////////////////////////////////////////////////////////
+// Program: gogo
+// Purpose: Golang package manager
+////////////////////////////////////////////////////////////////////////////
+
+package main
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var app = &cli.Register(&cli.Command{
+	Name: "gogo",
+	Desc: "Golang package manager",
+	Text: "  gogo is a new golang package manager\n  very very good",
+	Argv: func() interface{} { return new(gogoT) },
+	Fn:   gogo,
+
+	NumArg:      cli.ExactN(1),
+})
+
+type gogoT struct {
+	cli.Helper
+	Version	bool	`cli:"v,version" usage:"display version"`
+	List	bool	`cli:"l,list" usage:"list all sub commands or not"`
+}
+
+func gogo(ctx *cli.Context) error {
+	argv := ctx.Argv().(*gogoT)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[gogo]: %v\n", ctx.Args())
+
+	return nil
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// Program: build
+// Purpose: Build golang application
+////////////////////////////////////////////////////////////////////////////
+
+package main
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var buildCmd = app.Register(&cli.Command{
+	Name: "build",
+	Desc: "Build golang application",
+	Text: "Usage:\n  gogo build [Options] Arch(i386|amd64)",
+	Argv: func() interface{} { return new(buildT) },
+	Fn:   build,
+
+	NumArg:      cli.ExactN(1),
+	CanSubRoute: true,
+})
+
+type buildT struct {
+	cli.Helper
+	Dir	string	`cli:"dir" usage:"source code root dir" dft:"./"`
+	Suffix	string	`cli:"suffix" usage:"source file suffix" dft:".go,.c,.s"`
+	Out	string	`cli:"o,out" usage:"output filename"`
+}
+
+func build(ctx *cli.Context) error {
+	argv := ctx.Argv().(*buildT)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[build]: %v\n", ctx.Args())
+
+	return nil
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Program: install
+// Purpose: Install golang application
+////////////////////////////////////////////////////////////////////////////
+
+package main
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var installCmd = app.Register(&cli.Command{
+	Name: "install",
+	Desc: "Install golang application",
+	Text: "Usage:\n  gogo install [Options] package [package...]",
+	Argv: func() interface{} { return new(installT) },
+	Fn:   install,
+
+	NumArg:      cli.AtLeast(1),
+	CanSubRoute: true,
+})
+
+type installT struct {
+	cli.Helper
+	Dir	string	`cli:"dir" usage:"source code root dir" dft:"./"`
+	Suffix	string	`cli:"suffix" usage:"source file suffix" dft:".go,.c,.s"`
+	Out	string	`cli:"o,out" usage:"output filename"`
+}
+
+func install(ctx *cli.Context) error {
+	argv := ctx.Argv().(*installT)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[install]: %v\n", ctx.Args())
+
+	return nil
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Program: publish
+// Purpose: Publish golang application
+////////////////////////////////////////////////////////////////////////////
+
+package main
+
+import (
+	"github.com/mkideal/cli"
+)
+
+var publishCmd = app.Register(&cli.Command{
+	Name: "publish",
+	Desc: "Publish golang application",
+	Argv: func() interface{} { return new(publishT) },
+	Fn:   publish,
+})
+
+type publishT struct {
+	cli.Helper
+	Dir	string	`cli:"dir" usage:"source code root dir" dft:"./"`
+	Suffix	string	`cli:"suffix" usage:"source file suffix" dft:".go,.c,.s"`
+	Out	string	`cli:"o,out" usage:"output filename"`
+	List	bool	`cli:"l,list" usage:"list all sub commands"`
+}
+
+func publish(ctx *cli.Context) error {
+	argv := ctx.Argv().(*publishT)
+	ctx.String("%s: %v", ctx.Path(), jsonIndent(argv))
+	ctx.String("[publish]: %v\n", ctx.Args())
+
+	return nil
+}
+
