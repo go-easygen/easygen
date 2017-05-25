@@ -1,0 +1,11 @@
+
+// Simplified enumeration of available RAID devices
+enum raid_type {
+	RAID0 = 100,
+	RAID1,
+};
+
+enum raid_driver {
+	HW,
+	SW,
+};

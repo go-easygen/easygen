@@ -87,4 +87,13 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "commandlineCV", "commandlineCV")
 	testEasygen(t, "commandlineFlag", "commandlineFlag")
 
+	// Filename suffixes are optional:
+	testEasygen(t, "commandlineFlag", "commandlineFlag.yaml")
+	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag")
+	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag.yaml")
+
+	// Enum generation: (a) run template with multiple data inputs,
+	//                  (b) run the same input with multiple template files:
+	testEasygen(t, "enum_multiple_data_files", "-tf", "enum_c-header", "raid_type", "raid_driver")
+	testEasygen(t, "enum_multiple_template_files", "-tf", "enum_c-header,enum_c-source", "raid_type.yaml")
 }
