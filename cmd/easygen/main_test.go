@@ -14,11 +14,19 @@ var (
 	extGot     = ".got"
 )
 
+// testEasygen runs @cmdEasyGen with @argv and compares the generated
+// output for @name with the corresponding @extRef
 func testEasygen(t *testing.T, name string, argv ...string) {
-	cmd := exec.Command(cmdEasygen, argv...)
+	var (
+		diffOut         bytes.Buffer
+		generatedOutput = name + extGot
+		cmd             = exec.Command(cmdEasygen, argv...)
+	)
+
+	t.Logf("Reference test-case %s", name)
 
 	// open the out file for writing
-	outfile, err := os.Create(name + extGot)
+	outfile, err := os.Create(generatedOutput)
 	if err != nil {
 		t.Errorf("write error [%s: %s] %s.", name, argv, err)
 	}
@@ -34,9 +42,8 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 		t.Errorf("exit error [%s: %s] %s.", name, argv, err)
 	}
 
-	cmd = exec.Command("diff", "-U1", name+extRef, name+extGot)
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	cmd = exec.Command("diff", "-U1", name+extRef, generatedOutput)
+	cmd.Stdout = &diffOut
 
 	err = cmd.Start()
 	if err != nil {
@@ -44,9 +51,9 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 	}
 	err = cmd.Wait()
 	if err != nil {
-		t.Errorf("cmp error %s [%s: %s]\n%s", err, name, argv, out)
+		t.Errorf("cmp error %s [%s: %s]\n%s", err, name, argv, diffOut.String())
 	}
-
+	os.Remove(generatedOutput)
 }
 
 func TestExec(t *testing.T) {
