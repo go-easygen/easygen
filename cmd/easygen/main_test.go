@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-var (
+const (
 	cmdEasygen = "easygen"
 	dirTest    = "../../test/"
-	extRef     = ".ref"
-	extGot     = ".got"
+	extRef     = ".ref" // extension for reference file
+	extGot     = ".got" // extension for generated file
 )
 
 // testEasygen runs @cmdEasyGen with @argv and compares the generated
@@ -57,16 +57,7 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 }
 
 func TestExec(t *testing.T) {
-	// var dir string
-
-	// _, filename, _, _ := runtime.Caller(0)
-	// fmt.Println("Current test filename: " + filename)
-	// dir, _ = os.Getwd()
-	// fmt.Println(dir)
-
 	os.Chdir(dirTest)
-	// dir, _ = os.Getwd()
-	// fmt.Println(dir)
 
 	//Test Functions
 	testEasygen(t, "list0", "list0")
