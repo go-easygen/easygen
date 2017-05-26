@@ -1,0 +1,35 @@
+
+// Simplified enumeration of available RAID devices
+enum raid_type {
+	RAID0 = 100,
+	RAID1,
+};
+
+/** Try to extract an enum raid_type value from @str; fall back to "RAID0". */
+const enum raid_type
+str_to_raid_type(const char * const *str)
+{
+	if (strcasecmp(str, "RAID0") == 0) {
+		return RAID0;
+	} else if (strcasecmp(str, "RAID-0") == 0) {
+		return RAID0;
+	} else if (strcasecmp(str, "RAID1") == 0) {
+		return RAID1;
+	} else if (strcasecmp(str, "RAID-1") == 0) {
+		return RAID1;
+	}
+	return RAID0;
+}
+
+/** Stringer function for raid_type. */
+const char *
+raid_type_to_str(const enum raid_type val)
+{
+	switch (val) {
+	case RAID0:
+		return "RAID0";
+	case RAID1:
+		return "RAID1";
+	}
+}
+

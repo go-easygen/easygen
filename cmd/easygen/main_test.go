@@ -7,18 +7,26 @@ import (
 	"testing"
 )
 
-var (
+const (
 	cmdEasygen = "easygen"
 	dirTest    = "../../test/"
-	extRef     = ".ref"
-	extGot     = ".got"
+	extRef     = ".ref" // extension for reference file
+	extGot     = ".got" // extension for generated file
 )
 
+// testEasygen runs @cmdEasyGen with @argv and compares the generated
+// output for @name with the corresponding @extRef
 func testEasygen(t *testing.T, name string, argv ...string) {
-	cmd := exec.Command(cmdEasygen, argv...)
+	var (
+		diffOut         bytes.Buffer
+		generatedOutput = name + extGot
+		cmd             = exec.Command(cmdEasygen, argv...)
+	)
+
+	t.Logf("Reference test-case %s", name)
 
 	// open the out file for writing
-	outfile, err := os.Create(name + extGot)
+	outfile, err := os.Create(generatedOutput)
 	if err != nil {
 		t.Errorf("write error [%s: %s] %s.", name, argv, err)
 	}
@@ -34,9 +42,8 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 		t.Errorf("exit error [%s: %s] %s.", name, argv, err)
 	}
 
-	cmd = exec.Command("diff", "-U1", name+extRef, name+extGot)
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	cmd = exec.Command("diff", "-U1", name+extRef, generatedOutput)
+	cmd.Stdout = &diffOut
 
 	err = cmd.Start()
 	if err != nil {
@@ -44,22 +51,13 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 	}
 	err = cmd.Wait()
 	if err != nil {
-		t.Errorf("cmp error %s [%s: %s]\n%s", err, name, argv, out)
+		t.Errorf("cmp error %s [%s: %s]\n%s", err, name, argv, diffOut.String())
 	}
-
+	os.Remove(generatedOutput)
 }
 
 func TestExec(t *testing.T) {
-	// var dir string
-
-	// _, filename, _, _ := runtime.Caller(0)
-	// fmt.Println("Current test filename: " + filename)
-	// dir, _ = os.Getwd()
-	// fmt.Println(dir)
-
 	os.Chdir(dirTest)
-	// dir, _ = os.Getwd()
-	// fmt.Println(dir)
 
 	//Test Functions
 	testEasygen(t, "list0", "list0")
@@ -80,4 +78,13 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "commandlineCV", "commandlineCV")
 	testEasygen(t, "commandlineFlag", "commandlineFlag")
 
+	// Filename suffixes are optional:
+	testEasygen(t, "commandlineFlag", "commandlineFlag.yaml")
+	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag")
+	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag.yaml")
+
+	// Enum generation: (a) run template with multiple data inputs,
+	//                  (b) run the same input with multiple template files:
+	testEasygen(t, "enum_multiple_data_files", "-tf", "enum_c-header", "raid_type", "raid_driver")
+	testEasygen(t, "enum_multiple_template_files", "-tf", "enum_c-header,enum_c-source", "raid_type.yaml")
 }
