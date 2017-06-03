@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"os/exec"
+	"strings"
 	"testing"
 )
 
@@ -23,7 +24,7 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 		cmd             = exec.Command(cmdEasygen, argv...)
 	)
 
-	t.Logf("Reference test-case %s", name)
+	t.Logf("Testing %s: `%s %s`", name, cmdEasygen, strings.Join(argv, " "))
 
 	// open the out file for writing
 	outfile, err := os.Create(generatedOutput)
