@@ -1,7 +1,7 @@
 package easygen
 
 //==========================================================================
-// template function
+// template function for calculations
 
 // By Caleb Spare @gmail.com
 // https://groups.google.com/d/msg/golang-nuts/gzAyBLAeUbU/LwgomgxcjQ8J
