@@ -140,6 +140,7 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		htmlTemplate := ht.New(tname).Funcs(ht.FuncMap{
 			"minus1": minus1,
 			"dateI":  dateI,
+			"year4":  year4,
 			"cls2lc": cls2lc.String,
 			"cls2uc": cls2uc.String,
 			"cls2ss": cls2ss.String,
@@ -162,6 +163,7 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		"split":    strings.Fields,
 		"minus1":   minus1,
 		"dateI":    dateI,
+		"year4":    year4,
 		"replace":  replace,
 		"replacec": replacec,
 		"cls2lc":   cls2lc.String,
