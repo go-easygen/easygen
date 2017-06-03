@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Package: easygen
 // Purpose: Easy to use universal code/text generator
-// Authors: Tong Sun (c) 2015-16, All rights reserved
+// Authors: Tong Sun (c) 2015-17, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -139,6 +139,7 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		// use html template
 		htmlTemplate := ht.New(tname).Funcs(ht.FuncMap{
 			"minus1": minus1,
+			"dateI":  dateI,
 			"cls2lc": cls2lc.String,
 			"cls2uc": cls2uc.String,
 			"cls2ss": cls2ss.String,
@@ -160,6 +161,7 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		"eqf":      strings.EqualFold,
 		"split":    strings.Fields,
 		"minus1":   minus1,
+		"dateI":    dateI,
 		"replace":  replace,
 		"replacec": replacec,
 		"cls2lc":   cls2lc.String,
