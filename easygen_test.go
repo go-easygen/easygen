@@ -250,30 +250,3 @@ func ExampleGenerate0_split1() {
 	// Output:
 	// red blue white
 }
-
-/*
-
-// Ref https://golang.org/pkg/regexp/#Regexp.ReplaceAllString
-$ easygen -rf="a(x*)b" -rt='${1}W' -ts="{{.StrTest}}, {{replace .StrTest}}, {{.StrTest | replace}}" test/strings0
--ab-axxb- HTML Html html, -W-xxW- HTML Html html, -W-xxW- HTML Html html
-
-$ easygen -rf="HTML" -rt='XML' -ts="{{.StrTest}}, {{replacec .StrTest}}, {{replace .StrTest}}" test/strings0
--ab-axxb- HTML Html html, -ab-axxb- XML Html html, -ab-axxb- XML XML XML
-
-$ EASYGEN_RF="HTML" EASYGEN_RT='XML' easygen -ts="{{.StrTest}}, {{replacec .StrTest}}, {{replace .StrTest}}" test/strings0
--ab-axxb- HTML Html html, -ab-axxb- XML Html html, -ab-axxb- XML XML XML
-
-*/
-
-/*
-func ExampleTestStrings() {
-	// panic: runtime error: invalid memory address or nil pointer dereference [recovered]
-	easygen.Opts.StrFrom = "a(x*)b"
-	easygen.Opts.StrTo = "${1}W"
-	//fmt.Print(easygen.Generate0(false, "{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}", "test/strings0"))
-	easygen.Opts.TemplateStr = `{{.StrTest}} {{replace .StrTest}} {{.StrTest | replace}}`
-	fmt.Print(easygen.Generate(false, "test/strings0"))
-	// Output:
-	// -ab-axxb- HTML Html html -W-xxW- HTML Html html -W-xxW- HTML Html html
-}
-*/

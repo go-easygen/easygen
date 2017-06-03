@@ -60,7 +60,7 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 func TestExec(t *testing.T) {
 	os.Chdir(dirTest)
 
-	//Test Functions
+	//Test Basic Functions
 	testEasygen(t, "list0", "list0")
 	testEasygen(t, "list0", "list0.yaml")
 	testEasygen(t, "list0", "-tf", "list0", "list0")
@@ -71,6 +71,11 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
 
+	//Test String Functions
+	testEasygen(t, "strings0", "-rf", `a(x*)b`, "-rt", `${1}W`, "strings0")
+	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")
+
+	//Test Bigger files
 	testEasygen(t, "commandlineCLI-024", "commandlineCLI-024")
 	testEasygen(t, "commandlineCLI-027", "commandlineCLI-027")
 	testEasygen(t, "commandlineCLI-027s", "-tf", "commandlineCLI-027", "commandlineCLI-027s")
