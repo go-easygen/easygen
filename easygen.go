@@ -72,7 +72,10 @@ func Generate(HTML bool, fileName string) string {
 	var templates []string
 
 	// Allow to use fileName with and without the @Opts.ExtYaml suffix.
-	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+	// If both <file>.yaml and <file> exist, prefer <file>.yaml.
+	if _, err := os.Stat(fileName + Opts.ExtYaml); err == nil {
+		fileName += Opts.ExtYaml
+	} else if _, err = os.Stat(fileName); os.IsNotExist(err) {
 		fileName += Opts.ExtYaml
 	}
 
