@@ -327,7 +327,7 @@ Here is how to generate a cli handling code-base for this case, using [my picv v
 1. Provide a `.yaml` file -- [picv.yaml](https://github.com/suntong/picv/blob/0.1.0/picv.yaml)
 1. Provide a code-gen shell script -- [picvCLIGen.sh](https://github.com/suntong/picv/blob/0.1.0/picvCLIGen.sh) and run it to generate [picvCLIDef.go](https://github.com/suntong/picv/blob/0.1.0/picvCLIDef.go)
 1. Extract the commented out code to [picvMain.go](https://github.com/suntong/picv/blob/0.1.0/picvMain.go) and [picvCLICmd.go](https://github.com/suntong/picv/blob/0.1.0/picvCLICmd.go)
-1. Now the code wire-frames is done, and ready for compilation and execution.
+1. Now the code wire-frame is done, and ready for compilation and execution.
 
 ```
 $ picv -h
@@ -365,8 +365,8 @@ How to generate cli handling code that has sub-commands? The procedure is exactl
 
 1. Provide a `.yaml` file -- [picv.yaml](https://github.com/suntong/picv/blob/0.2.0/picv.yaml). You can see that the `.yaml` file only changes in its organization, while the content are reused nearly 100%, only that [new sub-commands are added](https://github.com/suntong/picv/blob/10daaa84d9545ffb129c4909de7019dc896fd0be/picv.yaml) and [options have been shifted around](https://github.com/suntong/picv/commit/10daaa84d9545ffb129c4909de7019dc896fd0be#diff-78301e4359962421c827625b6393ab5b).
 1. Provide a code-gen shell script -- [picvCLIGen.sh](https://github.com/suntong/picv/blob/0.2.0/picvCLIGen.sh) and run it to generate [picvCLIDef.go](https://github.com/suntong/picv/blob/0.2.0/picvCLIDef.go). This step is exactly as above. 
-1. Extract the commented out code to [picvMain.go](https://github.com/suntong/picv/blob/0.2.0/picvMain.go) and [cmdCut.go.go](https://github.com/suntong/picv/blob/0.2.0/cmdCut.go.go). Note that I leave the _Main dispatcher_ in `picvMain.go` in this case, because it is clearer, as each sub commands just need to deal with their own handling. 
-1. Now the code wire-frames is done, and ready for compilation and execution.
+1. Extract the commented out code to [picvMain.go](https://github.com/suntong/picv/blob/0.2.0/picvMain.go), [cmdCut.go](https://github.com/suntong/picv/blob/0.2.0/cmdCut.go) and the new [cmdArch.go](https://github.com/suntong/picv/blob/0.2.0/cmdArch.go). Note that I leave the _Main dispatcher_ in `picvMain.go` in this case, because it is clearer, as each sub commands just need to deal with their own handling. 
+1. Now the code wire-frame is done, and ready for compilation and execution.
 
 ```
 $ picv -h
