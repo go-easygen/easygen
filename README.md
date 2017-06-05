@@ -92,6 +92,7 @@ And also check out the provided [more examples](https://godoc.org/github.com/go-
 - [Showcasing the power of easygen with ffcvt ](https://sfxpt.wordpress.com/2015/08/02/showcasing-the-power-of-easygen-with-ffcvt/)
 - [Easygen for HTML mock-up ](https://sfxpt.wordpress.com/2015/07/10/easygen-for-mock-up/)
 - [Moving beyond code-gen and mock-up, using easygen in real life creating GPT partitions](https://suntong.github.io/blogs/2015/12/26/creating-gpt-partitions-easily-on-the-command-line)
+- [A cookbook on how to jump-start a `cli` based command line handling program](cli-project.md#cookbook)
 
 <a name="clfhcag" />
 
