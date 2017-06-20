@@ -4,7 +4,7 @@
 {{ with $DEFAULT := or (.EnumDefault) (index .Values 0 "Name") -}}
 /** Try to extract an enum {{$.EnumName}} value from @str; fall back to "{{$DEFAULT}}". */
 const enum {{$.EnumName}}
-str_to_{{$.EnumName}}(const char * const *str)
+str_to_{{$.EnumName}}(const char const *str)
 {
 {{- range $i, $val := $.Values }}
 	{{ if gt $i 0 -}}} else {{end -}}if (strcasecmp(str, "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}") == 0) {
