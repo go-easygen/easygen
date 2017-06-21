@@ -1,22 +1,33 @@
-{{- /*
+{{/*
 NOTE: This produces the _same_ enum values as for C enums, as long the input format is one of:
       a) enum first  { a, b, c}
       b) enum second { a = 0x5, b, c }
 The first is handled by iota, the other uses https://golang.org/ref/spec#ConstSpec
 
 Currently NOT supported is a mixed form: enum mixed { a, b=0x20, c, d=0x30, e }
-*/ -}}
+*/}}
+import (
+	"database/sql/driver"
+	"encoding/json"
+	"fmt"
+)
+
 {{ if .EnumComments -}}
-  {{- range .EnumComments }}
+  {{- range .EnumComments -}}
 // {{.}}
   {{- end -}}
 {{- else -}}
-// {{ cls2uc .EnumName }} is the representation of {{.EnumName}}
+// {{ cls2uc .EnumName }} is the representation of {{.EnumName -}}
 {{- end }}
 type {{ cls2uc .EnumName}} uint32
 
 const (
 {{- range $i, $j :=  .Values -}}
+  {{- if .Comment }}
+  {{- if gt $i 0 }}{{/* insert newline */}}
+{{ end }}
+	// {{.Comment}}
+  {{- end -}}
   {{- if eq $i 0 }}
 	{{ .Name }} {{ cls2uc $.EnumName }} = {{if .Value}}{{.Value}} + {{end}}iota
   {{- else }}
@@ -26,61 +37,90 @@ const (
 )
 
 {{ with $type := cls2uc $.EnumName -}}
-// Implements fmt.Stringer
-func (e {{$type}}) String() string {
-	switch e {
+{{ with $m    := index (ck2ls $type) 0 | printf "%c" -}}
+// Implements encoding.TextMarshaler
+func ({{$m}} {{$type}}) MarshalText() ([]byte, error) {
+	switch {{$m}} {
 {{- range $.Values }}
 	case {{.Name}}:
-		return "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}"
+		return []byte("{{if .String}}{{.String}}{{else}}{{.Name}}{{end}}"), nil
 {{- end }}
 	}
-	return fmt.Sprintf("unknown {{$type}} %d", e)
+	return nil, fmt.Errorf("invalid {{$type}} %d", {{$m}})
 }
 
-// {{$type}}FromString attempts to parse @s as stringified {{$type}}.
-func {{cls2uc $.EnumName}}FromString(s string) ({{$type}}, error) {
-	switch s {
+// Implements encoding.TextUnmarshaler
+func ({{$m}} *{{$type}}) UnmarshalText(data []byte) error {
+	switch string(data) {
 {{- range $i, $val := $.Values }}
 	case "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}":
-		return {{ .Name }}, nil
+		*{{$m}} = {{ .Name }}
   {{- range .AltString }}
 	case "{{.}}":
-		return {{ $val.Name }}, nil
+		*{{$m}} = {{ $val.Name }}
   {{- end }}
 {{- end }}
+	default:
+		return fmt.Errorf("invalid {{$type}} %q", string(data))
 	}
-	return 0, fmt.Errorf("invalid {{$type}} %q", s)
+	return nil
+}
+
+// Implements fmt.Stringer
+func ({{$m}} {{$type}}) String() string {
+	if b, err := {{$m}}.MarshalText(); err != nil {
+		return err.Error()
+	} else {
+		return string(b)
+	}
+}
+
+// Implements database/sql/driver.Valuer
+func ({{$m}} {{$type}}) Value() (driver.Value, error) {
+	return {{$m}}.String(), nil
+}
+
+// Implements database/sql.Scanner
+func ({{$m}} *{{$type}}) Scan(src interface{}) error {
+	switch src := src.(type) {
+	case int64:
+		*{{$m}} = {{$type}}(src)
+		return nil
+	case []byte:
+		return {{$m}}.UnmarshalText(src)
+	case string:
+		return {{$m}}.UnmarshalText([]byte(src))
+	}
+	return fmt.Errorf("unable to convert %T to {{$type}}", src)
 }
 
 // Implements json.Marshaler
-func (i {{$type}}) MarshalJSON() ([]byte, error) {
-	return json.Marshal(i.String())
+func ({{$m}} {{$type}}) MarshalJSON() ([]byte, error) {
+	return json.Marshal({{$m}}.String())
 }
 
 // Implements json.Unmarshaler
-func (i *{{$type}}) UnmarshalJSON(data []byte) error {
+func ({{$m}} *{{$type}}) UnmarshalJSON(data []byte) error {
 	var s string
 	if err := json.Unmarshal(data, &s); err != nil {
 		return fmt.Errorf("failed to parse '%s' as {{$type}}: %s", string(data), err)
-	} else if *i, err = {{$type}}FromString(s); err != nil {
-		return err
 	}
-	return nil
+	return {{$m}}.UnmarshalText([]byte(s))
 }
 
 // Implements yaml.Marshaler
-func (i {{$type}}) MarshalYAML() (interface{}, error) {
-	return i.String(), nil
+func ({{$m}} {{$type}}) MarshalYAML() (interface{}, error) {
+	return {{$m}}.String(), nil
 }
 
 // Implements yaml.Unmarshaler
-func (i *{{$type}}) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func ({{$m}} *{{$type}}) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var s string
 	if err := unmarshal(&s); err != nil {
 		return fmt.Errorf("failed to unmarshal {{$type}} from YAML: %s", err)
-	} else if *i, err = {{$type}}FromString(s); err != nil {
-		return err
 	}
-	return nil
+	return {{$m}}.UnmarshalText([]byte(s))
 }
+
+{{- end}}
 {{- end}}

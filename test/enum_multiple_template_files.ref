@@ -7,7 +7,7 @@ enum raid_type {
 
 /** Try to extract an enum raid_type value from @str; fall back to "RAID0". */
 const enum raid_type
-str_to_raid_type(const char * const *str)
+str_to_raid_type(const char const *str)
 {
 	if (strcasecmp(str, "RAID0") == 0) {
 		return RAID0;
