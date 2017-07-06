@@ -34,8 +34,15 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
+// When template execution invokes a function with an argument list, that list
+// must be assignable to the function's parameter types. Functions meant to
+// apply to arguments of arbitrary type can use parameters of type interface{} or
+// of type reflect.Value. Similarly, functions meant to return a result of arbitrary
+// type can return interface{} or reflect.Value.
+type FuncMap map[string]interface{}
+
 // common type for a *(text|html).Template value
-type template interface {
+type Template interface {
 	Execute(wr io.Writer, data interface{}) error
 	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
 	Name() string
@@ -123,7 +130,7 @@ func Generate(HTML bool, fileName string) string {
 // ParseFiles wraps parsing text or HTML template files into a single
 // function, dictated by the first parameter "HTML".
 // By Matt Harden @gmail.com
-func ParseFiles(HTML bool, filenames ...string) (template, error) {
+func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 	var tname string
 
 	if len(Opts.TemplateStr) > 0 {
