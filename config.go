@@ -1,0 +1,1 @@
+cmd/easygen/config.go-
