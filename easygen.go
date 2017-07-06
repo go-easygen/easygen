@@ -21,7 +21,6 @@ import (
 	"bytes"
 	"fmt"
 	ht "html/template"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -33,20 +32,6 @@ import (
 
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
-
-// When template execution invokes a function with an argument list, that list
-// must be assignable to the function's parameter types. Functions meant to
-// apply to arguments of arbitrary type can use parameters of type interface{} or
-// of type reflect.Value. Similarly, functions meant to return a result of arbitrary
-// type can return interface{} or reflect.Value.
-type FuncMap map[string]interface{}
-
-// common type for a *(text|html).Template value
-type Template interface {
-	Execute(wr io.Writer, data interface{}) error
-	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
-	Name() string
-}
 
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
