@@ -1,0 +1,77 @@
+# program name, name for the executable
+ProgramName: easygen
+
+# package name
+# - For standalone program that does not belong to any package, e.g., 
+#   https://github.com/suntong/easygen/blob/7791e4f0e5605543d27da1671a21376cdb9dcf2a/easygen/easygen.go
+#   just ignore the first line, the `package` output, and copy the rest
+# - If you don't mind using a separated file to handle commandline paramters,
+#   then name the package as "main". see the spin-out "TF-minus1.go" file under
+#   https://github.com/suntong/easygen/tree/d1ab0b5fe80ddac57fe9ef51f6ccb3ab998cd5ee
+# - If you are using it in a pacakge, look no further than
+#   https://github.com/suntong/easygen/blob/master/easygenapi/config.go
+#   which was a direct dump: easygen test/commandlineFlag | gofmt > easygenapi/config.go
+#
+PackageName: easygen
+
+# Name of the structure to hold the values for/from commandline
+StructName: Options
+# The actual variable that hold the commandline paramter values
+StructVar: Opts
+
+Options:
+  - Name: HTML
+    Type: bool
+    Flag: html
+    Value: false
+    Usage: treat the template file as html instead of text
+
+  - Name: TemplateStr
+    Type: string
+    Flag: ts
+    Value: '""'
+    Usage: "template string (in text)"
+
+  - Name: TemplateFile
+    Type: string
+    Flag: tf
+    Value: '""'
+    Usage: ".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)"
+
+  - Name: ExtYaml
+    Type: string
+    Flag: ey
+    Value: '".yaml"'
+    Usage: "`extension` of yaml file"
+
+  - Name: ExtTmpl
+    Type: string
+    Flag: et
+    Value: '".tmpl"'
+    Usage: "`extension` of template file"
+
+  - Name: StrFrom
+    Type: string
+    Flag: rf
+    Value: '""'
+    Usage: "replace from, the from string used for the replace function"
+
+  - Name: StrTo
+    Type: string
+    Flag: rt
+    Value: '""'
+    Usage: "replace to, the to string used for the replace function"
+
+  - Name: Debug
+    Type: int
+    Flag: debug
+    Value: 0
+    Usage: "debugging `level`"
+
+# Whether to use the USAGE_SUMMARY in Usage help
+UsageSummary: ""
+
+UsageLead: "\\nUsage:\\n %s [flags] YamlFileName [YamlFileName...]\\n\\nFlags:\\n\\n"
+
+UsageEnd: "\\nYamlFileName(s): The name for the .yaml data and .tmpl template file\\n\\tCan have the extension or without it. Can include the path as well.\\n\\nFlag defaults can be overridden by corresponding environment variable, e.g.:\\n  EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...\\n"
+
