@@ -22,8 +22,8 @@ type Template interface {
 	Name() string
 }
 
-// EgtBase -- EasyGen Template Base
-type EgtBase struct {
+// EgBase -- EasyGen Template Base
+type EgBase struct {
 	*template.Template
 }
 
@@ -56,10 +56,10 @@ func FuncDefs() template.FuncMap {
 	return template.FuncMap(egFuncMap)
 }
 
-func NewTemplate() *EgtBase {
-	return &EgtBase{template.New("EgtBase")}
+func NewTemplate() *EgBase {
+	return &EgBase{template.New("EgBase")}
 }
 
-func (t *EgtBase) Customize() *EgtBase {
+func (t *EgBase) Customize() *EgBase {
 	return t
 }

@@ -7,6 +7,8 @@
 
 /*
 
+egCal -- easygen generic calculation functionalities.
+
 egCal provides the generic calculation functionalities from
 consul template functions
 https://github.com/hashicorp/consul-template / template_functions.go

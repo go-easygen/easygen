@@ -15,9 +15,9 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-// EgtBase -- EasyGen Template - Consul Template
-type EgtCT struct {
-	*easygen.EgtBase
+// EgCal -- EasyGen Calculation
+type EgCal struct {
+	*easygen.EgBase
 }
 
 var egFuncMap = easygen.FuncMap{
