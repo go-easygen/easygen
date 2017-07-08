@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/go-easygen/easygen"
+	"github.com/go-easygen/easygen/egCal"
 )
 
 // API example for Generate
@@ -53,6 +54,17 @@ func ExampleAPI2() {
 	// Output 2: "SOME_INIT_METHOD"
 }
 
+func ExampleAPI2_egCal() {
+	tmpl0 := easygen.NewTemplate().Customize()
+	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egCal.FuncDefs())
+
+	tmpl, _ = tmpl.Parse("{{.}}: {{add 2 3}}, {{multiply 2 3}}, {{subtract 2 9}}, {{divide 3 24}} \n")
+	tmpl.Execute(os.Stdout, "the go-programming-language")
+
+	// Output:
+	// the go-programming-language: 5, 6, 7, 8
+}
+
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
 func Example_main() {
@@ -63,6 +75,7 @@ func Example_main() {
 
 	// API v2 Usage:
 	ExampleAPI2()
+	ExampleAPI2_egCal()
 }
 
 // To show the full code in GoDoc
