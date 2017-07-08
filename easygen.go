@@ -36,6 +36,9 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
+// EgData -- EasyGen driven Data
+type EgData map[interface{}]interface{}
+
 // Opts holds the actual values from the command line parameters
 var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
 
@@ -88,13 +91,7 @@ func Generate(HTML bool, fileName string) string {
 		templates = []string{fileName + Opts.ExtTmpl}
 	}
 
-	source, err := ioutil.ReadFile(fileName)
-	checkError(err)
-
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal(source, &m)
-	checkError(err)
+	m := ReadYamlFile(fileName)
 
 	env := make(map[string]string)
 	for _, e := range os.Environ() {
@@ -148,30 +145,44 @@ func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 ////////////////////////////////////////////////////////////////////////////
 // Version 2 Function definitions
 
+func ReadYamlFile(fileName string) EgData {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(EgData)
+
+	err = yaml.Unmarshal(source, &m)
+	checkError(err)
+
+	return m
+}
+
+func GetEnv() map[string]string {
+	env := make(map[string]string)
+	for _, e := range os.Environ() {
+		sep := strings.Index(e, "=")
+		env[e[0:sep]] = e[sep+1:]
+	}
+	return env
+}
+
 // Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
 func Process(t Template, wr io.Writer, fileName string) error {
 	return Process2(t, wr, fileName, fileName)
 }
 
 // Process2 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
-// specified via fileNameTempl and fileNames (for data) respectively.
+// specified via fileNameTempl and fileNames respectively.
+// fileNameTempl can be a comma-separated string giving many template files
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
-	fileName := fileNames[0]
+}
 
-	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
-	checkError(err)
-
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal(source, &m)
-	checkError(err)
-
-	env := make(map[string]string)
-	for _, e := range os.Environ() {
-		sep := strings.Index(e, "=")
-		env[e[0:sep]] = e[sep+1:]
-	}
-	m["ENV"] = env
+// Process1 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileName respectively.
+// fileNameTempl is not a comma-separated string, but for a single template file.
+func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
+	m := ReadYamlFile(fileName + Opts.ExtYaml)
+	m["ENV"] = GetEnv()
 	//fmt.Printf("] %+v\n", m)
 
 	// template file name
