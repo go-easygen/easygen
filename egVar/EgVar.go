@@ -62,3 +62,7 @@ var egFuncMap = easygen.FuncMap{
 func FuncDefs() template.FuncMap {
 	return template.FuncMap(egFuncMap)
 }
+
+func NewTemplate() *EgVar {
+	return &EgVar{&easygen.EgBase{template.New("EgVar")}}
+}

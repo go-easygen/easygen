@@ -173,6 +173,7 @@ func ReadYamlFile(fileName string) EgData {
 	return m
 }
 
+// IsExist checks if the given file exist
 func IsExist(fileName string) bool {
 	//fmt.Printf("] Checking %s\n", fileName)
 	_, err := os.Stat(fileName)
@@ -181,6 +182,7 @@ func IsExist(fileName string) bool {
 	// https://gist.github.com/mastef/05f46d3ab2f5ed6a6787#file-isexist_vs_isnotexist-go-L35-L56
 }
 
+// GetEnv returns the Environment variables in a map
 func GetEnv() map[string]string {
 	env := make(map[string]string)
 	for _, e := range os.Environ() {
