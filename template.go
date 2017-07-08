@@ -7,7 +7,6 @@
 package easygen
 
 import (
-	"bytes"
 	"io"
 	"io/ioutil"
 	"os"
@@ -70,11 +69,11 @@ func (t *EgtBase) Customize() *EgtBase {
 	return t
 }
 
-func Process(t Template, fileName string) string {
-	return Process2(t, fileName, fileName)
+func Process(t Template, wr io.Writer, fileName string) error {
+	return Process2(t, wr, fileName, fileName)
 }
 
-func Process2(t Template, fileNameTempl string, fileNames ...string) string {
+func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
 	fileName := fileNames[0]
 
 	source, err := ioutil.ReadFile(fileName + Opts.ExtYaml)
@@ -102,9 +101,5 @@ func Process2(t Template, fileNameTempl string, fileNames ...string) string {
 	tn, err := t.ParseFiles(fileNameT)
 	checkError(err)
 
-	buf := new(bytes.Buffer)
-	err = tn.ExecuteTemplate(buf, filepath.Base(fileNameT), m)
-	checkError(err)
-
-	return buf.String()
+	return tn.ExecuteTemplate(wr, filepath.Base(fileNameT), m)
 }

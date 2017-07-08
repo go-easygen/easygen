@@ -45,7 +45,7 @@ func ExampleGenerate0() {
 func ExampleAPI2() {
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs())
-	fmt.Println(easygen.Process(tmpl, "test/var0"))
+	easygen.Process(tmpl, os.Stdout, "test/var0")
 
 	// Output:
 	// Input: "some-init-method"
