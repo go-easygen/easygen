@@ -1,0 +1,13 @@
+
+/** Stringer function for {{.EnumName}}. */
+const char *
+{{.EnumName}}_to_str(const enum {{.EnumName}} val)
+{
+	switch (val) {
+{{- range .Values }}
+	case {{.Name}}:
+		return "{{ if .String }}{{.String}}{{else}}{{.Name}}{{end}}";
+{{- end }}
+	}
+}
+

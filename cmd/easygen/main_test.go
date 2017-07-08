@@ -97,4 +97,5 @@ func TestExec(t *testing.T) {
 	//                  (b) run the same input with multiple template files:
 	testEasygen(t, "enum_multiple_data_files", "-tf", "enum_c-header", "raid_type", "raid_driver")
 	testEasygen(t, "enum_multiple_template_files", "-tf", "enum_c-header,enum_c-source", "raid_type.yaml")
+	testEasygen(t, "enum_multiple_template_and_data", "-tf", "enum_c-header,enum_c-to_str", "raid_type", "raid_driver.yaml")
 }
