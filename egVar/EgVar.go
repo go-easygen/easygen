@@ -1,11 +1,32 @@
-package easygen
+////////////////////////////////////////////////////////////////////////////
+// Package: egVar
+// Purpose: easygen variable naming functionalities
+// Authors: Tong Sun (c) 2016-17, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
+/*
+
+egVar -- easygen variable naming functionalities.
+
+egVar provides variable naming manipulation, avaiable from danverbraganza/varcaser.
+
+*/
+package egVar
 
 import (
+	"text/template"
+
 	"github.com/danverbraganza/varcaser/varcaser"
+	"github.com/go-easygen/easygen"
 )
 
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
+
+// EgVar -- EasyGen variable naming
+type EgVar struct {
+	*easygen.EgBase
+}
 
 // pre-configed varcaser caser converters
 // the names are self-explanatory from their definitions
@@ -23,5 +44,21 @@ var (
 	cuc2ss = varcaser.Caser{From: varcaser.UpperCamelCase, To: varcaser.ScreamingSnakeCase}
 )
 
-//==========================================================================
-// template functions
+var egFuncMap = easygen.FuncMap{
+	"cls2lc": cls2lc.String,
+	"cls2uc": cls2uc.String,
+	"cls2ss": cls2ss.String,
+	"ck2lc":  ck2lc.String,
+	"ck2uc":  ck2uc.String,
+	"ck2ls":  ck2ls.String,
+	"ck2ss":  ck2ss.String,
+	"clc2ss": clc2ss.String,
+	"cuc2ss": cuc2ss.String,
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+func FuncDefs() template.FuncMap {
+	return template.FuncMap(egFuncMap)
+}

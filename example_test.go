@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-easygen/easygen"
 	"github.com/go-easygen/easygen/egCal"
+	"github.com/go-easygen/easygen/egVar"
 )
 
 // API example for Generate
@@ -45,7 +46,7 @@ func ExampleGenerate0() {
 // API V2 example
 func ExampleAPI2() {
 	tmpl0 := easygen.NewTemplate().Customize()
-	tmpl := tmpl0.Funcs(easygen.FuncDefs())
+	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egVar.FuncDefs())
 	easygen.Process(tmpl, os.Stdout, "test/var0")
 
 	// Output:
