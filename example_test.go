@@ -57,13 +57,15 @@ func ExampleAPI2() {
 
 func ExampleAPI2_egCal() {
 	tmpl0 := easygen.NewTemplate().Customize()
-	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egCal.FuncDefs())
-
-	tmpl, _ = tmpl.Parse("{{.}}: {{add 2 3}}, {{multiply 2 3}}, {{subtract 9 2}}, {{divide 24 3}}\n")
-	tmpl.Execute(os.Stdout, "the go-programming-language")
+	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
+	easygen.Process0(tmpl, os.Stdout,
+		"{{.Name}}: {{ck2uc .Name}} {{ck2ss .Name}}\n"+
+			"Cal: {{add 2 3}}, {{multiply 2 3}}, {{subtract 9 2}}, {{divide 24 3}}\n",
+		"test/var0")
 
 	// Output:
-	// the go-programming-language: 5, 6, 7, 8
+	// some-init-method: SomeInitMethod SOME_INIT_METHOD
+	// Cal: 5, 6, 7, 8
 }
 
 // for standalone test, change package to `main` and the next func def to,

@@ -19,6 +19,7 @@ package easygen
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -145,6 +146,21 @@ func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 ////////////////////////////////////////////////////////////////////////////
 // Version 2 Function definitions
 
+// ReadDataFile reads in the driving data from the given file, which can
+// optinally without the defined extension
+func ReadDataFile(fileName string) EgData {
+	if IsExist(fileName + Opts.ExtYaml) {
+		return ReadYamlFile(fileName + Opts.ExtYaml)
+	} else if IsExist(fileName) {
+		return ReadYamlFile(fileName)
+	} else {
+		checkError(errors.
+			New(fmt.Sprintf("DataFile '%s' cannot be found", fileName)))
+	}
+	return make(EgData)
+}
+
+// ReadYamlFile reads given YAML file as EgData
 func ReadYamlFile(fileName string) EgData {
 	source, err := ioutil.ReadFile(fileName)
 	checkError(err)
@@ -155,6 +171,14 @@ func ReadYamlFile(fileName string) EgData {
 	checkError(err)
 
 	return m
+}
+
+func IsExist(fileName string) bool {
+	//fmt.Printf("] Checking %s\n", fileName)
+	_, err := os.Stat(fileName)
+	return err == nil || os.IsExist(err)
+	// CAUTION! os.IsExist(err) != !os.IsNotExist(err)
+	// https://gist.github.com/mastef/05f46d3ab2f5ed6a6787#file-isexist_vs_isnotexist-go-L35-L56
 }
 
 func GetEnv() map[string]string {
@@ -175,13 +199,14 @@ func Process(t Template, wr io.Writer, fileName string) error {
 // specified via fileNameTempl and fileNames respectively.
 // fileNameTempl can be a comma-separated string giving many template files
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
+	return Process1(t, wr, fileNameTempl, fileNames[0])
 }
 
 // Process1 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
 // specified via fileNameTempl and fileName respectively.
 // fileNameTempl is not a comma-separated string, but for a single template file.
 func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
-	m := ReadYamlFile(fileName + Opts.ExtYaml)
+	m := ReadDataFile(fileName)
 	m["ENV"] = GetEnv()
 	//fmt.Printf("] %+v\n", m)
 
@@ -199,7 +224,13 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 
 // Process0 will produce output according to the driving data *without* a template file, using the string from strTempl as the template
 func Process0(t Template, wr io.Writer, strTempl string, fileNames ...string) error {
-	return nil
+	fileName := fileNames[0]
+	m := ReadDataFile(fileName)
+	m["ENV"] = GetEnv()
+
+	tmpl, err := t.Parse(strTempl)
+	checkError(err)
+	return tmpl.Execute(wr, m)
 }
 
 ////////////////////////////////////////////////////////////////////////////

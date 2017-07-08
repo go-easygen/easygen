@@ -18,6 +18,7 @@ import (
 type Template interface {
 	Execute(wr io.Writer, data interface{}) error
 	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
+	Parse(text string) (*template.Template, error)
 	ParseFiles(filenames ...string) (*template.Template, error)
 	Name() string
 }
