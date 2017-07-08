@@ -41,12 +41,28 @@ func ExampleGenerate0() {
 	// red, blue, white,
 }
 
+// API V2 example
+func ExampleAPI2() {
+	tmpl0 := easygen.NewTemplate().Customize()
+	tmpl := tmpl0.Funcs(easygen.FuncDefs())
+	fmt.Println(easygen.Process(tmpl, "test/var0"))
+
+	// Output:
+	// Input: "some-init-method"
+	// Output 1: "SomeInitMethod"
+	// Output 2: "SOME_INIT_METHOD"
+}
+
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
 func Example_main() {
 	ExampleGenerate()
 	ExampleGenerate2()
 	ExampleGenerate0()
+	fmt.Println()
+
+	// API v2 Usage:
+	ExampleAPI2()
 }
 
 // To show the full code in GoDoc

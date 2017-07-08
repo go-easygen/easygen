@@ -49,14 +49,6 @@ func TestList1Text(t *testing.T) {
 	}
 }
 
-func TestList1HTML(t *testing.T) {
-	t.Log("Second test, with html template")
-	const await = "The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .\n"
-	if got := easygen.Generate(true, "test/list1"); got != await {
-		t.Errorf("Mismatch:, got '%s' instead", got)
-	}
-}
-
 //==========================================================================
 // listfunc1
 
