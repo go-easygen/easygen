@@ -69,10 +69,13 @@ func (t *EgtBase) Customize() *EgtBase {
 	return t
 }
 
+// Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
 func Process(t Template, wr io.Writer, fileName string) error {
 	return Process2(t, wr, fileName, fileName)
 }
 
+// Process2 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileNames (for data) respectively.
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
 	fileName := fileNames[0]
 
@@ -102,4 +105,9 @@ func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...strin
 	checkError(err)
 
 	return tn.ExecuteTemplate(wr, filepath.Base(fileNameT), m)
+}
+
+// Process0 will produce output according to the driving data *without* a template file, using the string from strTempl as the template
+func Process0(t Template, wr io.Writer, strTempl string, fileNames ...string) error {
+	return nil
 }

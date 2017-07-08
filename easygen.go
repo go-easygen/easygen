@@ -153,6 +153,12 @@ func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 	return textTemplate.ParseFiles(filenames...)
 }
 
+////////////////////////////////////////////////////////////////////////////
+// Version 2 Function definitions
+
+////////////////////////////////////////////////////////////////////////////
+// Support Function definitions
+
 // Exit if error occurs
 func checkError(err error) {
 	if err != nil {
