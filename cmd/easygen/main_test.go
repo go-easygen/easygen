@@ -72,6 +72,9 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
 
+	//Test HTML
+	testEasygen(t, "list1HTML", "-tf", "list1HTML", "list1")
+
 	//Test String Functions
 	testEasygen(t, "strings0", "-rf", `a(x*)b`, "-rt", `${1}W`, "strings0")
 	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")

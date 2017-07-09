@@ -30,6 +30,15 @@ func ExampleProcess0_list0StrTemplate() {
 	// red, blue, white,
 }
 
+// Test HTML template with list1 data
+func ExampleProcess2_html() {
+	// Equivalent testing on commandline:
+	//   easygen -tf test/list1HTML test/list1
+	easygen.Process2(tmpl, os.Stdout, "test/list1HTML", "test/list1")
+	// Output:
+	// The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .
+}
+
 ////////////////////////////////////////////////////////////////////////////
 // Strings Test
 
