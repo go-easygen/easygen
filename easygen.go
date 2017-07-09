@@ -19,7 +19,6 @@ package easygen
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -154,8 +153,7 @@ func ReadDataFile(fileName string) EgData {
 	} else if IsExist(fileName) {
 		return ReadYamlFile(fileName)
 	} else {
-		checkError(errors.
-			New(fmt.Sprintf("DataFile '%s' cannot be found", fileName)))
+		checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	}
 	return make(EgData)
 }
@@ -241,8 +239,7 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 	}
 	// catch all
 	if !IsExist(fileNameT) {
-		checkError(errors.
-			New(fmt.Sprintf("Template file '%s' cannot be found", fileNameTempl)))
+		checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameTempl))
 	}
 
 	tn, err := t.ParseFiles(fileNameT)
