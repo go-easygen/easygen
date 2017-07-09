@@ -70,16 +70,15 @@ func TestExec(t *testing.T) {
 
 	testEasygen(t, "list1", "list1")
 	testEasygen(t, "listfunc1", "listfunc1")
-	// TODO: fix all //XX: lines
-	//XX: testEasygen(t, "listfunc2", "listfunc2")
+	testEasygen(t, "listfunc2", "listfunc2")
 
 	//Test String Functions
 	testEasygen(t, "strings0", "-rf", `a(x*)b`, "-rt", `${1}W`, "strings0")
 	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
-	//XX: testEasygen(t, "var1", "-ts", "{{ck2uc .Name}}", "var0")
-	//XX: testEasygen(t, "var2", "-ts", "{{ck2ss .Name}}", "var0")
+	testEasygen(t, "var1", "-ts", "{{ck2uc .Name}}", "var0")
+	testEasygen(t, "var2", "-ts", "{{ck2ss .Name}}", "var0")
 
 	//Test Bigger files
 	testEasygen(t, "commandlineCLI-024", "commandlineCLI-024")
@@ -88,7 +87,7 @@ func TestExec(t *testing.T) {
 
 	testEasygen(t, "commandlineCVFull", "commandlineCVFull")
 	testEasygen(t, "commandlineCV", "commandlineCV")
-	//XX: testEasygen(t, "commandlineFlag", "commandlineFlag")
+	testEasygen(t, "commandlineFlag", "commandlineFlag")
 
 	// Enum generation: (a) run template with multiple data inputs,
 	//                  (b) run the same input with multiple template files:

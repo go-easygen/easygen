@@ -15,6 +15,7 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
+// Type Template defines the common ground for both text and html Template
 type Template interface {
 	Execute(wr io.Writer, data interface{}) error
 	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
@@ -28,6 +29,9 @@ type EgBase struct {
 	*template.Template
 }
 
+// Type FuncMap defined in easygen will shield the dependency of either
+// text or html template, giving an implementation agnostic abstraction
+// that will works for both cases.
 type FuncMap map[string]interface{}
 
 var egFuncMap = FuncMap{

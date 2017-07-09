@@ -193,8 +193,8 @@ func GetEnv() map[string]string {
 }
 
 // Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
-func Process(t Template, wr io.Writer, fileName string) error {
-	return Process2(t, wr, fileName, fileName)
+func Process(t Template, wr io.Writer, fileNames ...string) error {
+	return Process2(t, wr, fileNames[0], fileNames...)
 }
 
 // Process2 will process the case that *both* template and data file names are given, and produce output according to the given template and driving data files,
@@ -210,6 +210,7 @@ func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...strin
 			checkError(err)
 		}
 	}
+	return nil
 }
 
 // Process1 will process a *single* case where both template and data file names are given, and produce output according to the given template and driving data files,
@@ -225,13 +226,17 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 	fileNameT := fileNameTempl
 	if IsExist(fileName + Opts.ExtTmpl) {
 		fileNameT = fileName + Opts.ExtTmpl
-	} else if IsExist(fileName) {
-		fileNameT = fileName
-	} else if idx := strings.LastIndex(fileName, "."); idx > 0 {
-		// check for the case that fileNameTempl ends with Opts.ExtYaml
-		fileName = fileName[:idx]
-		if IsExist(fileName + Opts.ExtTmpl) {
-			fileNameT = fileName + Opts.ExtTmpl
+	} else {
+		// guard against that fileNameTempl passed with Opts.ExtYaml extension
+		if fileName[len(fileName)-len(Opts.ExtYaml):] == Opts.ExtYaml {
+			idx := strings.LastIndex(fileName, ".")
+			fileName = fileName[:idx]
+			if IsExist(fileName + Opts.ExtTmpl) {
+				fileNameT = fileName + Opts.ExtTmpl
+			}
+		} else if IsExist(fileName) {
+			// fileNameTempl passed with Opts.ExtTmpl already
+			fileNameT = fileName
 		}
 	}
 	// catch all

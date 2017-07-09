@@ -22,9 +22,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"os"
 
 	"github.com/go-easygen/easygen"
+	"github.com/go-easygen/easygen/egCal"
+	"github.com/go-easygen/easygen/egVar"
 )
 
 //go:generate sh -v easygen.gen.sh
@@ -46,9 +48,16 @@ func main() {
 	if flag.NArg() < 1 {
 		Usage()
 	}
-	easygen.TFStringsInit()
+	easygen.TFStringsInit() // Done *after* flag parsing!
 
-	for _, fileName := range flag.Args() {
-		fmt.Print(easygen.Generate(easygen.Opts.HTML, fileName))
+	tmpl0 := easygen.NewTemplate().Customize()
+	tmpl := tmpl0.Funcs(easygen.FuncDefs()).
+		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
+
+	args := flag.Args()
+	if len(easygen.Opts.TemplateStr) > 0 {
+		easygen.Process0(tmpl, os.Stdout, easygen.Opts.TemplateStr, args...)
+	} else {
+		easygen.Process(tmpl, os.Stdout, args...)
 	}
 }
