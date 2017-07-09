@@ -197,14 +197,22 @@ func Process(t Template, wr io.Writer, fileName string) error {
 	return Process2(t, wr, fileName, fileName)
 }
 
-// Process2 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
+// Process2 will process the case that *both* template and data file names are given, and produce output according to the given template and driving data files,
 // specified via fileNameTempl and fileNames respectively.
 // fileNameTempl can be a comma-separated string giving many template files
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
-	return Process1(t, wr, fileNameTempl, fileNames[0])
+	if len(Opts.TemplateFile) > 0 {
+		fileNameTempl = Opts.TemplateFile
+	}
+	for _, dataFn := range fileNames {
+		for _, templateFn := range strings.Split(fileNameTempl, ",") {
+			err := Process1(t, wr, templateFn, dataFn)
+			checkError(err)
+		}
+	}
 }
 
-// Process1 will process the case that both template and data file names are given, and produce output according to the given template and driving data files,
+// Process1 will process a *single* case where both template and data file names are given, and produce output according to the given template and driving data files,
 // specified via fileNameTempl and fileName respectively.
 // fileNameTempl is not a comma-separated string, but for a single template file.
 func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
@@ -212,12 +220,26 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 	m["ENV"] = GetEnv()
 	//fmt.Printf("] %+v\n", m)
 
-	// template file name
+	// template file
+	fileName = fileNameTempl
 	fileNameT := fileNameTempl
-	if len(Opts.TemplateFile) > 0 {
-		fileNameT = Opts.TemplateFile
+	if IsExist(fileName + Opts.ExtTmpl) {
+		fileNameT = fileName + Opts.ExtTmpl
+	} else if IsExist(fileName) {
+		fileNameT = fileName
+	} else if idx := strings.LastIndex(fileName, "."); idx > 0 {
+		// check for the case that fileNameTempl ends with Opts.ExtYaml
+		fileName = fileName[:idx]
+		if IsExist(fileName + Opts.ExtTmpl) {
+			fileNameT = fileName + Opts.ExtTmpl
+		}
 	}
-	fileNameT = fileNameT + Opts.ExtTmpl
+	// catch all
+	if !IsExist(fileNameT) {
+		checkError(errors.
+			New(fmt.Sprintf("Template file '%s' cannot be found", fileNameTempl)))
+	}
+
 	tn, err := t.ParseFiles(fileNameT)
 	checkError(err)
 
