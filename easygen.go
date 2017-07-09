@@ -147,7 +147,7 @@ func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 // Version 2 Function definitions
 
 // ReadDataFile reads in the driving data from the given file, which can
-// be optinally without the defined extension
+// be optionally without the defined extension
 func ReadDataFile(fileName string) EgData {
 	if IsExist(fileName + Opts.ExtYaml) {
 		return ReadYamlFile(fileName + Opts.ExtYaml)
