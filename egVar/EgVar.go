@@ -6,7 +6,7 @@
 
 /*
 
-Package egVar: easygen variable naming functionalities.
+Package egVar provides variable naming functionalities.
 
 egVar provides variable naming manipulation, available from danverbraganza/varcaser.
 

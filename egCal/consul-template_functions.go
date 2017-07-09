@@ -7,7 +7,7 @@
 
 /*
 
-Package egCal: easygen generic calculation functionalities.
+Package egCal provides generic calculation functionalities.
 
 egCal provides the generic calculation functionalities from
 consul template functions
