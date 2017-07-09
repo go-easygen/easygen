@@ -7,15 +7,9 @@ import (
 	"gopkg.in/easygen.v2/egVar"
 )
 
-// To show the full code in GoDoc
-type dummy struct {
-}
-
-//==========================================================================
-// listfunc2
-
-// Test the provided listfunc2, template and data
-func ExampleGenerate_listfunc2() {
+// for standalone test, change package to `main` and the next func def to,
+// func main() {
+func Example() {
 	// Equivalent testing on commandline:
 	//   easygen test/listfunc2
 
@@ -27,8 +21,6 @@ func ExampleGenerate_listfunc2() {
 	// some-init-method 5 5 someInitMethod SomeInitMethod
 }
 
-// for standalone test, change package to `main` and the next func def to,
-// func main() {
-func Example_main() {
-	ExampleGenerate_listfunc2()
+// To show the full code in GoDoc
+type dummy struct {
 }

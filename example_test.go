@@ -70,7 +70,7 @@ func ExampleAPI2_egCal() {
 
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
-func Example_main() {
+func Example_main_() {
 	ExampleGenerate()
 	ExampleGenerate2()
 	ExampleGenerate0()
