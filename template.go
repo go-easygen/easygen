@@ -40,9 +40,9 @@ var egFuncMap = FuncMap{
 	"replace":  replace,
 	"replacec": replacec,
 
-	"minus1": minus1,
-	"dateI":  dateI,
-	"year4":  year4,
+	"minus1":    minus1,
+	"date":      date,
+	"timestamp": timestamp,
 }
 
 ////////////////////////////////////////////////////////////////////////////
