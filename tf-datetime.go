@@ -42,9 +42,8 @@ func timestamp(s ...string) (string, error) {
 	case 1:
 		if s[0] == "unix" {
 			return strconv.FormatInt(now().Unix(), 10), nil
-		} else {
-			return now().Format(s[0]), nil
 		}
+		return now().Format(s[0]), nil
 	default:
 		return "", fmt.Errorf("timestamp: wrong number of arguments, expected 0 or 1"+
 			", but got %d", len(s))
