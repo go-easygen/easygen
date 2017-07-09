@@ -1,0 +1,17 @@
+// !!! !!!
+// WARNING: Code automatically generated. Editing discouraged.
+// !!! !!!
+
+package {{.PackageName}}
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+const progname = "{{.ProgramName}}" // os.Args[0]
+
+// The {{.StructName}} struct defines the structure to hold the commandline values
+type {{.StructName}} struct { {{range .Options}}{{if ne .Name "SEPARATOR" }}
+	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}{{end}}
+}
+
+

@@ -19,8 +19,8 @@ package easygen
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
-	ht "html/template"
 	"io"
 	"io/ioutil"
 	"os"
@@ -34,15 +34,14 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-// common type for a *(text|html).Template value
-type template interface {
-	Execute(wr io.Writer, data interface{}) error
-	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
-	Name() string
-}
-
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
+
+// EgData -- EasyGen driven Data
+type EgData map[interface{}]interface{}
+
+// Opts holds the actual values from the command line parameters
+var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
@@ -93,13 +92,7 @@ func Generate(HTML bool, fileName string) string {
 		templates = []string{fileName + Opts.ExtTmpl}
 	}
 
-	source, err := ioutil.ReadFile(fileName)
-	checkError(err)
-
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal(source, &m)
-	checkError(err)
+	m := ReadYamlFile(fileName)
 
 	env := make(map[string]string)
 	for _, e := range os.Environ() {
@@ -123,44 +116,17 @@ func Generate(HTML bool, fileName string) string {
 // ParseFiles wraps parsing text or HTML template files into a single
 // function, dictated by the first parameter "HTML".
 // By Matt Harden @gmail.com
-func ParseFiles(HTML bool, filenames ...string) (template, error) {
+func ParseFiles(HTML bool, filenames ...string) (Template, error) {
 	var tname string
 
 	if len(Opts.TemplateStr) > 0 {
-		if HTML {
-			tname = "HT"
-		} else {
-			tname = "TT"
-		}
+		tname = "TT"
 	} else if len(filenames) == 0 {
 		return nil, fmt.Errorf("ParseFiles called without template filename")
 	} else {
 		tname = filepath.Base(filenames[0])
 	}
 
-	if HTML {
-		// use html template
-		htmlTemplate := ht.New(tname).Funcs(ht.FuncMap{
-			"minus1": minus1,
-			"dateI":  dateI,
-			"year4":  year4,
-			"cls2lc": cls2lc.String,
-			"cls2uc": cls2uc.String,
-			"cls2ss": cls2ss.String,
-			"ck2lc":  ck2lc.String,
-			"ck2uc":  ck2uc.String,
-			"ck2ls":  ck2ls.String,
-			"ck2ss":  ck2ss.String,
-			"clc2ss": clc2ss.String,
-			"cuc2ss": cuc2ss.String,
-		})
-		if len(Opts.TemplateStr) > 0 {
-			return htmlTemplate.Parse(Opts.TemplateStr)
-		}
-		return htmlTemplate.ParseFiles(filenames...)
-	}
-
-	// use text template
 	textTemplate := tt.New(tname).Funcs(tt.FuncMap{
 		"eqf":      strings.EqualFold,
 		"split":    strings.Fields,
@@ -169,15 +135,6 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 		"year4":    year4,
 		"replace":  replace,
 		"replacec": replacec,
-		"cls2lc":   cls2lc.String,
-		"cls2uc":   cls2uc.String,
-		"cls2ss":   cls2ss.String,
-		"ck2lc":    ck2lc.String,
-		"ck2uc":    ck2uc.String,
-		"ck2ls":    ck2ls.String,
-		"ck2ss":    ck2ss.String,
-		"clc2ss":   clc2ss.String,
-		"cuc2ss":   cuc2ss.String,
 	})
 
 	if len(Opts.TemplateStr) > 0 {
@@ -185,6 +142,128 @@ func ParseFiles(HTML bool, filenames ...string) (template, error) {
 	}
 	return textTemplate.ParseFiles(filenames...)
 }
+
+////////////////////////////////////////////////////////////////////////////
+// Version 2 Function definitions
+
+// ReadDataFile reads in the driving data from the given file, which can
+// optinally without the defined extension
+func ReadDataFile(fileName string) EgData {
+	if IsExist(fileName + Opts.ExtYaml) {
+		return ReadYamlFile(fileName + Opts.ExtYaml)
+	} else if IsExist(fileName) {
+		return ReadYamlFile(fileName)
+	} else {
+		checkError(errors.
+			New(fmt.Sprintf("DataFile '%s' cannot be found", fileName)))
+	}
+	return make(EgData)
+}
+
+// ReadYamlFile reads given YAML file as EgData
+func ReadYamlFile(fileName string) EgData {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(EgData)
+
+	err = yaml.Unmarshal(source, &m)
+	checkError(err)
+
+	return m
+}
+
+// IsExist checks if the given file exist
+func IsExist(fileName string) bool {
+	//fmt.Printf("] Checking %s\n", fileName)
+	_, err := os.Stat(fileName)
+	return err == nil || os.IsExist(err)
+	// CAUTION! os.IsExist(err) != !os.IsNotExist(err)
+	// https://gist.github.com/mastef/05f46d3ab2f5ed6a6787#file-isexist_vs_isnotexist-go-L35-L56
+}
+
+// GetEnv returns the Environment variables in a map
+func GetEnv() map[string]string {
+	env := make(map[string]string)
+	for _, e := range os.Environ() {
+		sep := strings.Index(e, "=")
+		env[e[0:sep]] = e[sep+1:]
+	}
+	return env
+}
+
+// Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
+func Process(t Template, wr io.Writer, fileNames ...string) error {
+	return Process2(t, wr, fileNames[0], fileNames...)
+}
+
+// Process2 will process the case that *both* template and data file names are given, and produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileNames respectively.
+// fileNameTempl can be a comma-separated string giving many template files
+func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
+	if len(Opts.TemplateFile) > 0 {
+		fileNameTempl = Opts.TemplateFile
+	}
+	for _, dataFn := range fileNames {
+		for _, templateFn := range strings.Split(fileNameTempl, ",") {
+			err := Process1(t, wr, templateFn, dataFn)
+			checkError(err)
+		}
+	}
+	return nil
+}
+
+// Process1 will process a *single* case where both template and data file names are given, and produce output according to the given template and driving data files,
+// specified via fileNameTempl and fileName respectively.
+// fileNameTempl is not a comma-separated string, but for a single template file.
+func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
+	m := ReadDataFile(fileName)
+	m["ENV"] = GetEnv()
+	//fmt.Printf("] %+v\n", m)
+
+	// template file
+	fileName = fileNameTempl
+	fileNameT := fileNameTempl
+	if IsExist(fileName + Opts.ExtTmpl) {
+		fileNameT = fileName + Opts.ExtTmpl
+	} else {
+		// guard against that fileNameTempl passed with Opts.ExtYaml extension
+		if fileName[len(fileName)-len(Opts.ExtYaml):] == Opts.ExtYaml {
+			idx := strings.LastIndex(fileName, ".")
+			fileName = fileName[:idx]
+			if IsExist(fileName + Opts.ExtTmpl) {
+				fileNameT = fileName + Opts.ExtTmpl
+			}
+		} else if IsExist(fileName) {
+			// fileNameTempl passed with Opts.ExtTmpl already
+			fileNameT = fileName
+		}
+	}
+	// catch all
+	if !IsExist(fileNameT) {
+		checkError(errors.
+			New(fmt.Sprintf("Template file '%s' cannot be found", fileNameTempl)))
+	}
+
+	tn, err := t.ParseFiles(fileNameT)
+	checkError(err)
+
+	return tn.ExecuteTemplate(wr, filepath.Base(fileNameT), m)
+}
+
+// Process0 will produce output according to the driving data *without* a template file, using the string from strTempl as the template
+func Process0(t Template, wr io.Writer, strTempl string, fileNames ...string) error {
+	fileName := fileNames[0]
+	m := ReadDataFile(fileName)
+	m["ENV"] = GetEnv()
+
+	tmpl, err := t.Parse(strTempl)
+	checkError(err)
+	return tmpl.Execute(wr, m)
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Support Function definitions
 
 // Exit if error occurs
 func checkError(err error) {

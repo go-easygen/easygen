@@ -62,6 +62,7 @@ func TestExec(t *testing.T) {
 
 	//Test Basic Functions
 	testEasygen(t, "list0", "list0")
+	// Filename suffixes are optional
 	testEasygen(t, "list0", "list0.yaml")
 	testEasygen(t, "list0", "-tf", "list0", "list0")
 	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0")
@@ -88,13 +89,9 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "commandlineCV", "commandlineCV")
 	testEasygen(t, "commandlineFlag", "commandlineFlag")
 
-	// Filename suffixes are optional:
-	testEasygen(t, "commandlineFlag", "commandlineFlag.yaml")
-	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag")
-	testEasygen(t, "commandlineFlag", "-tf", "commandlineFlag.tmpl", "commandlineFlag.yaml")
-
 	// Enum generation: (a) run template with multiple data inputs,
 	//                  (b) run the same input with multiple template files:
 	testEasygen(t, "enum_multiple_data_files", "-tf", "enum_c-header", "raid_type", "raid_driver")
 	testEasygen(t, "enum_multiple_template_files", "-tf", "enum_c-header,enum_c-source", "raid_type.yaml")
+	testEasygen(t, "enum_multiple_template_and_data", "-tf", "enum_c-header,enum_c-to_str", "raid_type", "raid_driver.yaml")
 }

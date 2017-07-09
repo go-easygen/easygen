@@ -1,0 +1,37 @@
+
+// Simplified enumeration of available RAID devices
+enum raid_type {
+	RAID0 = 100,
+	RAID1,
+};
+
+/** Stringer function for raid_type. */
+const char *
+raid_type_to_str(const enum raid_type val)
+{
+	switch (val) {
+	case RAID0:
+		return "RAID0";
+	case RAID1:
+		return "RAID1";
+	}
+}
+
+
+enum raid_driver {
+	HW,
+	SW,
+};
+
+/** Stringer function for raid_driver. */
+const char *
+raid_driver_to_str(const enum raid_driver val)
+{
+	switch (val) {
+	case HW:
+		return "Hardware-RAID";
+	case SW:
+		return "Software-RAID";
+	}
+}
+

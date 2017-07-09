@@ -49,14 +49,6 @@ func TestList1Text(t *testing.T) {
 	}
 }
 
-func TestList1HTML(t *testing.T) {
-	t.Log("Second test, with html template")
-	const await = "The quoted colors are: &#34;red&#34;, &#34;blue&#34;, &#34;white&#34;, .\n"
-	if got := easygen.Generate(true, "test/list1"); got != await {
-		t.Errorf("Mismatch:, got '%s' instead", got)
-	}
-}
-
 //==========================================================================
 // listfunc1
 
@@ -101,18 +93,6 @@ func ExampleGenerate0_list0StrTemplate() {
 	fmt.Print(easygen.Generate0(false, "{{range .Colors}}{{.}}, {{end}}", "test/list0"))
 	// Output:
 	// red, blue, white,
-}
-
-//==========================================================================
-// listfunc2
-
-// Test the provided listfunc2, template and data
-func ExampleGenerate_listfunc2() {
-	// Equivalent testing on commandline:
-	//   easygen test/listfunc2
-	fmt.Print(easygen.Generate(false, "test/listfunc2"))
-	// Output:
-	// some-init-method 5 5 someInitMethod SomeInitMethod
 }
 
 ////////////////////////////////////////////////////////////////////////////
