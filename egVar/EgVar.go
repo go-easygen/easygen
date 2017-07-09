@@ -6,9 +6,9 @@
 
 /*
 
-egVar -- easygen variable naming functionalities.
+Package egVar: easygen variable naming functionalities.
 
-egVar provides variable naming manipulation, avaiable from danverbraganza/varcaser.
+egVar provides variable naming manipulation, available from danverbraganza/varcaser.
 
 */
 package egVar
@@ -59,10 +59,12 @@ var egFuncMap = easygen.FuncMap{
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+// FuncDefs returns the custom definition mapping for this specific package.
 func FuncDefs() template.FuncMap {
 	return template.FuncMap(egFuncMap)
 }
 
+// NewTemplate returns a new Template for this specific package.
 func NewTemplate() *EgVar {
 	return &EgVar{&easygen.EgBase{template.New("EgVar")}}
 }

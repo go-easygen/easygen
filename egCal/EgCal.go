@@ -30,6 +30,7 @@ var egFuncMap = easygen.FuncMap{
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+// FuncDefs returns the custom definition mapping for this specific package.
 func FuncDefs() template.FuncMap {
 	return template.FuncMap(egFuncMap)
 }
