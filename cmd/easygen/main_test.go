@@ -80,8 +80,8 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
-	testEasygen(t, "var1", "-ts", "{{ck2uc .Name}}", "var0")
-	testEasygen(t, "var2", "-ts", "{{ck2ss .Name}}", "var0")
+	testEasygen(t, "var1", "-ts", "{{clk2uc .Name}}", "var0")
+	testEasygen(t, "var2", "-ts", "{{clk2ss .Name}}", "var0")
 
 	//Test Bigger files
 	testEasygen(t, "commandlineCLI-024", "commandlineCLI-024")

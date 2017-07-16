@@ -39,7 +39,7 @@
     <form name="choose">
       <table border="1">
 	<tbody>
-{{range .phone}}{{$phoneType := ck2ls .Type}}
+{{range .phone}}{{$phoneType := clk2ls .Type}}
 	  <tr>
 	    <th>
 	      <input type="checkbox" name="caseall" id="{{.Type}}" data-type="{{$phoneType}}">

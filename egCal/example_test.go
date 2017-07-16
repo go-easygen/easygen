@@ -14,7 +14,7 @@ func Example() {
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
 	easygen.Process0(tmpl, os.Stdout,
-		"{{.Name}}: {{ck2uc .Name}} {{ck2ss .Name}}\n"+
+		"{{.Name}}: {{clk2uc .Name}} {{clk2ss .Name}}\n"+
 			"Cal: {{add 2 3}}, {{multiply 2 3}}, {{subtract 9 2}}, {{divide 24 3}}\n",
 		"../test/var0")
 

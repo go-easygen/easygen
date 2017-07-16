@@ -28,12 +28,12 @@ func init() {
 	// set default values for command line parameters{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
 {{else}}
-	flag.{{ck2uc .Type}}Var(&easygen.{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
+	flag.{{clk2uc .Type}}Var(&easygen.{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}{{end}}
 
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
-{{else}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}
+{{else}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}
 	if len(easygen.{{$.StructVar}}.{{.Name}}) == 0 ||
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		easygen.{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
@@ -42,7 +42,7 @@ func init() {
 }
 
 {{if eqf .UsageSummary "True" }}
-const USAGE_SUMMARY = "{{range .Options}}{{if eq .Name "SEPARATOR" }}\n{{else}}{{$envVar := printf "%s_%s" (ck2ss $.ProgramName) (ck2ss .Flag)}}  -{{.Flag}}\t{{.Usage}} ({{$envVar}})\n{{end}}{{end}}\nDetails:\n\n"
+const USAGE_SUMMARY = "{{range .Options}}{{if eq .Name "SEPARATOR" }}\n{{else}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}  -{{.Flag}}\t{{.Usage}} ({{$envVar}})\n{{end}}{{end}}\nDetails:\n\n"
 {{end}}
 
 // Usage function shows help on commandline usage

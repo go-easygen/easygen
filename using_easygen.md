@@ -9,7 +9,7 @@
 
 I.e., with the environment variable `EASYGEN_TS`, the `.tmpl` template file is not used.
 
-	$ EASYGEN_TS='{{.Name}}' easygen -ts '{{ck2uc .Name}}' /tmp/var
+	$ EASYGEN_TS='{{.Name}}' easygen -ts '{{clk2uc .Name}}' /tmp/var
 	SomeInitMethod
 
 I.e., command line value takes the highest priority, even overriding the environment variable `EASYGEN_TS`'s value.
@@ -63,12 +63,12 @@ echo '{FirstName: John, LastName: Doe}' > /tmp/name.yaml
 $ easygen -ts '{{.FirstName}}'\''s full name is {{printf "%s%s" .FirstName .LastName | len}} letters long.' /tmp/name
 John's full name is 7 letters long.
 
-$ easygen -ts "{{.FirstName}} {{ck2ss .LastName}}'s full name is "'{{len (printf "%s%s" .FirstName .LastName)}} letters long.' /tmp/name
+$ easygen -ts "{{.FirstName}} {{clk2ss .LastName}}'s full name is "'{{len (printf "%s%s" .FirstName .LastName)}} letters long.' /tmp/name
 John DOE's full name is 7 letters long.
 
 echo 'Name: some-init-method' > /tmp/var.yaml
 
-$ easygen -ts '{{.Name}} {{6 | minus1}} {{minus1 6}} {{ck2lc .Name}} {{ck2uc .Name}}' /tmp/var
+$ easygen -ts '{{.Name}} {{6 | minus1}} {{minus1 6}} {{clk2lc .Name}} {{clk2uc .Name}}' /tmp/var
 some-init-method 5 5 someInitMethod SomeInitMethod
 
 ```

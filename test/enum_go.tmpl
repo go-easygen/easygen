@@ -37,7 +37,7 @@ const (
 )
 
 {{ with $type := cls2uc $.EnumName -}}
-{{ with $m    := index (ck2ls $type) 0 | printf "%c" -}}
+{{ with $m    := index (clk2ls $type) 0 | printf "%c" -}}
 // Implements encoding.TextMarshaler
 func ({{$m}} {{$type}}) MarshalText() ([]byte, error) {
 	switch {{$m}} {
