@@ -24,7 +24,7 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 		cmd             = exec.Command(cmdEasygen, argv...)
 	)
 
-	t.Logf("Testing %s: `%s %s`", name, cmdEasygen, strings.Join(argv, " "))
+	t.Logf("Testing %s:\n\t%s %s", name, cmdEasygen, strings.Join(argv, " "))
 
 	// open the out file for writing
 	outfile, err := os.Create(generatedOutput)
