@@ -40,7 +40,7 @@ hh - HttpHeaderCase: HTTP-Header-Case
 UpperCamelCase: UpperCamelCase (renders HTTP as Http)
 LowerCamelCase: lowerCamelCase (renders HTTP as Http)
 uc - UpperCamelCaseKeepCaps: UpperCamelCaseKeepCaps (renders HTTP as HTTP)
-lc - LowerCamelCaseKeepCaps: lowerCamelCaseKeepCaps (renders HTTP as HTTP)
+lc - LowerCamelCaseKeepCaps: lowerCamelCaseKeepCaps (renders HTTP as hTTP)
 */
 var (
 	cls2lc = varcaser.Caser{
@@ -96,6 +96,12 @@ var egFuncMap = easygen.FuncMap{
 	"clk2ss": clk2ss.String,
 	"clc2ss": clc2ss.String,
 	"cuc2ss": cuc2ss.String,
+
+	// Aliases, for backwards-compatibility with earlier (>= v1) versions
+	"ck2lc": clk2lc.String,
+	"ck2uc": clk2uc.String,
+	"ck2ls": clk2ls.String,
+	"ck2ss": clk2ss.String,
 }
 
 ////////////////////////////////////////////////////////////////////////////
