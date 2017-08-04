@@ -3,8 +3,8 @@ package egVar_test
 import (
 	"os"
 
-	easygen "gopkg.in/easygen.v2"
-	"gopkg.in/easygen.v2/egVar"
+	"github.com/go-easygen/easygen"
+	"github.com/go-easygen/easygen/egVar"
 )
 
 // for standalone test, change package to `main` and the next func def to,
