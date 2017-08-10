@@ -74,8 +74,8 @@ func init() {
 // Usage function shows help on commandline usage
 func Usage() {
 	fmt.Fprintf(os.Stderr,
-		"\nUsage:\n %s [flags] YamlFileName [YamlFileName...]\n\nFlags:\n\n",
-		progname)
+		"%s version %s\n\nUsage:\n %s [flags] YamlFileName [YamlFileName...]\n\nFlags:\n\n",
+		progname, version, progname)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
 		"\nYamlFileName(s): The name for the .yaml data and .tmpl template file\n\tCan have the extension or without it. Can include the path as well.\n\nFlag defaults can be overridden by corresponding environment variable, e.g.:\n  EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...\n")
