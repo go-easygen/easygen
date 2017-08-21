@@ -71,4 +71,11 @@ echo 'Name: some-init-method' > /tmp/var.yaml
 $ easygen -ts '{{.Name}} {{6 | minus1}} {{minus1 6}} {{clk2lc .Name}} {{clk2uc .Name}}' /tmp/var
 some-init-method 5 5 someInitMethod SomeInitMethod
 
+
+$ echo 'Name: "%bob'"'"'s file"' | tee /tmp/var.yaml
+Name: "%bob's file"
+
+$ easygen -ts '{{quote4shell .Name}}' /tmp/var
+'%bob'\''s file'
+
 ```

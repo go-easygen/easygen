@@ -40,6 +40,8 @@ var egFuncMap = FuncMap{
 	"replace":  replace,
 	"replacec": replacec,
 
+	"quote4shell": quote4shell,
+
 	"minus1":    minus1,
 	"date":      date,
 	"timestamp": timestamp,

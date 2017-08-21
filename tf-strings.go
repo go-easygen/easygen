@@ -1,6 +1,9 @@
 package easygen
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
+)
 
 var (
 	re  *regexp.Regexp
@@ -25,4 +28,10 @@ func replace(replStr string) string {
 // replacec does a case sensitive string replace
 func replacec(replStr string) string {
 	return rec.ReplaceAllString(replStr, Opts.StrTo)
+}
+
+// quote4shell -- quote file name for shell.
+// So "%bob's file" will be quoted as '%bob'\''s file'
+func quote4shell(s string) string {
+	return "'" + strings.Join(strings.Split(s, "'"), `'\''`) + "'"
 }
