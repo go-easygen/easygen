@@ -12,9 +12,17 @@ import (
 func ExampleProcess() {
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egVar.FuncDefs())
-	easygen.Process(tmpl, os.Stdout, "test/var0")
+	tmplFileName := "test/var0"
+	easygen.Process(tmpl, os.Stdout, tmplFileName)
+
+	// To use Execute(), TemplateFileName has to be exact
+	m := easygen.ReadDataFile(tmplFileName + ".yaml")
+	easygen.Execute(tmpl, os.Stdout, tmplFileName+".tmpl", m)
 
 	// Output:
+	// Input: "some-init-method"
+	// Output 1: "SomeInitMethod"
+	// Output 2: "SOME_INIT_METHOD"
 	// Input: "some-init-method"
 	// Output 1: "SomeInitMethod"
 	// Output 2: "SOME_INIT_METHOD"

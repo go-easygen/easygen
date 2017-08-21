@@ -114,7 +114,6 @@ func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...strin
 // fileNameTempl is not a comma-separated string, but for a single template file.
 func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
 	m := ReadDataFile(fileName)
-	m["ENV"] = GetEnv()
 	//fmt.Printf("] %+v\n", m)
 
 	// template file
@@ -135,14 +134,20 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 			fileNameT = fileName
 		}
 	}
-	// catch all
+
+	return Execute(t, wr, fileNameT, m)
+}
+
+// Execute will execute the Template on the given data map `m`.
+func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	if !IsExist(fileNameT) {
-		checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameTempl))
+		checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameT))
 	}
 
 	tn, err := t.ParseFiles(fileNameT)
 	checkError(err)
 
+	m["ENV"] = GetEnv()
 	return tn.ExecuteTemplate(wr, filepath.Base(fileNameT), m)
 }
 
