@@ -35,7 +35,7 @@ import (
 // Global variables definitions
 
 // EgData -- EasyGen driven Data
-type EgData map[interface{}]interface{}
+type EgData map[string]interface{}
 
 // Opts holds the actual values from the command line parameters
 var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
