@@ -71,6 +71,8 @@ var (
 	clk2ss = varcaser.Caser{
 		From: varcaser.KebabCase, To: varcaser.ScreamingSnakeCase}
 
+	clc2ls = varcaser.Caser{
+		From: varcaser.LowerCamelCase, To: varcaser.LowerSnakeCase}
 	clc2ss = varcaser.Caser{
 		From: varcaser.LowerCamelCase, To: varcaser.ScreamingSnakeCase}
 	cuc2ss = varcaser.Caser{
@@ -94,6 +96,8 @@ var egFuncMap = easygen.FuncMap{
 	"clk2uc": clk2uc.String,
 	"clk2ls": clk2ls.String,
 	"clk2ss": clk2ss.String,
+
+	"clc2ls": clc2ls.String,
 	"clc2ss": clc2ss.String,
 	"cuc2ss": cuc2ss.String,
 
