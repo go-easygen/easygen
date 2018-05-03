@@ -50,7 +50,6 @@ func main() {
 	if flag.NArg() < 1 {
 		Usage()
 	}
-	easygen.TFStringsInit() // Done *after* flag parsing!
 
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).

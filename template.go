@@ -98,9 +98,6 @@ var egFuncMap = FuncMap{
 	"regexpReplaceAllStringFunc":       regexpReplaceAllStringFunc,
 	"regexpSplit":                      regexpSplit,
 
-	"replace":  replace,
-	"replacec": replacec,
-
 	"quote4shell": quote4shell,
 
 	"minus1":    minus1,

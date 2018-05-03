@@ -75,9 +75,6 @@ func TestExec(t *testing.T) {
 	//Test HTML
 	testEasygen(t, "list1HTML", "-tf", "list1HTML", "list1")
 
-	//Test String Functions
-	testEasygen(t, "strings0", "-rf", `a(x*)b`, "-rt", `${1}W`, "strings0")
-	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
 	testEasygen(t, "var1", "-ts", "{{clk2uc .Name}}", "var0")
