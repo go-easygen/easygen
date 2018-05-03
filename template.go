@@ -8,6 +8,7 @@ package easygen
 
 import (
 	"io"
+	"os"
 	"strings"
 	"text/template"
 )
@@ -98,6 +99,7 @@ var egFuncMap = FuncMap{
 	"regexpReplaceAllStringFunc":       regexpReplaceAllStringFunc,
 	"regexpSplit":                      regexpSplit,
 
+	"ENV":         os.Getenv,
 	"quote4shell": quote4shell,
 
 	"minus1":    minus1,

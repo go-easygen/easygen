@@ -67,6 +67,7 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "list0", "-tf", "list0", "list0")
 	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0")
 	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0.yaml")
+	testEasygen(t, "list0E", "-tf", "list0E", "list0")
 
 	testEasygen(t, "list1", "list1")
 	testEasygen(t, "listfunc1", "listfunc1")
