@@ -67,6 +67,7 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "list0", "-tf", "list0", "list0")
 	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0")
 	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0.yaml")
+	testEasygen(t, "list0E", "-tf", "list0E", "list0")
 
 	testEasygen(t, "list1", "list1")
 	testEasygen(t, "listfunc1", "listfunc1")
@@ -75,9 +76,6 @@ func TestExec(t *testing.T) {
 	//Test HTML
 	testEasygen(t, "list1HTML", "-tf", "list1HTML", "list1")
 
-	//Test String Functions
-	testEasygen(t, "strings0", "-rf", `a(x*)b`, "-rt", `${1}W`, "strings0")
-	testEasygen(t, "strings1", "-rf", "HTML", "-rt", "XML", "-tf", "strings1", "strings0")
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
 	testEasygen(t, "var1", "-ts", "{{clk2uc .Name}}", "var0")

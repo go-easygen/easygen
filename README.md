@@ -20,13 +20,14 @@
     - [Command line](#command-line)
     - [The library ](#the-library-)
       - [> cmd/easygen/main.go](#-cmdeasygenmaingo)
-    - [Author(s) & Contributor(s)](#author(s)-&-contributor(s))
+    - [Different Versions](#different-versions)
+  - [Author(s) & Contributor(s)](#author(s)-&-contributor(s))
 
 # easygen - Easy to use universal code/text generator
 
 Command `easygen` is an easy to use universal code/text generator.
 
-It can be used as a text or html generator for arbitrary purposes with arbitrary data and templates.
+It can be used as a text or html generator for _arbitrary_ purposes with _arbitrary_ data and templates.
 
 It can be used as a code generator, or anything that is structurally repetitive. Some command line parameter handling code generator are provided as examples, including the Go's built-in `flag` package, and the `viper` & `cobra` package.
 
@@ -37,6 +38,8 @@ You can even use easygen as a generic Go template testing tool using the `-ts` c
 
 ### $ easygen
 ```sh
+easygen version git-master
+
 Usage:
  easygen [flags] YamlFileName [YamlFileName...]
 
@@ -48,12 +51,6 @@ Flags:
     	extension of template file (default ".tmpl")
   -ey extension
     	extension of yaml file (default ".yaml")
-  -html
-    	treat the template file as html instead of text
-  -rf string
-    	replace from, the from string used for the replace function
-  -rt string
-    	replace to, the to string used for the replace function
   -tf name(s)
     	.tmpl (comma-separated) template file name(s) (default: same as .yaml file)
   -ts string
@@ -187,6 +184,8 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
+var version = "git-master"
+
 ////////////////////////////////////////////////////////////////////////////
 // Main
 
@@ -198,7 +197,6 @@ func main() {
 	if flag.NArg() < 1 {
 		Usage()
 	}
-	easygen.TFStringsInit() // Done *after* flag parsing!
 
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).
@@ -212,6 +210,25 @@ func main() {
 	}
 }
 ```
+
+### Different Versions
+
+The `easygen` has gone through three different versions whose API are a bit different between them.
+
+To always stay at the latest version, `import`
+
+    "github.com/go-easygen/easygen"
+
+in your Go code. However, to stay within a certain version, `import` the following package respectively to what you need:
+
+- V3: "[gopkg.in/easygen.v3](https://gopkg.in/easygen.v3)"
+- V2: "[gopkg.in/easygen.v2](https://gopkg.in/easygen.v2)"
+- V1: "[gopkg.in/easygen.v1](https://gopkg.in/easygen.v1)"
+
+To see the differences between them, check out
+
+- [V3 vs V2](https://github.com/go-easygen/easygen/wiki/V3-vs-V2)
+- [V2 vs V1](https://github.com/go-easygen/easygen/wiki/V2-vs-V1)
 
 ## Author(s) & Contributor(s)
 

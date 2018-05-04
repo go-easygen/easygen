@@ -20,11 +20,6 @@ StructName: Options
 StructVar: Opts
 
 Options:
-  - Name: HTML
-    Type: bool
-    Flag: html
-    Value: false
-    Usage: treat the template file as html instead of text
 
   - Name: TemplateStr
     Type: string
@@ -49,18 +44,6 @@ Options:
     Flag: et
     Value: '".tmpl"'
     Usage: "`extension` of template file"
-
-  - Name: StrFrom
-    Type: string
-    Flag: rf
-    Value: '""'
-    Usage: "replace from, the from string used for the replace function"
-
-  - Name: StrTo
-    Type: string
-    Flag: rt
-    Value: '""'
-    Usage: "replace to, the to string used for the replace function"
 
   - Name: Debug
     Type: int

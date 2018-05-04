@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Package: easygen
 // Purpose: Easy to use universal code/text generator
-// Authors: Tong Sun (c) 2015-17, All rights reserved
+// Authors: Tong Sun (c) 2015-18, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -35,7 +35,7 @@ import (
 // Global variables definitions
 
 // EgData -- EasyGen driven Data
-type EgData map[string]interface{}
+type EgData interface{}
 
 // Opts holds the actual values from the command line parameters
 var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
@@ -50,10 +50,9 @@ func ReadDataFile(fileName string) EgData {
 		return ReadYamlFile(fileName + Opts.ExtYaml)
 	} else if IsExist(fileName) {
 		return ReadYamlFile(fileName)
-	} else {
-		checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	}
-	return make(EgData)
+	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
+	return nil
 }
 
 // ReadYamlFile reads given YAML file as EgData
@@ -61,7 +60,7 @@ func ReadYamlFile(fileName string) EgData {
 	source, err := ioutil.ReadFile(fileName)
 	checkError(err)
 
-	m := make(EgData)
+	m := make(map[interface{}]interface{})
 
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
@@ -76,16 +75,6 @@ func IsExist(fileName string) bool {
 	return err == nil || os.IsExist(err)
 	// CAUTION! os.IsExist(err) != !os.IsNotExist(err)
 	// https://gist.github.com/mastef/05f46d3ab2f5ed6a6787#file-isexist_vs_isnotexist-go-L35-L56
-}
-
-// GetEnv returns the Environment variables in a map
-func GetEnv() map[string]string {
-	env := make(map[string]string)
-	for _, e := range os.Environ() {
-		sep := strings.Index(e, "=")
-		env[e[0:sep]] = e[sep+1:]
-	}
-	return env
 }
 
 // Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
@@ -147,7 +136,6 @@ func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	tn, err := t.ParseFiles(fileNameT)
 	checkError(err)
 
-	m["ENV"] = GetEnv()
 	return tn.ExecuteTemplate(wr, filepath.Base(fileNameT), m)
 }
 
@@ -155,7 +143,6 @@ func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 func Process0(t Template, wr io.Writer, strTempl string, fileNames ...string) error {
 	fileName := fileNames[0]
 	m := ReadDataFile(fileName)
-	m["ENV"] = GetEnv()
 
 	tmpl, err := t.Parse(strTempl)
 	checkError(err)

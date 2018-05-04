@@ -66,27 +66,7 @@ func regexpSplit(s string, regExp string, n int) []string {
 }
 
 ////////////////////////////////////////////////////////////////////////////
-// CLI Function Definitions
-
-// TFStringsInit does initialization for strings related template functions
-func TFStringsInit() {
-	re = regexp.MustCompile(`(?i)` + Opts.StrFrom)
-	// case sensitive string replace
-	rec = regexp.MustCompile(Opts.StrFrom)
-
-}
-
-//==========================================================================
-// command-line replacing option template function
-
-func replace(replStr string) string {
-	return re.ReplaceAllString(replStr, Opts.StrTo)
-}
-
-// replacec does a case sensitive string replace
-func replacec(replStr string) string {
-	return rec.ReplaceAllString(replStr, Opts.StrTo)
-}
+// Misc
 
 // quote4shell -- quote file name for shell.
 // So "%bob's file" will be quoted as '%bob'\''s file'
