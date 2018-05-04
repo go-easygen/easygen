@@ -105,6 +105,25 @@ To put them all together, check out,
 
 #### > {{cat "cmd/easygen/main.go" | color "go"}}
 
+### Different Versions
+
+The `easygen` has gone through three different versions whose API are a bit different between them.
+
+To always stay at the latest version, `import`
+
+    "github.com/go-easygen/easygen"
+
+in your Go code. However, to stay within a certain version, `import` the following package respectively to what you need:
+
+- V3: "[gopkg.in/easygen.v3](https://gopkg.in/easygen.v3)"
+- V2: "[gopkg.in/easygen.v2](https://gopkg.in/easygen.v2)"
+- V1: "[gopkg.in/easygen.v1](https://gopkg.in/easygen.v1)"
+
+To see the differences between them, check out
+
+- [V3 vs V2](https://github.com/go-easygen/easygen/wiki/V3-vs-V2)
+- [V2 vs V1](https://github.com/go-easygen/easygen/wiki/V2-vs-V1)
+
 ## Author(s) & Contributor(s)
 
 Tong SUN  
