@@ -68,6 +68,17 @@ func regexpSplit(s string, regExp string, n int) []string {
 ////////////////////////////////////////////////////////////////////////////
 // Misc
 
+// coalesce function takes two or more string arguments and returns the first argument that is not empty.
+// The result is empty only if all the arguments are empty.
+func coalesce(s ...string) string {
+	for _, str := range s {
+		if len(str) != 0 {
+			return str
+		}
+	}
+	return ""
+}
+
 // quote4shell -- quote file name for shell.
 // So "%bob's file" will be quoted as '%bob'\''s file'
 func quote4shell(s string) string {

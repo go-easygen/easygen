@@ -36,7 +36,7 @@ type EgBase struct {
 type FuncMap map[string]interface{}
 
 var egFuncMap = FuncMap{
-	// == strings function definitions
+	// == standard strings function definitions
 	"stringsCompare":        strings.Compare,
 	"stringsContains":       strings.Contains,
 	"stringsContainsAny":    strings.ContainsAny,
@@ -84,7 +84,7 @@ var egFuncMap = FuncMap{
 	"eqf":   strings.EqualFold,
 	"split": strings.Fields,
 
-	// == regexp function definitions
+	// == standard regexp function definitions
 	"regexpFindAllString":              regexpFindAllString,
 	"regexpFindAllStringIndex":         regexpFindAllStringIndex,
 	"regexpFindAllStringSubmatch":      regexpFindAllStringSubmatch,
@@ -99,7 +99,9 @@ var egFuncMap = FuncMap{
 	"regexpReplaceAllStringFunc":       regexpReplaceAllStringFunc,
 	"regexpSplit":                      regexpSplit,
 
+	// == my added functions
 	"ENV":         os.Getenv,
+	"coalesce":    coalesce,
 	"quote4shell": quote4shell,
 
 	"minus1":    minus1,

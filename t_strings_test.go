@@ -32,7 +32,7 @@ func testStringManipulation(t *testing.T, d []testItem) {
 func TestStringManipulation(t *testing.T) {
 
 	testData := []testItem{
-		// == strings functions
+		// == standard strings functions
 		{
 			`{{ stringsContains "seafood" "foo" }}`,
 			"true",
@@ -127,7 +127,7 @@ func TestStringManipulation(t *testing.T) {
 			"The eq says Nay but eqf says Yea.",
 		},
 
-		// == regexp functions
+		// == standard regexp functions
 		{
 			`{{ regexpFindString "peach punch" "p([a-z]+)ch" }}`,
 			"peach",
@@ -174,6 +174,27 @@ func TestStringManipulation(t *testing.T) {
 		// 	`{{ regexpReplaceAllStringFunc "a peach" "p([a-z]+)ch" stringsToUpper }}`,
 		// 	"a PEACH",
 		// },
+		// == my added strings functions
+		{
+			`{{ coalesce "a" }}`,
+			"a",
+		},
+		{
+			`{{ coalesce "" "b" }}`,
+			"b",
+		},
+		{
+			`{{ coalesce "" "" "c" }}`,
+			"c",
+		},
+		{
+			`{{ coalesce "" "" "" "" }}`,
+			"",
+		},
+		{
+			`{{ coalesce "" }}`,
+			"",
+		},
 	}
 
 	testStringManipulation(t, testData)
