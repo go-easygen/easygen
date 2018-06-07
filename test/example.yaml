@@ -1,0 +1,19 @@
+ColorRed:   red  
+ColorBlue:  blue 
+ColorWhite: white
+
+Colorlist: red blue white
+
+Colors:
+  - red
+  - blue
+  - white
+
+Cars:
+
+  - Make: Ford
+    Module: T1
+
+  - Make: GM
+    Module: T2
+

@@ -72,7 +72,7 @@ func regexpSplit(s string, regExp string, n int) []string {
 // The result is empty only if all the arguments are empty.
 func coalesce(s ...string) string {
 	for _, str := range s {
-		if len(str) != 0 {
+		if len(str) != 0 && str != "<no value>" {
 			return str
 		}
 	}

@@ -56,9 +56,13 @@ func main() {
 		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
 
 	args := flag.Args()
+	var err error
 	if len(easygen.Opts.TemplateStr) > 0 {
-		easygen.Process0(tmpl, os.Stdout, easygen.Opts.TemplateStr, args...)
+		err = easygen.Process0(tmpl, os.Stdout, easygen.Opts.TemplateStr, args...)
 	} else {
-		easygen.Process(tmpl, os.Stdout, args...)
+		err = easygen.Process(tmpl, os.Stdout, args...)
+	}
+	if err != nil {
+		panic(err)
 	}
 }
