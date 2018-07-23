@@ -130,7 +130,14 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 // Execute will execute the Template on the given data map `m`.
 func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	if !IsExist(fileNameT) {
-		checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameT))
+		ex, e := os.Executable()
+		if e != nil {
+			return e
+		}
+		fileNameT = filepath.Dir(ex) + string(filepath.Separator) + fileNameT
+		if !IsExist(fileNameT) {
+			checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameT))
+		}
 	}
 
 	tn, err := t.ParseFiles(fileNameT)
