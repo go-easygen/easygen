@@ -30,6 +30,8 @@ func init() {
 		"template string (in text)")
 	flag.StringVar(&easygen.Opts.ExtYaml, "ey", ".yaml",
 		"`extension` of yaml file")
+	flag.StringVar(&easygen.Opts.ExtJson, "ej", ".json",
+		"`extension` of json file")
 	flag.StringVar(&easygen.Opts.ExtTmpl, "et", ".tmpl",
 		"`extension` of template file")
 	flag.IntVar(&easygen.Opts.Debug, "debug", 0,
@@ -43,6 +45,10 @@ func init() {
 	if len(easygen.Opts.ExtYaml) == 0 ||
 		len(os.Getenv("EASYGEN_EY")) != 0 {
 		easygen.Opts.ExtYaml = os.Getenv("EASYGEN_EY")
+	}
+	if len(easygen.Opts.ExtJson) == 0 ||
+		len(os.Getenv("EASYGEN_EJ")) != 0 {
+		easygen.Opts.ExtJson = os.Getenv("EASYGEN_EJ")
 	}
 	if len(easygen.Opts.ExtTmpl) == 0 ||
 		len(os.Getenv("EASYGEN_ET")) != 0 {

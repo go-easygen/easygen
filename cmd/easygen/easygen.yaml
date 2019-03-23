@@ -33,6 +33,12 @@ Options:
     Value: '".yaml"'
     Usage: "`extension` of yaml file"
 
+  - Name: ExtJson
+    Type: string
+    Flag: ej
+    Value: '".json"'
+    Usage: "`extension` of json file"
+
   - Name: ExtTmpl
     Type: string
     Flag: et

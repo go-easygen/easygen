@@ -73,6 +73,11 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
 
+	//Test Basic Json Functions
+	testEasygen(t, "list0j", "list0j")
+	testEasygen(t, "list0j", "list0j", "list0j")
+	testEasygen(t, "list0j", "list0j", "list0j.json")
+
 	// template_name can be a comma-separated list
 	testEasygen(t, "list01", "list0,listfunc1", "list0")
 

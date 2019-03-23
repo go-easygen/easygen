@@ -18,11 +18,13 @@ Many examples have been provided to showcase its functionality, and different wa
 package easygen
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -48,8 +50,18 @@ var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
 func ReadDataFile(fileName string) EgData {
 	if IsExist(fileName + Opts.ExtYaml) {
 		return ReadYamlFile(fileName + Opts.ExtYaml)
+	} else if IsExist(fileName + Opts.ExtJson) {
+		return ReadJsonFile(fileName + Opts.ExtJson)
 	} else if IsExist(fileName) {
-		return ReadYamlFile(fileName)
+		fext := filepath.Ext(fileName)
+		fext = fext[1:] // ignore the leading "."
+		if regexp.MustCompile(`(?i)^y`).MatchString(fext) {
+			return ReadYamlFile(fileName)
+		} else if regexp.MustCompile(`(?i)^j`).MatchString(fext) {
+			return ReadJsonFile(fileName)
+		} else {
+			checkError(fmt.Errorf("Unsupported file extension for DataFile '%s'", fileName))
+		}
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
@@ -63,6 +75,19 @@ func ReadYamlFile(fileName string) EgData {
 	m := make(map[interface{}]interface{})
 
 	err = yaml.Unmarshal(source, &m)
+	checkError(err)
+
+	return m
+}
+
+// ReadJsonFile reads given JSON file as EgData
+func ReadJsonFile(fileName string) EgData {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(map[string]interface{})
+
+	err = json.Unmarshal(source, &m)
 	checkError(err)
 
 	return m

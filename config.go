@@ -13,6 +13,7 @@ const progname = "easygen" // os.Args[0]
 type Options struct {
 	TemplateStr string // template string (in text)
 	ExtYaml     string // `extension` of yaml file
+	ExtJson     string // `extension` of json file
 	ExtTmpl     string // `extension` of template file
 	Debug       int    // debugging `level`
 }
