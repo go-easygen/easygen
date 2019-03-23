@@ -27,12 +27,6 @@ Options:
     Value: '""'
     Usage: "template string (in text)"
 
-  - Name: TemplateFile
-    Type: string
-    Flag: tf
-    Value: '""'
-    Usage: ".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)"
-
   - Name: ExtYaml
     Type: string
     Flag: ey
@@ -54,7 +48,7 @@ Options:
 # Whether to use the USAGE_SUMMARY in Usage help
 UsageSummary: ""
 
-UsageLead: "\\nUsage:\\n %s [flags] YamlFileName [YamlFileName...]\\n\\nFlags:\\n\\n"
+UsageLead: "\\nUsage:\\n %s [flags] template_name [data_filename [data_filename...]]\\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\nYamlFileName(s): The name for the .yaml data and .tmpl template file\\n\\tCan have the extension or without it. Can include the path as well.\\n\\nFlag defaults can be overridden by corresponding environment variable, e.g.:\\n  EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...\\n"
+UsageEnd: "\\ndata_filename(s): The name for the .yaml or .json data.\\n - If omitted derive from the template_name.\\n - Can have the extension or without it. If withot extension,\\n   will try .yaml first then .json\\n - Can include the path as well.\\n\\ntemplate_name: The name for the template file.\\n - Can have the extension or without it.\\n - Can include the path as well.\\n - Can be a comma-separated list giving many template files, in which case\\n   at least one data_filename must be given.\\n\\nFlag defaults can be overridden by corresponding environment variable, e.g.:\\n  EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...\\n"
 

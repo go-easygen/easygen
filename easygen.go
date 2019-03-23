@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Package: easygen
 // Purpose: Easy to use universal code/text generator
-// Authors: Tong Sun (c) 2015-18, All rights reserved
+// Authors: Tong Sun (c) 2015-2019, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -86,9 +86,6 @@ func Process(t Template, wr io.Writer, fileNames ...string) error {
 // specified via fileNameTempl and fileNames respectively.
 // fileNameTempl can be a comma-separated string giving many template files
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
-	if len(Opts.TemplateFile) > 0 {
-		fileNameTempl = Opts.TemplateFile
-	}
 	for _, dataFn := range fileNames {
 		for _, templateFn := range strings.Split(fileNameTempl, ",") {
 			err := Process1(t, wr, templateFn, dataFn)
