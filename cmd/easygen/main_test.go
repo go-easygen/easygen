@@ -73,6 +73,9 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
 
+	// template_name can be a comma-separated list
+	testEasygen(t, "list01", "list0,listfunc1", "list0")
+
 	//Test HTML
 	testEasygen(t, "list1HTML", "list1HTML", "list1")
 
