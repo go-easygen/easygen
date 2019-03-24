@@ -12,11 +12,15 @@
 
 Command `{{.Name}}` is an easy to use universal code/text generator.
 
-It can be used as a text or html generator for _arbitrary_ purposes with _arbitrary_ data and templates.
+It can be used as a text or html generator for _arbitrary_ purposes with _arbitrary_ data and templates. It is a good [GSL](https://github.com/imatix/gsl) replacement, as it
 
-It can be used as a code generator, or anything that is structurally repetitive. Some command line parameter handling code generator are provided as examples, including the Go's built-in `flag` package, and the `viper` & `cobra` package.
+  - is more easy to define driving data, in form of YML instead of XML
+  - has more powerful template engine that based on Go template.
+    You can also write your own function in Go to customize your template.
 
-You can even use easygen as a generic Go template testing tool using the `-ts` commandline option, and much much more.
+You can even use easygen as a generic Go template testing tool using the `-ts` commandline option, and much more.
+
+Note this document is for `{{.Name}}` versions 4.0+. For historic versions check out the [Different Versions](#different-versions) section.
 
 
 ## Usage
@@ -25,10 +29,18 @@ You can even use easygen as a generic Go template testing tool using the `-ts` c
 
 ## Install
 
+### Install as Debian/Unbuntu package
+
+
+    apt install {{.Name}}
+
+
+### Install from source
+
 	go get github.com/go-easygen/easygen/...
 	ls -l $GOPATH/bin
 
-You should find an `easygen` executable newly created in there. 
+You should find an `{{.Name}}` executable newly created in there. 
 
 ## Test
 
@@ -42,7 +54,7 @@ You should find an `easygen` executable newly created in there.
 	$ easygen test/list1 
 	The quoted colors are: "red", "blue", "white", .
 
-	$ easygen -tf test/listfunc1 test/list0
+	$ easygen test/listfunc1 test/list0
 	red, blue, white.
 
 
@@ -51,11 +63,16 @@ And also check out the provided [more examples](https://godoc.org/github.com/go-
 
 ## Details
 
+It can be used as a code generator, for example, command line parameter handling code generator, or anything that is structurally repetitive, like the following:
+
+
 - [Introduction to easygen and its philosophy ](https://suntong.github.io/blogs/2016/01/01/easygen---easy-to-use-universal-code/text-generator)
 - [Easygen is now coding itself ](https://sfxpt.wordpress.com/2015/07/04/easygen-is-now-coding-itself/)
 - [Showcasing the power of easygen with ffcvt ](https://sfxpt.wordpress.com/2015/08/02/showcasing-the-power-of-easygen-with-ffcvt/)
 - [Easygen for HTML mock-up ](https://sfxpt.wordpress.com/2015/07/10/easygen-for-mock-up/)
 - [Moving beyond code-gen and mock-up, using easygen in real life creating GPT partitions](https://suntong.github.io/blogs/2015/12/26/creating-gpt-partitions-easily-on-the-command-line)
+
+Ready to get started? Then check out [Getting Started](https://github.com/go-easygen/easygen/wiki/Getting-Started) to start building your way to turn your data into any form, any way you want.
 
 <a name="clfhcag" />
 
@@ -72,9 +89,9 @@ Currently, `easygen`'s command line parameter handling is built on top of Go's b
 
 Currently, there are three tiers program parameters can be given:
 
-0. Default values defined within the program, so that program parameters can have meaningful defaults to start with
-0. Values defined in environment variables
-0. Values passed from command line 
+1. Default values defined within the program, so that program parameters can have meaningful defaults to start with
+1. Values defined in environment variables
+1. Values passed from command line 
 
 The latter will have higher priority and will override values defined formerly. I.e., the values from command line will override that in environment variables, which in turn override program defaults.
 
@@ -101,13 +118,55 @@ The [restructured `easygen`](https://github.com/go-easygen/easygen/issues/10) ca
 - The [egVar package example](http://godoc.org/github.com/go-easygen/easygen/egVar#example-package) shows how to add the variable name manipulation on top of the default library.
 - The [egCal  package example](http://godoc.org/github.com/go-easygen/easygen/egCal#example-package) shows how to add the variable name manipulation and generic calculation functionalities, together with the default functions, all at the same time.
 
-To put them all together, check out,
+To put them all together, check out the `easygen`'s `main.go`:
 
-#### > {{cat "cmd/easygen/main.go" | color "go"}}
+#### > cmd/easygen/main.go
+
+```go
+package main
+
+import (
+	"flag"
+	"os"
+
+	"github.com/go-easygen/easygen"
+	"github.com/go-easygen/easygen/egCal"
+	"github.com/go-easygen/easygen/egVar"
+)
+
+//go:generate sh -v easygen.gen.sh
+
+////////////////////////////////////////////////////////////////////////////
+// Main
+
+func main() {
+	flag.Usage = Usage
+	flag.Parse()
+
+	// One mandatory non-flag arguments
+	if flag.NArg() < 1 {
+		Usage()
+	}
+
+	tmpl0 := easygen.NewTemplate().Customize()
+	tmpl := tmpl0.Funcs(easygen.FuncDefs()).
+		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
+
+	args := flag.Args()
+	if len(easygen.Opts.TemplateStr) > 0 {
+		easygen.Process0(tmpl, os.Stdout, easygen.Opts.TemplateStr, args...)
+	} else {
+		easygen.Process(tmpl, os.Stdout, args...)
+	}
+}
+```
+
+It has been as simple as this up until version 3. I.e., it's quite simple to make use of `easygen` as a package. 
+
 
 ### Different Versions
 
-The `easygen` has gone through three different versions whose API are a bit different between them.
+The `easygen` has gone through four different versions whose API are a bit different between them.
 
 To always stay at the latest version, `import`
 
@@ -115,12 +174,14 @@ To always stay at the latest version, `import`
 
 in your Go code. However, to stay within a certain version, `import` the following package respectively to what you need:
 
+- V4: "[gopkg.in/easygen.v4](https://gopkg.in/easygen.v4)"
 - V3: "[gopkg.in/easygen.v3](https://gopkg.in/easygen.v3)"
 - V2: "[gopkg.in/easygen.v2](https://gopkg.in/easygen.v2)"
 - V1: "[gopkg.in/easygen.v1](https://gopkg.in/easygen.v1)"
 
 To see the differences between them, check out
 
+- [V4 vs V3](https://github.com/go-easygen/easygen/wiki/V4-vs-V3)
 - [V3 vs V2](https://github.com/go-easygen/easygen/wiki/V3-vs-V2)
 - [V2 vs V1](https://github.com/go-easygen/easygen/wiki/V2-vs-V1)
 

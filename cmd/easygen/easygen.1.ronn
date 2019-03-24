@@ -1,0 +1,66 @@
+# easygen -- Easy to use universal code/text generator
+
+## SYNOPSIS
+
+   easygen [flags] template_name [data_filename [data_filename...]]
+
+data_filename(s): The name for the .yaml or .json data.
+
+ - If omitted derive from the template_name.
+ - Can have the extension or without it. If withot extension,
+   will try .yaml first then .json
+ - Can include the path as well.
+
+template_name: The name for the template file.
+
+ - Can have the extension or without it.
+ - Can include the path as well.
+ - Can be a comma-separated list giving many template files, in which case
+   at least one data_filename must be given.
+
+
+## DESCRIPTION
+
+Command `easygen` is an easy to use universal code/text generator.
+
+It can be used as a text or html generator for _arbitrary_ purposes with _arbitrary_ data and templates. It is a good GSL replacement, as it
+
+  - is more easy to define driving data, in form of YML instead of XML
+  - has more powerful template engine that based on Go template.
+    You can even write your own function in Go to customize your template.
+
+You can even use easygen as a generic Go template testing tool using the `-ts` commandline option, and much more.
+
+## Usage
+
+It's very easy to use -- just type `easygen` and following the inline help.
+Or try the following example to get started:
+
+        export PATH=$PATH:$GOPATH/bin
+
+        $ easygen $GOPATH/src/github.com/go-easygen/easygen/test/list0
+        The colors are: red, blue, white, .
+
+        cd $GOPATH/src/github.com/go-easygen/easygen
+
+        $ easygen test/list1 
+        The quoted colors are: "red", "blue", "white", .
+
+        $ easygen -tf test/listfunc1 test/list0
+        red, blue, white.
+
+
+## EXAMPLES
+
+`easygen` comes with comprehensive online documents. For further details,
+please go to:
+
+https://github.com/go-easygen/easygen
+
+https://suntong.github.io/blogs/2016/01/01/easygen---easy-to-use-universal-code/text-generator
+
+https://github.com/go-easygen/easygen/blob/master/using_easygen.md
+
+https://github.com/go-easygen/easygen/wiki/Getting-Started
+
+https://godoc.org/github.com/go-easygen/easygen#pkg-examples
