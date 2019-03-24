@@ -64,17 +64,25 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "list0", "list0")
 	// Filename suffixes are optional
 	testEasygen(t, "list0", "list0.yaml")
-	testEasygen(t, "list0", "-tf", "list0", "list0")
-	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0")
-	testEasygen(t, "list0", "-tf", "list0.tmpl", "list0.yaml")
-	testEasygen(t, "list0E", "-tf", "list0E", "list0")
+	testEasygen(t, "list0", "list0", "list0")
+	testEasygen(t, "list0", "list0.tmpl", "list0")
+	testEasygen(t, "list0", "list0.tmpl", "list0.yaml")
+	testEasygen(t, "list0E", "list0E", "list0")
 
 	testEasygen(t, "list1", "list1")
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
 
+	//Test Basic Json Functions
+	testEasygen(t, "list0j", "list0j")
+	testEasygen(t, "list0j", "list0j", "list0j")
+	testEasygen(t, "list0j", "list0j", "list0j.json")
+
+	// template_name can be a comma-separated list
+	testEasygen(t, "list01", "list0,listfunc1", "list0")
+
 	//Test HTML
-	testEasygen(t, "list1HTML", "-tf", "list1HTML", "list1")
+	testEasygen(t, "list1HTML", "list1HTML", "list1")
 
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
@@ -84,7 +92,7 @@ func TestExec(t *testing.T) {
 	//Test Bigger files
 	testEasygen(t, "commandlineCLI-024", "commandlineCLI-024")
 	testEasygen(t, "commandlineCLI-027", "commandlineCLI-027")
-	testEasygen(t, "commandlineCLI-027s", "-tf", "commandlineCLI-027", "commandlineCLI-027s")
+	testEasygen(t, "commandlineCLI-027s", "commandlineCLI-027", "commandlineCLI-027s")
 
 	testEasygen(t, "commandlineCVFull", "commandlineCVFull")
 	testEasygen(t, "commandlineCV", "commandlineCV")
@@ -92,7 +100,7 @@ func TestExec(t *testing.T) {
 
 	// Enum generation: (a) run template with multiple data inputs,
 	//                  (b) run the same input with multiple template files:
-	testEasygen(t, "enum_multiple_data_files", "-tf", "enum_c-header", "raid_type", "raid_driver")
-	testEasygen(t, "enum_multiple_template_files", "-tf", "enum_c-header,enum_c-source", "raid_type.yaml")
-	testEasygen(t, "enum_multiple_template_and_data", "-tf", "enum_c-header,enum_c-to_str", "raid_type", "raid_driver.yaml")
+	testEasygen(t, "enum_multiple_data_files", "enum_c-header", "raid_type", "raid_driver")
+	testEasygen(t, "enum_multiple_template_files", "enum_c-header,enum_c-source", "raid_type.yaml")
+	testEasygen(t, "enum_multiple_template_and_data", "enum_c-header,enum_c-to_str", "raid_type", "raid_driver.yaml")
 }

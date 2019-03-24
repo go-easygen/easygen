@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Package: easygen
 // Purpose: Easy to use universal code/text generator
-// Authors: Tong Sun (c) 2015-18, All rights reserved
+// Authors: Tong Sun (c) 2015-2019, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -18,11 +18,13 @@ Many examples have been provided to showcase its functionality, and different wa
 package easygen
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -38,7 +40,7 @@ import (
 type EgData interface{}
 
 // Opts holds the actual values from the command line parameters
-var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
+var Opts = Options{ExtYaml: ".yaml", ExtJson: ".json", ExtTmpl: ".tmpl"}
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
@@ -48,8 +50,20 @@ var Opts = Options{ExtYaml: ".yaml", ExtTmpl: ".tmpl"}
 func ReadDataFile(fileName string) EgData {
 	if IsExist(fileName + Opts.ExtYaml) {
 		return ReadYamlFile(fileName + Opts.ExtYaml)
+	} else if IsExist(fileName + Opts.ExtJson) {
+		return ReadJsonFile(fileName + Opts.ExtJson)
 	} else if IsExist(fileName) {
-		return ReadYamlFile(fileName)
+		verbose("Reading exist Data File", 2)
+		fext := filepath.Ext(fileName)
+		fext = fext[1:] // ignore the leading "."
+		if regexp.MustCompile(`(?i)^y`).MatchString(fext) {
+			verbose("Reading YAML file", 2)
+			return ReadYamlFile(fileName)
+		} else if regexp.MustCompile(`(?i)^j`).MatchString(fext) {
+			return ReadJsonFile(fileName)
+		} else {
+			checkError(fmt.Errorf("Unsupported file extension for DataFile '%s'", fileName))
+		}
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
@@ -68,6 +82,19 @@ func ReadYamlFile(fileName string) EgData {
 	return m
 }
 
+// ReadJsonFile reads given JSON file as EgData
+func ReadJsonFile(fileName string) EgData {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(map[string]interface{})
+
+	err = json.Unmarshal(source, &m)
+	checkError(err)
+
+	return m
+}
+
 // IsExist checks if the given file exist
 func IsExist(fileName string) bool {
 	//fmt.Printf("] Checking %s\n", fileName)
@@ -77,18 +104,16 @@ func IsExist(fileName string) bool {
 	// https://gist.github.com/mastef/05f46d3ab2f5ed6a6787#file-isexist_vs_isnotexist-go-L35-L56
 }
 
-// Process will process the standard easygen input: the `fileName` is for both template and data file names, and produce output from the template according to the corresponding driving data.
+// Process will process the standard easygen input: the `fileName` is for both template and data file name, and produce output from the template according to the corresponding driving data.
+// Process() is using the V3's calling convention and *only* works properly in V4+ in the case that there is only one fileName passed to it. If need to pass more files, use Process2() instead.
 func Process(t Template, wr io.Writer, fileNames ...string) error {
-	return Process2(t, wr, fileNames[0], fileNames...)
+	return Process2(t, wr, fileNames[0], fileNames[:1]...)
 }
 
 // Process2 will process the case that *both* template and data file names are given, and produce output according to the given template and driving data files,
 // specified via fileNameTempl and fileNames respectively.
 // fileNameTempl can be a comma-separated string giving many template files
 func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...string) error {
-	if len(Opts.TemplateFile) > 0 {
-		fileNameTempl = Opts.TemplateFile
-	}
 	for _, dataFn := range fileNames {
 		for _, templateFn := range strings.Split(fileNameTempl, ",") {
 			err := Process1(t, wr, templateFn, dataFn)
@@ -164,5 +189,12 @@ func checkError(err error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "[%s] Fatal error - %s\n", progname, err)
 		os.Exit(1)
+	}
+}
+
+// verbose will print info to stderr according to the verbose level setting
+func verbose(step string, level int) {
+	if Opts.Debug >= level {
+		print("[", progname, "] ", step, "\n")
 	}
 }
