@@ -20,6 +20,7 @@ func ExampleExecute() {
 
 	// define driving data of any tye
 	v0 := variable{"some-init-method"}
+	easygen.Opts.Debug = 1
 
 	// https://godoc.org/github.com/go-easygen/easygen#Execute
 	// provide full template file name with extension

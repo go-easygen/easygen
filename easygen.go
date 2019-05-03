@@ -155,10 +155,12 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 // Execute will execute the Template on the given data map `m`.
 func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	// 1. Check locally
+	verbose("Checking for template locally: "+fileNameT, 1)
 	if !IsExist(fileNameT) {
 		// 2. Check under /etc/
 		command := filepath.Base(os.Args[0])
 		templateFile := fmt.Sprintf("/etc/%s/%s", command, fileNameT)
+		verbose("Checking at "+templateFile, 1)
 		if IsExist(templateFile) {
 			fileNameT = templateFile
 		} else {
@@ -168,6 +170,7 @@ func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 				return e
 			}
 			fileNameT = filepath.Dir(ex) + string(filepath.Separator) + fileNameT
+			verbose("Checking at "+fileNameT, 1)
 			if !IsExist(fileNameT) {
 				checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameT))
 			}
