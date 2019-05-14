@@ -1,1 +1,3 @@
 Name: some-init-method
+NameHTTP: HTTP-header-case
+NameMixed: some_InitMethod

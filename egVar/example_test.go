@@ -9,7 +9,7 @@ import (
 
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
-func Example() {
+func Example_output() {
 	// Equivalent testing on commandline:
 	//   easygen test/listfunc2
 
