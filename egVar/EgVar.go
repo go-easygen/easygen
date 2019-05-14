@@ -24,24 +24,25 @@ import (
 // Constant and data type/structure definitions
 
 // EgVar -- EasyGen variable naming
-type EgVar struct {
-	*easygen.EgBase
-}
-
+//
 // pre-configed varcaser caser converters
 // the names are self-explanatory from their definitions
 // https://github.com/danverbraganza/varcaser/
 /*
-ls - LowerSnakeCase: lower_snake_case
-ss - ScreamingSnakeCase: SCREAMING_SNAKE_CASE
-lk - KebabCase: kebab-case
-ScreamingKebabCase: SCREAMING-KEBAB-CASE
-hh - HttpHeaderCase: HTTP-Header-Case
-UpperCamelCase: UpperCamelCase (renders HTTP as Http)
-LowerCamelCase: lowerCamelCase (renders HTTP as Http)
-uc - UpperCamelCaseKeepCaps: UpperCamelCaseKeepCaps (renders HTTP as HTTP)
-lc - LowerCamelCaseKeepCaps: lowerCamelCaseKeepCaps (renders HTTP as hTTP)
+   ls - LowerSnakeCase: lower_snake_case
+   ss - ScreamingSnakeCase: SCREAMING_SNAKE_CASE
+   lk - KebabCase: kebab-case
+   ScreamingKebabCase: SCREAMING-KEBAB-CASE
+   hh - HttpHeaderCase: HTTP-Header-Case
+   UpperCamelCase: UpperCamelCase (renders HTTP as Http)
+   LowerCamelCase: lowerCamelCase (renders HTTP as Http)
+   uc - UpperCamelCaseKeepCaps: UpperCamelCaseKeepCaps (renders HTTP as HTTP)
+   lc - LowerCamelCaseKeepCaps: lowerCamelCaseKeepCaps (renders HTTP as hTTP)
 */
+type EgVar struct {
+	*easygen.EgBase
+}
+
 var (
 	cls2lc = varcaser.Caser{
 		From: varcaser.LowerSnakeCase, To: varcaser.LowerCamelCaseKeepCaps}
@@ -58,8 +59,8 @@ var (
 		From: varcaser.ScreamingSnakeCase, To: varcaser.LowerCamelCaseKeepCaps}
 	css2uc = varcaser.Caser{
 		From: varcaser.ScreamingSnakeCase, To: varcaser.UpperCamelCaseKeepCaps}
-	css2ss = varcaser.Caser{
-		From: varcaser.ScreamingSnakeCase, To: varcaser.ScreamingSnakeCase}
+	css2ls = varcaser.Caser{
+		From: varcaser.ScreamingSnakeCase, To: varcaser.LowerSnakeCase}
 	css2lk = varcaser.Caser{
 		From: varcaser.ScreamingSnakeCase, To: varcaser.KebabCase}
 	css2hh = varcaser.Caser{
@@ -71,10 +72,16 @@ var (
 	clk2ss = varcaser.Caser{
 		From: varcaser.KebabCase, To: varcaser.ScreamingSnakeCase}
 
+	clc2uc = varcaser.Caser{
+		From: varcaser.LowerCamelCase, To: varcaser.UpperCamelCaseKeepCaps}
 	clc2ls = varcaser.Caser{
 		From: varcaser.LowerCamelCase, To: varcaser.LowerSnakeCase}
 	clc2ss = varcaser.Caser{
 		From: varcaser.LowerCamelCase, To: varcaser.ScreamingSnakeCase}
+	cuc2lc = varcaser.Caser{
+		From: varcaser.UpperCamelCase, To: varcaser.LowerCamelCase}
+	cuc2ls = varcaser.Caser{
+		From: varcaser.UpperCamelCase, To: varcaser.LowerSnakeCase}
 	cuc2ss = varcaser.Caser{
 		From: varcaser.UpperCamelCase, To: varcaser.ScreamingSnakeCase}
 )
@@ -88,7 +95,7 @@ var egFuncMap = easygen.FuncMap{
 
 	"css2lc": css2lc.String,
 	"css2uc": css2uc.String,
-	"css2ss": css2ss.String,
+	"css2ls": css2ls.String,
 	"css2lk": css2lk.String,
 	"css2hh": css2hh.String,
 
@@ -97,8 +104,11 @@ var egFuncMap = easygen.FuncMap{
 	"clk2ls": clk2ls.String,
 	"clk2ss": clk2ss.String,
 
+	"clc2uc": clc2uc.String,
 	"clc2ls": clc2ls.String,
 	"clc2ss": clc2ss.String,
+	"cuc2lc": cuc2lc.String,
+	"cuc2ls": cuc2ls.String,
 	"cuc2ss": cuc2ss.String,
 
 	// Aliases, for backwards-compatibility with earlier (>= v1) versions
