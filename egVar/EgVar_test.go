@@ -45,11 +45,13 @@ func ExampleEgVar_output() {
 	easygen.Process0(tmpl, os.Stdout,
 		"{{clk2lc .Name}} {{clk2uc .Name}} =>\n", "../test/listfunc2")
 	easygen.Process0(tmpl, os.Stdout,
-		"{{clk2lc .Name}}: {{clk2lc .Name | clk2uc}} {{clk2lc .Name | clc2ls}} {{clk2lc .Name | clc2ss}}\n", "../test/listfunc2")
+		"{{clk2lc .Name}}: {{clk2lc .Name | clc2uc}} {{clk2lc .Name | clc2ls}} {{clk2lc .Name | clc2ss}}\n", "../test/listfunc2")
 	easygen.Process0(tmpl, os.Stdout,
 		"{{clk2uc .Name}}: {{clk2uc .Name | cuc2lc}} {{clk2uc .Name | cuc2ls}} {{clk2uc .Name | cuc2ss}}\n", "../test/listfunc2")
 	easygen.Process0(tmpl, os.Stdout,
-		"{{.NameMixed}}: {{clc2uc .NameMixed}} {{clc2uc .NameMixed | cuc2lc}}\n", "../test/listfunc2")
+		"{{.NameMixed}}: {{clc2uc .NameMixed}} {{clc2uc .NameMixed | cuc2lc}} {{clc2ls .NameMixed}} {{clc2ls .NameMixed | cls2lc}}\n", "../test/listfunc2")
+	easygen.Process0(tmpl, os.Stdout,
+		"{{.NameMixed}}: {{clc2ls .NameMixed | cls2ss}} {{clc2ls .NameMixed | cls2lk}} {{clc2ls .NameMixed | cls2hh}}\n", "../test/listfunc2")
 
 	// Output:
 	//
@@ -74,6 +76,7 @@ func ExampleEgVar_output() {
 	// someInitMethod SomeInitMethod =>
 	// someInitMethod: SomeInitMethod some_init_method SOME_INIT_METHOD
 	// SomeInitMethod: someInitMethod some_init_method SOME_INIT_METHOD
-	// some_InitMethod: Some_InitMethod some_InitMethod
+	// some_InitMethod: Some_InitMethod some_InitMethod some__init_method someInitMethod
+	// some_InitMethod: SOME__INIT_METHOD some--init-method Some--Init-Method
 
 }
