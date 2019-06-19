@@ -5,15 +5,6 @@
 //          https://github.com/hashicorp/consul-template/blob/de2ebf4/template_functions.go#L727-L901
 ////////////////////////////////////////////////////////////////////////////
 
-/*
-
-Package egCal provides generic calculation functionalities.
-
-egCal provides the generic calculation functionalities from
-consul template functions
-https://github.com/hashicorp/consul-template / template_functions.go
-
-*/
 package egCal
 
 import (
