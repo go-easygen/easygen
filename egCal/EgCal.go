@@ -4,6 +4,17 @@
 // Authors: Tong Sun (c) 2017, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
+/*
+
+Package egCal provides generic calculation functionalities.
+
+egCal provides the generic calculation functionalities from
+
+consul template functions
+https://github.com/hashicorp/consul-template / template_functions.go
+
+*/
+
 package egCal
 
 import (

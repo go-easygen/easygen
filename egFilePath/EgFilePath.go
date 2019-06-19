@@ -4,6 +4,14 @@
 // Authors: Tong Sun (c) 2019, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
+/*
+
+Package egFilePath provides filepath manupilation functionalities.
+
+egFilePath provides filepath manupilation manipulation, provided by "path/filepath".
+
+*/
+
 package egFilePath
 
 import (
@@ -18,7 +26,7 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-// EgFilePath -- EasyGen Calculation
+// EgFilePath -- EasyGen FilePath manupilation functionalities
 type EgFilePath struct {
 	*easygen.EgBase
 }
@@ -52,6 +60,9 @@ var egFuncMap = easygen.FuncMap{
 func FuncDefs() template.FuncMap {
 	return template.FuncMap(egFuncMap)
 }
+
+//==========================================================================
+// support functions
 
 func IsDir(path string) bool {
 	info, _ := os.Stat(path)
