@@ -27,6 +27,7 @@ import (
 
 	"github.com/go-easygen/easygen"
 	"github.com/go-easygen/easygen/egCal"
+	"github.com/go-easygen/easygen/egFilePath"
 	"github.com/go-easygen/easygen/egVar"
 )
 
@@ -40,8 +41,8 @@ import (
 
 var (
 	progname = "easygen"
-	version  = "4.0.0"
-	date     = "2019-03-22"
+	version  = "4.1.0"
+	date     = "2019-06-18"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -69,7 +70,7 @@ func main() {
 
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).
-		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
+		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs()).Funcs(egFilePath.FuncDefs())
 
 	var err error
 	if len(easygen.Opts.TemplateStr) > 0 {
