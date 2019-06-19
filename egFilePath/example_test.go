@@ -13,13 +13,15 @@ func Example() {
 	tmpl0 := easygen.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egFilePath.FuncDefs())
 	easygen.Process0(tmpl, os.Stdout,
-		//		"Rel: {{fpRel `/a/b/c`}}, {{fpRel `/b/c`}}, {{fpRel `./b/c`}}\n",
+	// https://godoc.org/path/filepath
 		"Base: {{fpBase `/a/b.c`}}, {{fpBase `/b.c/`}}, {{fpBase `./b.c`}}, {{fpBase `b.c`}}\n"+
 			"Clean: {{fpClean `/a//b.c/./..`}}, {{fpClean `//b.c///`}}, {{fpClean `/../b.c`}}\n"+
 			"Dir: {{fpDir `/a/b/c`}}, {{fpDir `/b/c/`}}, {{fpDir `./b/c`}}, {{fpDir `b.c`}}\n"+
 			"Ext: {{fpExt `index`}}, {{fpExt `index.js`}}, {{fpExt `main.test.js`}}\n"+
 			"Join: {{fpJoin `/a` `b` `c` `a//` `//b////c`}}, {{fpJoin `a` `b/c`}}, {{fpJoin `a/b` `c`}}\n"+
-			//			"IsDir: {{isDir `.`}}, {{isDir `not-exist`}}.\n"+
+			"Rel: {{fpRel `/a` `/a/b/c`}}, {{fpRel `/a` `/b/c`}}\n"+
+
+			// "{{fpRel `/a` `./b/c`}}" "IsDir: {{isDir `.`}}, {{isDir `not-exist`}}.\n"+
 			"IsDir: {{isDir `.`}}.\n"+
 			"Basename: {{basename `/a/b.c`}}, {{basename `/b.c/`}}, {{basename `b.c`}}, {{basename `bc`}}",
 		"../test/var0")
@@ -30,6 +32,7 @@ func Example() {
 	// Dir: /a/b, /b/c, b, .
 	// Ext: , .js, .js
 	// Join: /a/b/c/a/b/c, a/b/c, a/b/c
+	// Rel: b/c, ../b/c
 	// IsDir: true.
 	// Basename: b, b, b, bc
 
