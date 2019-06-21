@@ -15,10 +15,14 @@ func Example() {
 
 	tmpl0 := egVar.NewTemplate().Customize()
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egVar.FuncDefs())
-	easygen.Process(tmpl, os.Stdout, "../test/listfunc2")
+	err := easygen.Process(tmpl, os.Stdout, "../test/listfunc2")
 
 	// Output:
 	// some-init-method 5 5 someInitMethod SomeInitMethod
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 // To show the full code in GoDoc
