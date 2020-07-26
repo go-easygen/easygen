@@ -11,6 +11,21 @@ I.e., with the environment variable `EASYGEN_TS`, the `.tmpl` template file is n
 
 	$ EASYGEN_TS='{{.Name}}' easygen -ts '{{clk2uc .Name}}' /tmp/var
 	SomeInitMethod
+	
+	$ easygen -ts '{{substr (clk2uc .Name) 4}}' /tmp/var
+	InitMethod
+	
+	$ easygen -ts '{{substr (clk2uc .Name) 8 3}}' /tmp/var
+	Met
+	
+	$ easygen -ts '{{substr (clk2uc .Name) 4 -2}}' /tmp/var
+	InitMeth
+
+	$ easygen -ts '{{substr (clk2uc .Name) -6}}' /tmp/var
+	Method
+
+	$ easygen -ts '{{substr "abcde" -3}}' /tmp/var
+	cde
 
 I.e., command line value takes the highest priority, even overriding the environment variable `EASYGEN_TS`'s value.
 
