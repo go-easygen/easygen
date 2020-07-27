@@ -41,7 +41,7 @@ import (
 
 var (
 	progname = "easygen"
-	version  = "4.1.01"
+	version  = "5.0.01"
 	date     = "2020-07-26"
 )
 

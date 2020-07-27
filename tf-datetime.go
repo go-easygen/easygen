@@ -15,8 +15,8 @@ var now = func() time.Time { return time.Now() }
 
 // https://godoc.org/time#pkg-constants
 
-// date returns the date or year
-func date(fmt string) string {
+// Date returns the date or year
+func Date(fmt string) string {
 	switch fmt {
 	case "Y4":
 		// returns the year string of length 4
@@ -33,9 +33,9 @@ func date(fmt string) string {
 
 // https://github.com/hashicorp/consul-template/blob/de2ebf4/template_functions.go#L666-L682
 
-// timestamp returns the current UNIX timestamp in UTC. If an argument is
+// Timestamp returns the current UNIX timestamp in UTC. If an argument is
 // specified, it will be used to format the timestamp.
-func timestamp(s ...string) (string, error) {
+func Timestamp(s ...string) (string, error) {
 	switch len(s) {
 	case 0:
 		return now().Format(time.RFC3339), nil

@@ -82,64 +82,77 @@ func Substr(a string, nums ...interface{}) (string, error) {
 ////////////////////////////////////////////////////////////////////////////
 // Regexp Function Definitions
 
-func regexpFindAllString(s string, regExp string, n int) []string {
+// RegexpFindAllString is wrapper for regexp.FindAllString
+func RegexpFindAllString(s string, regExp string, n int) []string {
 	return regexp.MustCompile(regExp).FindAllString(s, n)
 }
 
-func regexpFindAllStringIndex(s string, regExp string, n int) [][]int {
+// RegexpFindAllStringIndex is wrapper for regexp.FindAllStringIndex
+func RegexpFindAllStringIndex(s string, regExp string, n int) [][]int {
 	return regexp.MustCompile(regExp).FindAllStringIndex(s, n)
 }
 
-func regexpFindAllStringSubmatch(s string, regExp string, n int) [][]string {
+// RegexpFindAllStringSubmatch is wrapper for regexp.FindAllStringSubmatch
+func RegexpFindAllStringSubmatch(s string, regExp string, n int) [][]string {
 	return regexp.MustCompile(regExp).FindAllStringSubmatch(s, n)
 }
 
-func regexpFindAllStringSubmatchIndex(s string, regExp string, n int) [][]int {
+// RegexpFindAllStringSubmatchIndex is wrapper for regexp.FindAllStringSubmatchIndex
+func RegexpFindAllStringSubmatchIndex(s string, regExp string, n int) [][]int {
 	return regexp.MustCompile(regExp).FindAllStringSubmatchIndex(s, n)
 }
 
-func regexpFindString(s string, regExp string) string {
+// RegexpFindString is wrapper for regexp.FindString
+func RegexpFindString(s string, regExp string) string {
 	return regexp.MustCompile(regExp).FindString(s)
 }
 
-func regexpFindStringIndex(s string, regExp string) (loc []int) {
+// RegexpFindStringIndex is wrapper for regexp.FindStringIndex
+func RegexpFindStringIndex(s string, regExp string) (loc []int) {
 	return regexp.MustCompile(regExp).FindStringIndex(s)
 }
 
-func regexpFindStringSubmatch(s string, regExp string) []string {
+// RegexpFindStringSubmatch is wrapper for regexp.FindStringSubmatch
+func RegexpFindStringSubmatch(s string, regExp string) []string {
 	return regexp.MustCompile(regExp).FindStringSubmatch(s)
 }
 
-func regexpFindStringSubmatchIndex(s string, regExp string) []int {
+// RegexpFindStringSubmatchIndex is wrapper for regexp.FindStringSubmatchIndex
+func RegexpFindStringSubmatchIndex(s string, regExp string) []int {
 	return regexp.MustCompile(regExp).FindStringSubmatchIndex(s)
 }
 
-func regexpMatchString(s string, regExp string) bool {
+// RegexpMatchString is wrapper for regexp.MatchString
+func RegexpMatchString(s string, regExp string) bool {
 	return regexp.MustCompile(regExp).MatchString(s)
 }
 
-func regexpReplaceAllLiteralString(src, regExp string, repl string) string {
+// RegexpReplaceAllLiteralString is wrapper for regexp.ReplaceAllLiteralString
+func RegexpReplaceAllLiteralString(src, regExp string, repl string) string {
 	return regexp.MustCompile(regExp).ReplaceAllLiteralString(src, repl)
 }
 
-func regexpReplaceAllString(src, regExp string, repl string) string {
+// RegexpReplaceAllString is wrapper for regexp.ReplaceAllString
+func RegexpReplaceAllString(src, regExp string, repl string) string {
 	return regexp.MustCompile(regExp).ReplaceAllString(src, repl)
 }
 
-func regexpReplaceAllStringFunc(src string, regExp string, repl func(string) string) string {
+// RegexpReplaceAllStringFunc is wrapper for regexp.ReplaceAllStringFunc
+func RegexpReplaceAllStringFunc(src string, regExp string, repl func(string) string) string {
 	return regexp.MustCompile(regExp).ReplaceAllStringFunc(src, repl)
 }
 
-func regexpSplit(s string, regExp string, n int) []string {
+// RegexpSplit is wrapper for regexp.Split
+func RegexpSplit(s string, regExp string, n int) []string {
 	return regexp.MustCompile(regExp).Split(s, n)
 }
 
 ////////////////////////////////////////////////////////////////////////////
 // Misc
 
-// coalesce function takes two or more string arguments and returns the first argument that is not empty.
+// Coalesce function takes two or more string arguments and returns the first argument that is not empty.
 // The result is empty only if all the arguments are empty.
-func coalesce(s ...string) string {
+func Coalesce(s ...string) string {
 	for _, str := range s {
 		if len(str) != 0 && str != "<no value>" {
 			return str
@@ -148,8 +161,8 @@ func coalesce(s ...string) string {
 	return ""
 }
 
-// quote4shell -- quote file name for shell.
+// Quote4shell -- quote file name for shell.
 // So "%bob's file" will be quoted as '%bob'\''s file'
-func quote4shell(s string) string {
+func Quote4shell(s string) string {
 	return "'" + strings.Join(strings.Split(s, "'"), `'\''`) + "'"
 }

@@ -26,6 +26,29 @@ import (
 // Constant and data type/structure definitions
 
 // EgFilePath -- EasyGen FilePath manupilation functionalities
+/*
+
+  fpAbs is wrapper for filepath.Abs
+  fpBase is wrapper for filepath.Base
+  fpClean is wrapper for filepath.Clean
+  fpDir is wrapper for filepath.Dir
+  fpEvalSymlinks is wrapper for filepath.EvalSymlinks
+  fpExt is wrapper for filepath.Ext
+  fpFromSlash is wrapper for filepath.FromSlash
+  fpGlob is wrapper for filepath.Glob
+  fpHasPrefix is wrapper for filepath.HasPrefix
+  fpIsAbs is wrapper for filepath.IsAbs
+  fpJoin is wrapper for filepath.Join
+  fpMatch is wrapper for filepath.Match
+  fpRel is wrapper for filepath.Rel
+  fpSplitList is wrapper for filepath.SplitList
+  fpToSlash is wrapper for filepath.ToSlash
+  fpVolumeName is wrapper for filepath.VolumeName
+
+  isDir is template function for IsDir
+  basename is template function for Basename
+
+*/
 type EgFilePath struct {
 	*easygen.EgBase
 }
@@ -62,11 +85,13 @@ func FuncDefs() template.FuncMap {
 //==========================================================================
 // support functions
 
+// IsDir returns true if path is dir
 func IsDir(path string) bool {
 	info, _ := os.Stat(path)
 	return info.IsDir()
 }
 
+// Basename returns basename(path)
 func Basename(s string) string {
 	s = filepath.Base(s)
 	n := strings.LastIndexByte(s, '.')

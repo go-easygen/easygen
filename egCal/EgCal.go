@@ -26,15 +26,23 @@ import (
 // Constant and data type/structure definitions
 
 // EgCal -- EasyGen Calculation
+/*
+
+  add is template function for Add
+  subtract is template function for Subtract
+  multiply is template function for Multiply
+  divide is template function for Divide
+
+*/
 type EgCal struct {
 	*easygen.EgBase
 }
 
 var egFuncMap = easygen.FuncMap{
-	"add":      add,
-	"subtract": subtract,
-	"multiply": multiply,
-	"divide":   divide,
+	"add":      Add,
+	"subtract": Subtract,
+	"multiply": Multiply,
+	"divide":   Divide,
 }
 
 ////////////////////////////////////////////////////////////////////////////
