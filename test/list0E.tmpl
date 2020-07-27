@@ -1,3 +1,2 @@
 The colors are: {{range .Colors}}{{.}}, {{end}}.
-The system shell is: {{ENV "SHELL"}}
-Different shells are: {{range .Colors}}{{ENV "SHELL"}}-{{.}}, {{end}}
+The system shell is: {{stringsReplace (ENV "SHELL") "/usr" "" 1}}
