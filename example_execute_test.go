@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-easygen/easygen"
 	"github.com/go-easygen/easygen/egCal"
+	"github.com/go-easygen/easygen/egFilePath"
 	"github.com/go-easygen/easygen/egVar"
-	"gopkg.in/easygen.v2/egFilePath"
 )
 
 type variable struct {
