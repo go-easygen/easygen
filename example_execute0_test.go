@@ -10,7 +10,7 @@ import (
 
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
-func ExampleExecute0_output() {
+func ExampleExecute0() {
 	easygen.Opts.Debug = 1
 
 	tmpl := easygen.NewTemplate().Funcs(easygen.FuncDefs())

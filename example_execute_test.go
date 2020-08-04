@@ -17,7 +17,7 @@ type variable struct {
 
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
-func ExampleExecute_output() {
+func ExampleExecute() {
 	easygen.Opts.Debug = 1
 
 	tmpl0 := easygen.NewTemplate().Customize()
