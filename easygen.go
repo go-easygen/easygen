@@ -152,7 +152,21 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 	return Execute(t, wr, fileNameT, m)
 }
 
-// Execute will execute the Template on the given data map `m`.
+// Execute0 will execute the Template given as strTempl with the given data map `m` (i.e., no template file and no data file).
+// It parses text template strTempl then applies it to to the specified data
+// object m, and writes the output to wr. If an error occurs executing the
+// template or writing its output, execution stops, but partial results may
+// already have been written to the output writer. A template may be
+// executed safely in parallel, although if parallel executions share a
+// Writer the output may be interleaved.
+func Execute0(t Template, wr io.Writer, strTempl string, m EgData) error {
+	verbose("Execute with template string: "+strTempl, 1)
+	tmpl, err := t.Parse(strTempl)
+	checkError(err)
+	return tmpl.Execute(wr, m)
+}
+
+// Execute will execute the Template from fileNameT on the given data map `m`.
 func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	// 1. Check locally
 	verbose("Checking for template locally: "+fileNameT, 1)
