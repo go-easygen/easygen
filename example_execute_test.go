@@ -24,7 +24,7 @@ func ExampleExecute() {
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egFilePath.FuncDefs()).
 		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
 
-	// define driving data of any tye
+	// define driving data of any type
 	v0 := variable{"some-init-method"}
 	// https://godoc.org/github.com/go-easygen/easygen#Execute
 	// provide full template file name with extension

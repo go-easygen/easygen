@@ -15,7 +15,7 @@ func ExampleExecute0() {
 
 	tmpl := easygen.NewTemplate().Funcs(easygen.FuncDefs())
 
-	// define driving data of any tye
+	// define driving data of any type
 	v0 := "some-init-method"
 	// https://godoc.org/github.com/go-easygen/easygen#Execute0
 	// provide template string, not file name
