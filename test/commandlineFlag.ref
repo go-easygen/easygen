@@ -56,7 +56,11 @@ func init() {
 	flag.IntVar(&Opts.Debug, "debug", 0,
 		"debugging `level`")
 
+	exists := false
 	// Now override those default values from environment variables
+	if _, exists = os.LookupEnv("EASYGEN_HTML"); Opts.HTML|| exists {
+		Opts.HTML = true
+	}
 	if len(Opts.TemplateStr) == 0 ||
 		len(os.Getenv("EASYGEN_TS")) != 0 {
 		Opts.TemplateStr = os.Getenv("EASYGEN_TS")

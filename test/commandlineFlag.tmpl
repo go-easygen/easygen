@@ -37,13 +37,17 @@ func init() {
 	flag.{{clk2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}{{end}}
 
+	exists := false
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
-{{else}}{{if eq .Type "string" }}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}
+{{else}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}{{if eq .Type "string" }}
 	if len({{$.StructVar}}.{{.Name}}) == 0 ||
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
-	}{{end}}{{end}}{{end}}
+	}{{else}}{{if eq .Type "bool" }}
+	if _, exists = os.LookupEnv("{{$envVar}}"); {{$.StructVar}}.{{.Name}}|| exists {
+		{{$.StructVar}}.{{.Name}} = true
+	}{{end}}{{end}}{{end}}{{end}}
 
 }
 
