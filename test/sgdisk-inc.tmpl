@@ -1,0 +1,4 @@
+ sgdisk -Z {{.Disk}}
+{{range .Partitions}}
+{{ template "sgdisk_cmd" .}}{{end}}
+
