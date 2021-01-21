@@ -11,7 +11,7 @@
   - [Usage](#usage)
     - [$ easygen](#-easygen)
   - [Install](#install)
-    - [Install as Debian/Unbuntu package](#install-as-debianunbuntu-package)
+    - [Install as Debian/Ubuntu package](#install-as-debianunbuntu-package)
     - [Install from source](#install-from-source)
   - [Test](#test)
   - [Details](#details)
@@ -80,7 +80,7 @@ Flag defaults can be overridden by corresponding environment variable, e.g.:
 
 ## Install
 
-### Install as Debian/Unbuntu package
+### Install as Debian/Ubuntu package
 
 
     apt install easygen
