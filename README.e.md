@@ -29,7 +29,7 @@ Note this document is for `{{.Name}}` versions 4.0+. For historic versions check
 
 ## Install
 
-### Install as Debian/Unbuntu package
+### Install as Debian/Ubuntu package
 
 
     apt install {{.Name}}
