@@ -1,0 +1,5 @@
+{{range .Keybindings}}
+{{- if .Command }}{{ if ne .Command "isearchExit" -}}
+{{- if .Key -}}{{.Key}}	{{.Command}}
+{{ else }}{{$Command := .Command }}{{range .Keys}}{{.}}	{{$Command}}
+{{end}}{{end}}{{end}}{{end}}{{end}}
