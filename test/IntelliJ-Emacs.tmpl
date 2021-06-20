@@ -1,0 +1,5 @@
+{{range .Action -}}
+{{if eq "map[string]interface {}" (printf "%T" .Shortcut) }}{{.Shortcut.FirstKS}}{{if .Shortcut.SecondKS}} {{.Shortcut.SecondKS}}{{end}}	{{.Id}}
+{{else}}{{ $Id := .Id -}}
+{{range .Shortcut}}{{.FirstKS}}{{if .SecondKS}} {{.SecondKS}}{{end}}	{{$Id}}
+{{end}}{{end}}{{end}}
