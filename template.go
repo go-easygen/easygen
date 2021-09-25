@@ -178,6 +178,9 @@ var egFuncMap = FuncMap{
 	"coalesce":    Coalesce,
 	"quote4shell": Quote4shell,
 
+	"iterate":   Iterate,
+	"argsa":     ArgsA,
+	"argsm":     ArgsM,
 	"minus1":    Minus1,
 	"date":      Date,
 	"timestamp": Timestamp,

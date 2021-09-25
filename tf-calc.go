@@ -1,5 +1,45 @@
 package easygen
 
+import (
+	"errors"
+)
+
+//==========================================================================
+// template function somewhat related to calculations
+
+// Iterate returns a slice whose end (& start) is controlled by the ic
+func Iterate(ic ...int) []int {
+	end := ic[0]
+	start := 0
+	if len(ic) > 1 {
+		start = ic[1]
+	}
+	var Items []int
+	for i := start; i <= (end); i++ {
+		Items = append(Items, i)
+	}
+	return Items
+}
+
+// ArgsA creates an array slice from the given arguments
+func ArgsA(vs ...interface{}) []interface{} { return vs }
+
+// ArgsM creates a map from the given K/V argument pairs
+func ArgsM(kvs ...interface{}) (map[string]interface{}, error) {
+	if len(kvs)%2 != 0 {
+		return nil, errors.New("argsm requires even number of arguments.")
+	}
+	m := make(map[string]interface{})
+	for i := 0; i < len(kvs); i += 2 {
+		s, ok := kvs[i].(string)
+		if !ok {
+			return nil, errors.New("even args to args must be strings.")
+		}
+		m[s] = kvs[i+1]
+	}
+	return m, nil
+}
+
 //==========================================================================
 // template function for calculations
 

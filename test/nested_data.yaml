@@ -1,4 +1,6 @@
 Name: Sam
 OrderNumber: 123456
+Price: 1234.56
+Shipped: true
 ShipDate: "Wednesday, January 06, 2021"
 
