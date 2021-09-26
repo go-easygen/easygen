@@ -11,7 +11,8 @@
   - [Usage](#usage)
     - [$ easygen](#-easygen)
   - [Install](#install)
-    - [Install as Debian/Ubuntu package](#install-as-debianunbuntu-package)
+    - [Install as Debian/Ubuntu package](#install-as-debianubuntu-package)
+    - [Install from latest build](#install-from-latest-build)
     - [Install from source](#install-from-source)
   - [Test](#test)
   - [Details](#details)
@@ -44,7 +45,7 @@ Note this document is for `easygen` versions 4.0+. For historic versions check o
 
 ### $ easygen
 ```sh
-easygen version 4.0.0
+easygen version 5.1.7
 
 Usage:
  easygen [flags] template_name [data_filename [data_filename...]]
@@ -85,6 +86,17 @@ Flag defaults can be overridden by corresponding environment variable, e.g.:
 
     apt install easygen
 
+### Install from latest build
+
+When the Debian/Ubuntu package cannot catch up with the latest development,
+
+- The latest binary executables are available right under the github release page  
+https://github.com/go-easygen/easygen/releases  
+as the result of the Continuous-Integration process.
+- I.e., they are built during every git tagged push, automatically by [GitHub Actions](https://github.com/features/actions), right from the source code, truely WYSIWYG.
+- The `.deb`, `.rpm` and `.apk` packages are readily available, as well as the executables for other Linux and Windows as well.
+- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `easygen_ver_linux_amd64.tar.gz` file.
+- Unzip it and put the executable somewhere in the PATH, after downloading it. 
 
 ### Install from source
 

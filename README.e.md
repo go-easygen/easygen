@@ -34,6 +34,17 @@ Note this document is for `{{.Name}}` versions 4.0+. For historic versions check
 
     apt install {{.Name}}
 
+### Install from latest build
+
+When the Debian/Ubuntu package cannot catch up with the latest development,
+
+- The latest binary executables are available right under the github release page  
+https://github.com/go-easygen/{{.Name}}/releases  
+as the result of the Continuous-Integration process.
+- I.e., they are built during every git tagged push, automatically by [GitHub Actions](https://github.com/features/actions), right from the source code, truely WYSIWYG.
+- The `.deb`, `.rpm` and `.apk` packages are readily available, as well as the executables for other Linux and Windows as well.
+- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `{{.Name}}_ver_linux_amd64.tar.gz` file.
+- Unzip it and put the executable somewhere in the PATH, after downloading it. 
 
 ### Install from source
 
