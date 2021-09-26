@@ -1,7 +1,10 @@
 {{- define "T1"}}Apple{{.i}} at {{.c.Price}} - {{.c.Shipped}}{{end}}  {{- define "T2"}}Ape{{end}}
-{{- range $val := iterate 5 }}
+{{- range $val := iterate "5" }}
  {{- template "T2"}} ate {{template "T1" argsm "c" $ "i" (printf "%06d" $val)}}{{ $val }}
 {{end }}
-{{- range $val := iterate 1003 1001 }}
+{{- range $val := iterate "2" (ENV "__START") }}
+ {{- template "T2"}} ate {{template "T1" argsm "c" $ "i" (printf "%06d" $val)}}{{ $val }}
+{{end }}
+{{- range $val := iterate "1003" "1001" }}
  {{- template "T2"}} ate {{template "T1" argsm "c" $ "i" (printf "%06d" $val)}}{{ $val }}
 {{end }}

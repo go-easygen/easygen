@@ -2,17 +2,19 @@ package easygen
 
 import (
 	"errors"
+	"strconv"
 )
 
 //==========================================================================
 // template function somewhat related to calculations
 
 // Iterate returns a slice whose end (& start) is controlled by the ic
-func Iterate(ic ...int) []int {
-	end := ic[0]
+func Iterate(ic ...string) []int {
+	// cannot think of a better way to report the Atoi error, other than --
+	end, _ := strconv.Atoi(ic[0])
 	start := 0
 	if len(ic) > 1 {
-		start = ic[1]
+		start, _ = strconv.Atoi(ic[1])
 	}
 	var Items []int
 	for i := start; i <= (end); i++ {
