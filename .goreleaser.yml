@@ -20,6 +20,12 @@ builds:
       - amd64
       - arm64
 
+    # Path to main.go file or main package.
+    # Notice: when used with `gomod.proxy`, this must be a package.
+    #
+    # Default is `.`.
+    main: ./cmd/easygen
+
 nfpms:
 - maintainer: Tong Sun <suntong@cpan.org>
   description: easygen - Easy to use universal code/text generator
