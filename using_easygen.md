@@ -86,6 +86,18 @@ echo 'Name: some-init-method' > /tmp/var.yaml
 $ easygen -ts '{{.Name}} {{6 | minus1}} {{minus1 6}} {{clk2lc .Name}} {{clk2uc .Name}}' /tmp/var
 some-init-method 5 5 someInitMethod SomeInitMethod
 
+# More built-in function examples. See https://github.com/go-easygen/easygen/issues/25
+$ easygen -ts '{{stringsContains .Name "init"}}' /tmp/var
+true
+
+$ easygen -ts '{{stringsContains .Name "foobar"}}' /tmp/var
+false
+
+$ easygen -ts '{{if (stringsContains .Name "init")}}"{{.Name}}" contains "init"{{else}} there {{end}}!' /tmp/var
+"some-init-method" contains "init"!
+
+$ easygen -ts '{{if (stringsContains .Name "init")}}"{{.Name}}" splits into: {{range (stringsSplit .Name "-")}}{{.}} {{end}}{{else}} there {{end}}!' /tmp/var
+"some-init-method" splits into: some init method !
 
 $ echo 'Name: "%bob'"'"'s file"' | tee /tmp/var.yaml
 Name: "%bob's file"

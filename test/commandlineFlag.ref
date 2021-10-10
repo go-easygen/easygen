@@ -53,6 +53,8 @@ func init() {
 		"replace from, the from string used for the replace function")
 	flag.StringVar(&Opts.StrTo, "rt", "",
 		"replace to, the to string used for the replace function")
+	flag.IntVar(&Opts.Debug, "d", 0,
+		"debugging `level`")
 	flag.IntVar(&Opts.Debug, "debug", 0,
 		"debugging `level`")
 
