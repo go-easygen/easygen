@@ -42,11 +42,15 @@ func init() {
 	exists := false
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
-{{else}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}{{if eq .Type "string" }}
+{{else}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}{{if eq .Type "string" }}{{if (stringsContains .Flag ",")}}{{$cf := .}}{{range (stringsSplit .Flag ",")}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .)}}
+	if len({{$.StructVar}}.{{$cf.Name}}) == 0 ||
+		len(os.Getenv("{{$envVar}}")) != 0 {
+		{{$.StructVar}}.{{$cf.Name}} = os.Getenv("{{$envVar}}")
+	}{{end}}{{else}}
 	if len({{$.StructVar}}.{{.Name}}) == 0 ||
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
-	}{{else}}{{if eq .Type "bool" }}
+	}{{end}}{{else}}{{if eq .Type "bool" }}
 	if _, exists = os.LookupEnv("{{$envVar}}"); {{$.StructVar}}.{{.Name}}|| exists {
 		{{$.StructVar}}.{{.Name}} = true
 	}{{end}}{{end}}{{end}}{{end}}

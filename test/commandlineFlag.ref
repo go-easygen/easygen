@@ -43,6 +43,8 @@ func init() {
 		"treat the template file as html instead of text")
 	flag.StringVar(&Opts.TemplateStr, "ts", "",
 		"template string (in text)")
+	flag.StringVar(&Opts.TemplateFile, "f", "",
+		".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)")
 	flag.StringVar(&Opts.TemplateFile, "tf", "",
 		".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)")
 	flag.StringVar(&Opts.ExtYaml, "ey", ".yaml",
@@ -66,6 +68,10 @@ func init() {
 	if len(Opts.TemplateStr) == 0 ||
 		len(os.Getenv("EASYGEN_TS")) != 0 {
 		Opts.TemplateStr = os.Getenv("EASYGEN_TS")
+	}
+	if len(Opts.TemplateFile) == 0 ||
+		len(os.Getenv("EASYGEN_F")) != 0 {
+		Opts.TemplateFile = os.Getenv("EASYGEN_F")
 	}
 	if len(Opts.TemplateFile) == 0 ||
 		len(os.Getenv("EASYGEN_TF")) != 0 {
