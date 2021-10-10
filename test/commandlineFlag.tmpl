@@ -33,9 +33,11 @@ func init() {
 
 	// set default values for command line parameters{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
-{{else}}
+{{else}}{{if (stringsContains .Flag ",")}}{{$cf := .}}{{range (stringsSplit .Flag ",")}}
+	flag.{{clk2uc $cf.Type}}Var(&{{$.StructVar}}.{{$cf.Name}}, "{{.}}", {{$cf.Value}},
+		"{{$cf.Usage}}"){{end}}{{else}}
 	flag.{{clk2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
-		"{{.Usage}}"){{end}}{{end}}
+		"{{.Usage}}"){{end}}{{end}}{{end}}
 
 	exists := false
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
