@@ -34,7 +34,7 @@ Options:
 
   - Name: TemplateFile
     Type: string
-    Flag: tf
+    Flag: f,tf
     Value: '""'
     Usage: ".tmpl (comma-separated) template file `name(s)` (default: same as .yaml file)"
 
