@@ -36,7 +36,7 @@ var Opts Options
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 
-func init() {
+func initVars() {
 
 	// set default values for command line parameters
 	flag.BoolVar(&Opts.HTML, "html", false,
@@ -59,7 +59,9 @@ func init() {
 		"debugging `level`")
 	flag.IntVar(&Opts.Debug, "debug", 0,
 		"debugging `level`")
+}
 
+func initVals() {
 	exists := false
 	// Now override those default values from environment variables
 	if _, exists = os.LookupEnv("EASYGEN_HTML"); Opts.HTML|| exists {
