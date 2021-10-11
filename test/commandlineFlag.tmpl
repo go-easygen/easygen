@@ -29,7 +29,7 @@ var {{.StructVar}} {{.StructName}}
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 
-func init() {
+func initVars() {
 
 	// set default values for command line parameters{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
@@ -38,7 +38,9 @@ func init() {
 		"{{$cf.Usage}}"){{end}}{{else}}
 	flag.{{clk2uc .Type}}Var(&{{$.StructVar}}.{{.Name}}, "{{.Flag}}", {{.Value}},
 		"{{.Usage}}"){{end}}{{end}}{{end}}
+}
 
+func initVals() {
 	exists := false
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
