@@ -105,4 +105,8 @@ Name: "%bob's file"
 $ easygen -ts '{{quote4shell .Name}}' /tmp/var
 '%bob'\''s file'
 
+# Using environment variable
+$ easygen -ts '{{ENV "SHELL"}}: {{.Age}}' /tmp/age
+/bin/bash: 16
+
 ```
