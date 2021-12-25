@@ -78,15 +78,31 @@ func ReadDataFile(fileName string) EgData {
 		_, err = file.Write(bytes)
 		checkError(err)
 
-		// try read it as Json
-		if d, err := TryToReadJsonFile(file.Name()); err != nil {
+		// try read it as Yaml
+		if d, err := TryToReadYamlFile(file.Name()); err != nil {
 			return d
 		}
-		// else, read it as Yaml
+		// else, read it as Json
 		return ReadYamlFile(file.Name())
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
+}
+
+// TryToReadYamlFile will try to read given file as YAML and return error if otherwise
+func TryToReadYamlFile(fileName string) (EgData,error) {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(map[interface{}]interface{})
+
+	err = yaml.Unmarshal(source, &m)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return m, nil
 }
 
 // ReadYamlFile reads given YAML file as EgData
@@ -99,7 +115,6 @@ func ReadYamlFile(fileName string) EgData {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
-	fmt.Printf("] Input %v\n", m)
 	return m
 }
 
@@ -113,22 +128,8 @@ func ReadJsonFile(fileName string) EgData {
 	err = json.Unmarshal(source, &m)
 	checkError(err)
 
+	fmt.Printf("] Input %v\n", m)
 	return m
-}
-
-// TryToReadJsonFile will try to read given file as JSON and return error if otherwise
-func TryToReadJsonFile(fileName string) (EgData,error) {
-	source, err := ioutil.ReadFile(fileName)
-	checkError(err)
-
-	m := make(map[string]interface{})
-
-	err = json.Unmarshal(source, &m)
-	if err != nil {
-		return nil, err
-	}
-
-	return m, nil
 }
 
 // IsExist checks if the given file exist
