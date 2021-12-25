@@ -78,31 +78,11 @@ func ReadDataFile(fileName string) EgData {
 		_, err = file.Write(bytes)
 		checkError(err)
 
-		// try read it as Yaml
-		if d, err := TryToReadYamlFile(file.Name()); err != nil {
-			return d
-		}
-		// else, read it as Json
+		// Yaml format is a superset of JSON, it read Json file just as fine
 		return ReadYamlFile(file.Name())
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
-}
-
-// TryToReadYamlFile will try to read given file as YAML and return error if otherwise
-func TryToReadYamlFile(fileName string) (EgData,error) {
-	source, err := ioutil.ReadFile(fileName)
-	checkError(err)
-
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal(source, &m)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return m, nil
 }
 
 // ReadYamlFile reads given YAML file as EgData
@@ -128,7 +108,7 @@ func ReadJsonFile(fileName string) EgData {
 	err = json.Unmarshal(source, &m)
 	checkError(err)
 
-	fmt.Printf("] Input %v\n", m)
+	//fmt.Printf("] Input %v\n", m)
 	return m
 }
 
