@@ -65,21 +65,9 @@ func ReadDataFile(fileName string) EgData {
 			checkError(fmt.Errorf("Unsupported file extension for DataFile '%s'", fileName))
 		}
 	} else if fileName == "-" {
-		// from stdin, prepare temp file
-		tempDir, err := ioutil.TempDir("", "easygen-")
-		checkError(err)
-		defer os.RemoveAll(tempDir)
-		file, err := ioutil.TempFile(tempDir, "easygen-*")
-		checkError(err)
-		defer os.Remove(file.Name())
-		//print(file.Name())
-		// read from stdin write to temp file
-		bytes, err := ioutil.ReadAll(os.Stdin)
-		_, err = file.Write(bytes)
-		checkError(err)
-
+		// from stdin
 		// Yaml format is a superset of JSON, it read Json file just as fine
-		return ReadYamlFile(file.Name())
+		return ReadYamlFile(fileName)
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
@@ -87,8 +75,15 @@ func ReadDataFile(fileName string) EgData {
 
 // ReadYamlFile reads given YAML file as EgData
 func ReadYamlFile(fileName string) EgData {
-	source, err := ioutil.ReadFile(fileName)
-	checkError(err)
+	var source []byte
+	var err error
+	if fileName == "-" {
+		source, err = ioutil.ReadAll(os.Stdin)
+		checkError(err)
+	} else {
+		source, err = ioutil.ReadFile(fileName)
+		checkError(err)
+	}
 
 	m := make(map[interface{}]interface{})
 
