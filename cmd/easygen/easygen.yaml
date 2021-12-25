@@ -56,5 +56,22 @@ UsageSummary: ""
 
 UsageLead: "\\nUsage:\\n %s [flags] template_name [data_filename [data_filename...]]\\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\ndata_filename(s): The name for the .yaml or .json data.\\n - If omitted derive from the template_name.\\n - Can have the extension or without it. If withot extension,\\n   will try .yaml first then .json\\n - Can include the path as well.\\n\\ntemplate_name: The name for the template file.\\n - Can have the extension or without it.\\n - Can include the path as well.\\n - Can be a comma-separated list giving many template files, in which case\\n   at least one data_filename must be given.\\n\\nFlag defaults can be overridden by corresponding environment variable, e.g.:\\n  EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...\\n"
+UsageEnd: |
+
+  template_name: The name for the template file.
+   - Can have the extension (specified by -et) or without it.
+   - Can include the path as well.
+   - Can be a comma-separated list giving many template files, in which case
+     at least one data_filename must be given.
+
+  data_filename(s): The name for the .yaml or .json data.
+   - If omitted derive from the template_name.
+   - Can have the extension or without it. If withot extension,
+     will try the .yaml file first then .json
+   - Can include the path as well.
+   - If there is a single data_filename, and it is "-",
+     then read the data (.yaml or .json format) from stdin.
+
+  Flag defaults can be overridden by corresponding environment variable, e.g.:
+    EASYGEN_EY=.yml EASYGEN_ET=.tpl easygen ...
 

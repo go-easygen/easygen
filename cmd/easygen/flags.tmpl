@@ -53,7 +53,7 @@ func Usage() {
 	fmt.Fprintf(os.Stderr, USAGE_SUMMARY){{end}}
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
-		"{{.UsageEnd}}")
+		`{{.UsageEnd}}`)
 	os.Exit(0)
 }
 
