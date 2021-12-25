@@ -64,6 +64,26 @@ func ReadDataFile(fileName string) EgData {
 		} else {
 			checkError(fmt.Errorf("Unsupported file extension for DataFile '%s'", fileName))
 		}
+	} else if fileName == "-" {
+		// from stdin, prepare temp file
+		tempDir, err := ioutil.TempDir("", "easygen-")
+		checkError(err)
+		defer os.RemoveAll(tempDir)
+		file, err := ioutil.TempFile(tempDir, "easygen-*")
+		checkError(err)
+		defer os.Remove(file.Name())
+		//print(file.Name())
+		// read from stdin write to temp file
+		bytes, err := ioutil.ReadAll(os.Stdin)
+		_, err = file.Write(bytes)
+		checkError(err)
+
+		// try read it as Json
+		if d, err := TryToReadJsonFile(file.Name()); err != nil {
+			return d
+		}
+		// else, read it as Yaml
+		return ReadYamlFile(file.Name())
 	}
 	checkError(fmt.Errorf("DataFile '%s' cannot be found", fileName))
 	return nil
@@ -79,6 +99,7 @@ func ReadYamlFile(fileName string) EgData {
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
 
+	fmt.Printf("] Input %v\n", m)
 	return m
 }
 
@@ -93,6 +114,21 @@ func ReadJsonFile(fileName string) EgData {
 	checkError(err)
 
 	return m
+}
+
+// TryToReadJsonFile will try to read given file as JSON and return error if otherwise
+func TryToReadJsonFile(fileName string) (EgData,error) {
+	source, err := ioutil.ReadFile(fileName)
+	checkError(err)
+
+	m := make(map[string]interface{})
+
+	err = json.Unmarshal(source, &m)
+	if err != nil {
+		return nil, err
+	}
+
+	return m, nil
 }
 
 // IsExist checks if the given file exist
