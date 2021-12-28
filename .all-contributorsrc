@@ -56,6 +56,15 @@
         "bug",
         "userTesting"
       ]
+    },
+    {
+      "login": "sanjaymsh",
+      "name": "sanjaymsh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66668807?v=4",
+      "profile": "https://github.com/sanjaymsh",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7,
