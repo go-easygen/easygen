@@ -45,6 +45,17 @@
         "content",
         "blog"
       ]
+    },
+    {
+      "login": "bruston",
+      "name": "Benjamin Ruston",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3519911?v=4",
+      "profile": "https://github.com/bruston",
+      "contributions": [
+        "code",
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,
