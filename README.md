@@ -1,6 +1,6 @@
 # easygen
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -182,6 +182,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/sanjaymsh"><img src="https://avatars.githubusercontent.com/u/66668807?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sanjaymsh</b></sub></a><br /><a href="#platform-sanjaymsh" title="Packaging/porting to new platform">📦</a></td>
     <td align="center"><a href="https://wiki.debian.org/AnthonyFok"><img src="https://avatars.githubusercontent.com/u/1274764?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Anthony Fok</b></sub></a><br /><a href="https://github.com/go-easygen/easygen/issues?q=author%3Aanthonyfok" title="Bug reports">🐛</a> <a href="https://github.com/go-easygen/easygen/pulls?q=is%3Apr+reviewed-by%3Aanthonyfok" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-anthonyfok" title="Maintenance">🚧</a> <a href="#userTesting-anthonyfok" title="User Testing">📓</a></td>
     <td align="center"><a href="https://github.com/ghost"><img src="https://avatars.githubusercontent.com/u/10137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Deleted user</b></sub></a><br /><a href="https://github.com/go-easygen/easygen/issues?q=author%3Aghost" title="Bug reports">🐛</a> <a href="#ideas-ghost" title="Ideas, Planning, & Feedback">🤔</a> <a href="#userTesting-ghost" title="User Testing">📓</a></td>
+    <td align="center"><a href="https://github.com/romz-pl"><img src="https://avatars.githubusercontent.com/u/32552206?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zbigniew Romanowski</b></sub></a><br /><a href="https://github.com/go-easygen/easygen/issues?q=author%3Aromz-pl" title="Bug reports">🐛</a> <a href="#ideas-romz-pl" title="Ideas, Planning, & Feedback">🤔</a> <a href="#userTesting-romz-pl" title="User Testing">📓</a></td>
   </tr>
 </table>
 
