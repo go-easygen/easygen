@@ -30,11 +30,23 @@
         "maintenance",
         "infra"
       ]
+    },
+    {
+      "login": "grrtrr",
+      "name": "Gerrit Renker",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5132989?v=4",
+      "profile": "http://gerrit.sdf.org/",
+      "contributions": [
+        "code",
+        "ideas",
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "projectName": "cc2py2",
-  "projectOwner": "go-cc",
+  "projectName": "easygen",
+  "projectOwner": "go-easygen",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
