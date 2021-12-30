@@ -11,6 +11,12 @@
 
 
 
+The easy to use universal code/text generator
+
+> _`easygen` is to `json` what `xslt` is to `xml`, but much more powerful and versatile._
+
+> _`easygen` has been such a great help to us, making so many mundane tasks easier (and fun) to do._
+
 ## TOC
 - [easygen - Easy to use universal code/text generator](#easygen---easy-to-use-universal-codetext-generator)
 - [Usage](#usage)
