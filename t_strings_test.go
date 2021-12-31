@@ -126,6 +126,14 @@ func TestStringManipulation(t *testing.T) {
 			`The {{if eq .StrTest "these rights belong to those people"}}eq says Yea{{else}}eq says Nay{{end}} but {{if eqf .StrTest "these rights belong to those people"}}eqf says Yea{{else}}eqf says Nay{{end}}.`,
 			"The eq says Nay but eqf says Yea.",
 		},
+		{
+			`{{$s := sprintf .StrTest}} {{$s}}`,
+			" These rights belong to those people",
+		},
+		{
+			`{{$s := sprintf "%s, %.2f" .StrTest 12.3456}} {{$s}}`,
+			" These rights belong to those people, 12.35",
+		},
 
 		// == standard regexp functions
 		{

@@ -7,6 +7,7 @@
 package easygen
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -74,6 +75,7 @@ type Template interface {
 
   eqf is wrapper for strings.EqualFold
   split is wrapper for strings.Fields
+  sprintf is wrapper for fmt.Sprintf
 
   regexpFindAllString is template function for RegexpFindAllString
   regexpFindAllStringIndex is template function for RegexpFindAllStringIndex
@@ -156,6 +158,7 @@ var egFuncMap = FuncMap{
 	// aliases
 	"eqf":   strings.EqualFold,
 	"split": strings.Fields,
+	"sprintf": fmt.Sprintf,
 
 	// == standard regexp function definitions
 	"regexpFindAllString":              RegexpFindAllString,
