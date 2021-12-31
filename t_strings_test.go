@@ -203,6 +203,14 @@ func TestStringManipulation(t *testing.T) {
 			`{{ coalesce "" }}`,
 			"",
 		},
+		{
+			`{{ coalesce .StrTest "Something else" }}`,
+			"These rights belong to those people",
+		},
+		{
+			`{{ coalesce .StrEmpty "Something else" }}`,
+			"Something else",
+		},
 	}
 
 	testStringManipulation(t, testData)
