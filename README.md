@@ -40,10 +40,12 @@ It can be used as a text or html generator for _arbitrary_ purposes with _arbitr
   - is more easy to define driving data, in form of YML instead of XML
   - has more powerful template engine that based on Go template.
     You can also write your own function in Go to customize your template.
+  - there are lots of transformation support functions builtin inside it, check out the full list with sample usages and results [here](https://github.com/go-easygen/easygen/issues/25).
+  - apart from the above sample usages, it has extensive documentations like [this](https://github.com/go-easygen/easygen/wiki/Docs:-Easygen-usage). Check out the [wiki](https://github.com/go-easygen/easygen/wiki/) for the full list.
 
-You can even use easygen as a generic Go template testing tool using the `-ts` commandline option, and much more.
+You can even use easygen as [a generic Go template testing tool](https://github.com/go-easygen/easygen/wiki/Tip:-Testing-the-templates-on-the-fly) using the `-ts` commandline option, and much more.
 
-Note this document is for `easygen` versions 4.0+. For historic versions check out the [Different Versions](#different-versions) section.
+Note this document is for `easygen` versions 4.0+. For historic versions check out the [Different Versions](https://github.com/go-easygen/easygen/wiki/Docs:-Different-Versions) section.
 
 
 ## Usage
@@ -91,6 +93,8 @@ Flag defaults can be overridden by corresponding environment variable, e.g.:
 It can be used as a code generator, for example, command line parameter handling code generator, or anything that is structurally repetitive, like the following:
 
 - [Introduction to easygen and its philosophy ](https://suntong.github.io/blogs/2016/01/01/easygen---easy-to-use-universal-code/text-generator)
+- [What is the "XSLT" equivalent for JSON? Here is the new answer](https://dev.to/suntong/what-is-the-xslt-equivalent-for-json-here-is-the-new-answer-7la)
+- [Transforming json data with easygen](https://dev.to/suntong/transforming-json-data-with-easygen-4g2i)
 - [Easygen is now coding itself ](https://sfxpt.wordpress.com/2015/07/04/easygen-is-now-coding-itself/)
 - [Showcasing the power of easygen with ffcvt ](https://sfxpt.wordpress.com/2015/08/02/showcasing-the-power-of-easygen-with-ffcvt/)
 - [Easygen for HTML mock-up ](https://sfxpt.wordpress.com/2015/07/10/easygen-for-mock-up/)
