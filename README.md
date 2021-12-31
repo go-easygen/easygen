@@ -52,7 +52,7 @@ Note this document is for `easygen` versions 4.0+. For historic versions check o
 
 ### $ easygen
 ```sh
-easygen version 5.1.8
+easygen version 5.1.9
 
 Usage:
  easygen [flags] template_name [data_filename [data_filename...]]
