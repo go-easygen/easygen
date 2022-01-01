@@ -211,6 +211,12 @@ func TestStringManipulation(t *testing.T) {
 			`{{ coalesce .StrEmpty "Something else" }}`,
 			"Something else",
 		},
+		// NOK! The following will failed the template.Execute
+		// before the coalesce function can do anything
+		// {
+		// 	`{{ coalesce .StrNone "Not exist" }}`,
+		// 	"Not exist",
+		// },
 	}
 
 	testStringManipulation(t, testData)
