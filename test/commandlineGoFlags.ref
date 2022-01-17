@@ -1,0 +1,221 @@
+
+
+////////////////////////////////////////////////////////////////////////////
+// Program: redo
+// Purpose: global option redo
+// Authors: Myself <me@mine.org> (c) 2022, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
+package main
+
+import (
+//  	"fmt"
+//  	"os"
+
+//	"github.com/jessevdk/go-flags"
+)
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+// The OptsT type defines all the configurable options from cli.
+//  type OptsT struct {
+//  	Host	string	`short:"H" long:"host" env:"REDO_HOST" description:"host address" default:"localhost"`
+//  	Port	int	`short:"p" long:"port" env:"REDO_PORT" description:"listening port" default:"80"`
+//  	Force	bool	`short:"f" long:"force" env:"REDO_FORCE" description:"force start"`
+//  	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+//  	Verbose uint
+
+//  }
+
+
+// Template for main starts here
+
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
+
+//  var (
+//          progname  = "redo"
+//          version   = "0.1.0"
+//          date = "2022-01-17"
+
+//  	// Opts store all the configurable options
+//  	Opts OptsT
+//  )
+//  
+//  var parser = flags.NewParser(&Opts, flags.Default)
+
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+// Function main
+//  func main() {
+//  	Opts.Verbflg = func() {
+//  		Opts.Verbose++
+//  	}
+//  
+//  	if _, err := parser.Parse(); err != nil {
+//  		switch flagsErr := err.(type) {
+//  		case flags.ErrorType:
+//  			if flagsErr == flags.ErrHelp {
+//  				os.Exit(0)
+//  			}
+//  			os.Exit(1)
+//  		default:
+//  			fmt.Println()
+//  			parser.WriteHelp(os.Stdout)
+//  			os.Exit(1)
+//  		}
+//  	}
+//  	fmt.Println("")
+//  }
+// Template for main ends here
+
+
+// Template for "build" CLI handling starts here
+////////////////////////////////////////////////////////////////////////////
+// Program: redo
+// Purpose: global option redo
+// Authors: Myself <me@mine.org> (c) 2022, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
+//  package main
+
+//  import (
+//    	"fmt"
+//    	"os"
+//  )
+
+// *** Sub-command: build ***
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+// The BuildCommand type defines all the configurable options from cli.
+//  type BuildCommand struct {
+//  	Dir	string	`long:"dir" description:"source code root dir" default:"./"`
+//  }
+
+//  
+//  var buildCommand BuildCommand
+//  
+// BuildCommand implements the business logic of command `build`
+//  func (x *BuildCommand) Execute(args []string) error {
+//  	fmt.Fprintf(os.Stderr, "Build the network application\n")
+//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+//  	// fmt.Printf("Doing Build, with %#v\n", args)
+//  	// fmt.Println(x.Dir)
+//  	// err := ...
+//  	return nil
+//  }
+//  
+//  func init() {
+//  	parser.AddCommand("build",
+//  		"Build the network application",
+//  		"Usage:\n  redo build [Options] Arch(i386|amd64)",
+//  		&buildCommand)
+//  }
+// Template for "build" CLI handling ends here
+
+// Template for "install" CLI handling starts here
+////////////////////////////////////////////////////////////////////////////
+// Program: redo
+// Purpose: global option redo
+// Authors: Myself <me@mine.org> (c) 2022, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
+//  package main
+
+//  import (
+//    	"fmt"
+//    	"os"
+//  )
+
+// *** Sub-command: install ***
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+// The InstallCommand type defines all the configurable options from cli.
+//  type InstallCommand struct {
+//  	Dir	string	`short:"d description:"source code root dir" default:"./"`
+//  	Suffix	string	`long:"suffix" description:"source file suffix" default:".go,.c,.s"`
+//  }
+
+//  
+//  var installCommand InstallCommand
+//  
+// InstallCommand implements the business logic of command `install`
+//  func (x *InstallCommand) Execute(args []string) error {
+//  	fmt.Fprintf(os.Stderr, "Install the network application\n")
+//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+//  	// fmt.Printf("Doing Install, with %#v\n", args)
+//  	// fmt.Println(x.Dir, x.Suffix)
+//  	// err := ...
+//  	return nil
+//  }
+//  
+//  func init() {
+//  	parser.AddCommand("install",
+//  		"Install the network application",
+//  		"The add command adds a file to the repository. Use -a to add all files",
+//  		&installCommand)
+//  }
+// Template for "install" CLI handling ends here
+
+// Template for "publish" CLI handling starts here
+////////////////////////////////////////////////////////////////////////////
+// Program: redo
+// Purpose: global option redo
+// Authors: Myself <me@mine.org> (c) 2022, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
+//  package main
+
+//  import (
+//    	"fmt"
+//    	"os"
+//  )
+
+// *** Sub-command: publish ***
+
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+// The PublishCommand type defines all the configurable options from cli.
+//  type PublishCommand struct {
+//  	Dir	string	`short:"d" long:"dir" description:"publish dir" required:"true"`
+//  	Suffix	string	`long:"suffix" description:"source file suffix" default:".go,.c,.s"`
+//  	Out	string	`short:"o" long:"out" description:"output filename"`
+//  
+//  	// Example of positional arguments
+//  Args struct {
+//    ID   string
+//    Num  int
+//    Rest []string
+//  } `positional-args:"yes" required:"yes"`
+
+//  }
+
+//  
+//  var publishCommand PublishCommand
+//  
+// PublishCommand implements the business logic of command `publish`
+//  func (x *PublishCommand) Execute(args []string) error {
+//  	fmt.Fprintf(os.Stderr, "Publish the network application\n")
+//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+//  	// fmt.Printf("Doing Publish, with %#v\n", args)
+//  	// fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
+//  	// err := ...
+//  	return nil
+//  }
+//  
+//  func init() {
+//  	parser.AddCommand("publish",
+//  		"Publish the network application",
+//  		"Publish the built network application to central repo",
+//  		&publishCommand)
+//  }
+// Template for "publish" CLI handling ends here
+
+

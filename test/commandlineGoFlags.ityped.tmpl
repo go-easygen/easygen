@@ -1,0 +1,26 @@
+{{- define "type_struct" -}} 
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+// The {{.typeName}} type defines all the configurable options from cli.
+//  type {{.typeName}} struct { {{- range .Options}}
+{{- if eq .Name "Args" }}
+//  
+//  	{{.Args}}
+{{- else }}{{$f := stringsSplit .Flag ","}}{{ $flen := len $f }}
+//  	{{.Name}}	{{.Type}}	`
+{{- if gt $flen 1}}short:"{{index $f 0}}" long:"{{index $f 1}}"
+{{- else}}
+ {{- if le ((index $f 0) | len) 1 }}short:"{{index $f 0}}
+ {{- else}}long:"{{index $f 0}}"{{end}}
+{{- end}}
+{{- if .EnvV}} env:"{{printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Name)}}"{{end}} description:"{{.Usage}}"
+{{- if .Value}} default:"{{.Value}}"{{end}}
+{{- if .Required}} required:"true"{{end}}`{{end}}
+{{- end}}
+{{- if .Verbose}}
+//  	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+//  	Verbose uint
+{{end}}
+//  }
+{{- end}}

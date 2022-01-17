@@ -1,0 +1,95 @@
+{{- template "header" $ }}
+
+package {{$.PackageName}}
+
+import (
+//  	"fmt"
+//  	"os"
+
+//	"github.com/jessevdk/go-flags"
+)
+
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "typeName" "OptsT" }}
+
+
+// Template for main starts here
+
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
+
+//  var (
+//          progname  = "{{.Name}}"
+//          version   = "0.1.0"
+//          date = "{{ date "I" }}"
+
+//  	// Opts store all the configurable options
+//  	Opts OptsT
+//  )
+//  
+//  var parser = flags.NewParser(&Opts, flags.Default)
+
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+// Function main
+//  func main() {
+{{- if .Verbose }}
+//  	Opts.Verbflg = func() {
+//  		Opts.Verbose++
+//  	}
+{{- end }}
+//  
+//  	if _, err := parser.Parse(); err != nil {
+//  		switch flagsErr := err.(type) {
+//  		case flags.ErrorType:
+//  			if flagsErr == flags.ErrHelp {
+//  				os.Exit(0)
+//  			}
+//  			os.Exit(1)
+//  		default:
+//  			fmt.Println()
+//  			parser.WriteHelp(os.Stdout)
+//  			os.Exit(1)
+//  		}
+//  	}
+//  	fmt.Println("")
+//  }
+// Template for main ends here
+
+{{range .Command}}
+// Template for "{{.Name}}" CLI handling starts here
+{{template "header" $ }}
+
+//  package {{$.PackageName}}
+
+//  import (
+//    	"fmt"
+//    	"os"
+//  )
+
+// *** Sub-command: {{.Name}} ***
+
+{{template "type_struct" argsm "ProgramName" $.ProgramName "Options" .Options "typeName" (print (stringsTitle .Name) "Command") }}
+
+//  
+//  var {{.Name}}Command {{stringsTitle .Name}}Command
+//  
+// {{stringsTitle .Name}}Command implements the business logic of command `{{.Name}}`
+//  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
+//  	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
+//  	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
+//  	// fmt.Printf("Doing {{stringsTitle .Name}}, with %#v\n", args)
+//  	// {{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
+//  	// err := ...
+//  	return nil
+//  }
+//  
+//  func init() {
+//  	parser.AddCommand("{{.Name}}",
+//  		"{{.Desc}}",
+//  		"{{.Text}}",
+//  		&{{.Name}}Command)
+//  }
+// Template for "{{.Name}}" CLI handling ends here
+{{end}}
+

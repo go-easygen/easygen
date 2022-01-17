@@ -1,0 +1,98 @@
+# program name, name for the executable
+ProgramName: redo
+Authors: Myself <me@mine.org>
+
+# For the complete demo, refer to the finished code at
+#   https://github.com/suntong/lang/tree/master/lang/Go/src/sys/go-flags/wireframed
+#  and the wiki at
+#   https://github.com/go-easygen/easygen/issues/46
+#
+PackageName: main
+
+Name: redo
+Desc: "global option redo"
+Text: '  redo global option via automatic code-gen'
+Verbose: true
+
+Options:
+  - Name: Host
+    Type: string
+    Flag: H,host
+    EnvV: true
+    Usage: host address
+    Value: localhost
+
+  - Name: Port
+    Type: int
+    Flag: p,port
+    EnvV: true
+    Usage: listening port
+    Value: 80
+
+  - Name: Force
+    Type: bool
+    Flag: f,force
+    EnvV: true
+    Usage: force start
+
+
+Command:
+
+  - Name: build
+    Desc: "Build the network application"
+    Text: 'Usage:\n  redo build [Options] Arch(i386|amd64)'
+    
+    Options:
+      - Name: Dir
+        Type: string
+        Flag: dir
+        Value: "./"
+        Usage: source code root dir
+
+  - Name: install
+    Desc: "Install the network application"
+    Text: 'The add command adds a file to the repository. Use -a to add all files'
+    
+    Options:
+      - Name: Dir
+        Type: string
+        Flag: d
+        Value: "./"
+        Usage: source code root dir
+
+      - Name: Suffix
+        Type: string
+        Flag: suffix
+        Value: ".go,.c,.s"
+        Usage: "source file suffix"
+
+  - Name: publish
+    Desc: Publish the network application
+    Text: Publish the built network application to central repo
+
+    Options:
+      - Name: Dir
+        Type: string
+        Flag: 'd,dir'
+        Usage: publish dir
+        Required: true
+
+      - Name: Suffix
+        Type: string
+        Flag: suffix
+        Value: ".go,.c,.s"
+        Usage: "source file suffix"
+
+      - Name: Out
+        Type: string
+        Flag: o,out
+        Usage: "output filename"
+
+      - Name: Args
+        Args: |
+          // Example of positional arguments
+          //  Args struct {
+          //    ID   string
+          //    Num  int
+          //    Rest []string
+          //  } `positional-args:"yes" required:"yes"`
