@@ -1,0 +1,23 @@
+{{define "type_struct" -}} 
+
+// The {{.typeName}} type defines all the configurable options from cli.
+type {{.typeName}} struct { {{- range .Options}}
+{{- if eq .Name "Args" }}
+
+	{{.Args}}
+{{- else }}{{$f := stringsSplit .Flag ","}}{{ $flen := len $f }}
+	{{.Name}}	{{.Type}}	`short:"{{index $f 0}}"{{if gt $flen 1}} long:"{{index $f 1}}"{{end}}{{if .EnvV}} env:"{{printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Name)}}"{{end}} description:"{{.Usage}}"{{if .Value}} default:"{{.Value}}"{{end}}`{{end}}
+{{- end}}
+{{- if .Verbose}}
+	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+	Verbose uint
+{{end}}
+{{- end -}}
+
+{{range .Command}}
+////////////////////////////////////////////////////////////////////////////
+// {{.Name}}
+
+{{template "type_struct" argsm "Options" .Options "typeName" (print (stringsTitle .Name) "Command")  }}
+}
+{{end}}
