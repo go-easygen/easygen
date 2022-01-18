@@ -6,7 +6,7 @@ import (
 //  	"fmt"
 //  	"os"
 
-//	"github.com/jessevdk/go-flags"
+//	"github.com/go-easygen/go-flags"
 )
 
 {{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "typeName" "OptsT" }}
@@ -65,6 +65,8 @@ import (
 //  import (
 //	"fmt"
 //	"os"
+//
+//	"github.com/go-easygen/go-flags/clis"
 //  )
 
 // *** Sub-command: {{.Name}} ***
@@ -74,26 +76,30 @@ import (
 //  
 //  var {{.Name}}Command {{stringsTitle .Name}}Command
 //  
-//  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
-//  	return x.Exec(args)
-//  }
-//  
-// Exec implements the business logic of command `{{.Name}}`
-// func (x *{{stringsTitle .Name}}Command) Exec(args []string) error {
-// 	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
-// 	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
-// 	// fmt.Printf("Doing {{stringsTitle .Name}}, with %+v, %+v\n", Opts, args)
-// 	// {{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
-// 	// // err := ...
-// 	return nil
-// }
-//  
 //  func init() {
 //  	parser.AddCommand("{{.Name}}",
 //  		"{{.Desc}}",
 //  		"{{.Text}}",
 //  		&{{.Name}}Command)
 //  }
+//
+//  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
+//  	return x.Exec(args)
+//  }
+//  
+// Exec implements the business logic of command `{{.Name}}`
+// func (x *{{stringsTitle .Name}}Command) Exec(args []string) error {
+// 	clis.Setup(fmt.Sprintf("%s::%s", progname, "{{.Name}}"), Opts.Verbose)
+// 	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
+// 	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
+// 	// clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v\n", Opts, args)
+// 	// {{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
+// 	// // err := ...
+// 	// // clis.WarnOn("{{stringsTitle .Name}}, Exec", err)
+// 	// // or,
+// 	// // clis.AbortOn("{{stringsTitle .Name}}, Exec", err)
+// 	return nil
+// }
 // Template for "{{.Name}}" CLI handling ends here
 {{end}}
 
