@@ -82,8 +82,8 @@ import (
 //  package main
 
 //  import (
-//    	"fmt"
-//    	"os"
+//	"fmt"
+//	"os"
 //  )
 
 // *** Sub-command: build ***
@@ -99,15 +99,19 @@ import (
 //  
 //  var buildCommand BuildCommand
 //  
-// BuildCommand implements the business logic of command `build`
 //  func (x *BuildCommand) Execute(args []string) error {
-//  	fmt.Fprintf(os.Stderr, "Build the network application\n")
-//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//  	// fmt.Printf("Doing Build, with %#v\n", args)
-//  	// fmt.Println(x.Dir)
-//  	// err := ...
-//  	return nil
+//  	return x.Exec(args)
 //  }
+//  
+// Exec implements the business logic of command `build`
+// func (x *BuildCommand) Exec(args []string) error {
+// 	fmt.Fprintf(os.Stderr, "Build the network application\n")
+// 	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+// 	// fmt.Printf("Doing Build, with %+v, %+v\n", Opts, args)
+// 	// fmt.Println(x.Dir)
+// 	// // err := ...
+// 	return nil
+// }
 //  
 //  func init() {
 //  	parser.AddCommand("build",
@@ -127,8 +131,8 @@ import (
 //  package main
 
 //  import (
-//    	"fmt"
-//    	"os"
+//	"fmt"
+//	"os"
 //  )
 
 // *** Sub-command: install ***
@@ -145,15 +149,19 @@ import (
 //  
 //  var installCommand InstallCommand
 //  
-// InstallCommand implements the business logic of command `install`
 //  func (x *InstallCommand) Execute(args []string) error {
-//  	fmt.Fprintf(os.Stderr, "Install the network application\n")
-//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//  	// fmt.Printf("Doing Install, with %#v\n", args)
-//  	// fmt.Println(x.Dir, x.Suffix)
-//  	// err := ...
-//  	return nil
+//  	return x.Exec(args)
 //  }
+//  
+// Exec implements the business logic of command `install`
+// func (x *InstallCommand) Exec(args []string) error {
+// 	fmt.Fprintf(os.Stderr, "Install the network application\n")
+// 	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+// 	// fmt.Printf("Doing Install, with %+v, %+v\n", Opts, args)
+// 	// fmt.Println(x.Dir, x.Suffix)
+// 	// // err := ...
+// 	return nil
+// }
 //  
 //  func init() {
 //  	parser.AddCommand("install",
@@ -173,8 +181,8 @@ import (
 //  package main
 
 //  import (
-//    	"fmt"
-//    	"os"
+//	"fmt"
+//	"os"
 //  )
 
 // *** Sub-command: publish ***
@@ -185,7 +193,7 @@ import (
 // The PublishCommand type defines all the configurable options from cli.
 //  type PublishCommand struct {
 //  	Dir	string	`short:"d" long:"dir" description:"publish dir" required:"true"`
-//  	Suffix	string	`long:"suffix" description:"source file suffix" default:".go,.c,.s"`
+//  	Suffix	[]string	`short:"s" long:"suffix" description:"source file suffix for publish" choice:".go" choice:".c" choice:".h"`
 //  	Out	string	`short:"o" long:"out" description:"output filename"`
 //  
 //  	// Example of positional arguments
@@ -200,15 +208,19 @@ import (
 //  
 //  var publishCommand PublishCommand
 //  
-// PublishCommand implements the business logic of command `publish`
 //  func (x *PublishCommand) Execute(args []string) error {
-//  	fmt.Fprintf(os.Stderr, "Publish the network application\n")
-//  	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//  	// fmt.Printf("Doing Publish, with %#v\n", args)
-//  	// fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
-//  	// err := ...
-//  	return nil
+//  	return x.Exec(args)
 //  }
+//  
+// Exec implements the business logic of command `publish`
+// func (x *PublishCommand) Exec(args []string) error {
+// 	fmt.Fprintf(os.Stderr, "Publish the network application\n")
+// 	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
+// 	// fmt.Printf("Doing Publish, with %+v, %+v\n", Opts, args)
+// 	// fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
+// 	// // err := ...
+// 	return nil
+// }
 //  
 //  func init() {
 //  	parser.AddCommand("publish",
