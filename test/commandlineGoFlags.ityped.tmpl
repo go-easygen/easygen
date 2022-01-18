@@ -16,6 +16,7 @@
 {{- end}}
 {{- if .EnvV}} env:"{{printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Name)}}"{{end}} description:"{{.Usage}}"
 {{- if .Value}} default:"{{.Value}}"{{end}}
+{{- if .Choices}}{{range .Choices}} choice:"{{.}}"{{end}}{{end}}
 {{- if .Required}} required:"true"{{end}}`{{end}}
 {{- end}}
 {{- if .Verbose}}

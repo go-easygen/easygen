@@ -78,10 +78,13 @@ Command:
         Required: true
 
       - Name: Suffix
-        Type: string
-        Flag: suffix
-        Value: ".go,.c,.s"
-        Usage: "source file suffix"
+        Type: '[]string'
+        Flag: s,suffix
+        Usage: "source file suffix for publish"
+        Choices:
+          - .go
+          - .c
+          - .h
 
       - Name: Out
         Type: string
