@@ -9,10 +9,10 @@ import (
 //	"github.com/go-easygen/go-flags"
 )
 
-{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "typeName" "OptsT" }}
-
-
 // Template for main starts here
+
+//////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
 
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
@@ -40,21 +40,23 @@ import (
 {{- end }}
 //  
 //  	if _, err := parser.Parse(); err != nil {
-//  		switch flagsErr := err.(type) {
-//  		case flags.ErrorType:
-//  			if flagsErr == flags.ErrHelp {
-//  				os.Exit(0)
-//  			}
-//  			os.Exit(1)
-//  		default:
-//  			fmt.Println()
-//  			parser.WriteHelp(os.Stdout)
-//  			os.Exit(1)
-//  		}
+//  		fmt.Println()
+//  		parser.WriteHelp(os.Stdout)
+//  		os.Exit(1)
 //  	}
-//  	fmt.Println("")
+//  	fmt.Println()
+//  	//Do{{stringsTitle .Name}}()
 //  }
 // Template for main ends here
+
+// Do{{stringsTitle .Name}} implements the business logic of command `{{.Name}}`
+// func Do{{stringsTitle .Name}}() error {
+//	return nil
+// }
+
+// Template for type define starts here
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "typeName" "OptsT" }}
+// Template for type define ends here
 
 {{range .Command}}
 // Template for "{{.Name}}" CLI handling starts here
