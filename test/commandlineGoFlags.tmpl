@@ -1,6 +1,10 @@
-{{- template "header" $ }}
+// {{.Name}} - {{.Desc}}
+// 
+// {{.Text}}
 
 package {{$.PackageName}}
+
+{{template "header" $ }}
 
 import (
 //  	"fmt"
@@ -33,6 +37,9 @@ import (
 
 // Function main
 //  func main() {
+{{- if .Version }}
+//  	Opts.Version = showVersion
+{{- end }}
 {{- if .Verbose }}
 //  	Opts.Verbflg = func() {
 //  		Opts.Verbose++
@@ -47,6 +54,16 @@ import (
 //  	fmt.Println()
 //  	//Do{{stringsTitle .Name}}()
 //  }
+//  
+{{- if .Version }}
+//  func showVersion() {
+//   	fmt.Fprintf(os.Stderr, "{{.Name}} - {{.Desc}}\n")
+//   	fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
+//  	fmt.Fprintf(os.Stderr, "{{.Text}}\n\nBuilt on %s\nVersion %s\n", 
+//  		date, version)
+//  	os.Exit(0)
+//  }
+{{- end }}
 // Template for main ends here
 
 // Do{{stringsTitle .Name}} implements the business logic of command `{{.Name}}`
@@ -55,7 +72,7 @@ import (
 // }
 
 // Template for type define starts here
-{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "typeName" "OptsT" }}
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" }}
 // Template for type define ends here
 
 {{range .Command}}
@@ -88,7 +105,7 @@ import (
 //  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
-//   	clis.Setup(fmt.Sprintf("%s::%s", progname, "{{.Name}}"), Opts.Verbose)
+//   	clis.Setup("{{$.Name}}::{{.Name}}", Opts.Verbose)
 //   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", Opts, args)
 //   	{{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
 //  	return x.Exec(args)

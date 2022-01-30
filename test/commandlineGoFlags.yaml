@@ -11,29 +11,30 @@ PackageName: main
 
 Name: redo
 Desc: "global option redo"
-Text: '  redo global option via automatic code-gen'
+Text: Redo global option via automatic code-gen
 Verbose: true
+Version: true
 
 Options:
   - Name: Host
     Type: string
     Flag: H,host
     EnvV: true
-    Usage: host address
+    Usage: Host address
     Value: localhost
 
   - Name: Port
     Type: int
     Flag: p,port
     EnvV: true
-    Usage: listening port
+    Usage: Listening port
     Value: 80
 
   - Name: Force
     Type: bool
     Flag: f,force
     EnvV: true
-    Usage: force start
+    Usage: Force start
 
 
 Command:
