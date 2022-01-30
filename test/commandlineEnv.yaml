@@ -1,0 +1,35 @@
+# program name, name for the executable
+# ProgramName: redo
+# Authors: Myself <me@mine.org>
+
+#
+PackageName: main
+
+Name: evdemo
+# Desc: "global option redo"
+# Text: Redo global option via automatic code-gen
+
+# prefix string before every environment variable
+Prefix: EVD_
+
+Options:
+  - Name: Host
+    Type: string
+    Usage: Host address
+    Value: localhost
+
+  - Name: Port
+    Type: int
+    Usage: Listening port
+    Value: 80
+
+  - Name: Force
+    Type: bool
+    EVar: FRCE
+    Usage: Force start
+
+  - Name: Verbose
+    Type: int
+    EVar: VERB
+    Usage: Verbose mode (higher numbers increase the verbosity)
+    Value: 0

@@ -1,0 +1,24 @@
+package main
+
+// import "github.com/caarlos0/env"
+
+//////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+type envConfig struct {
+	Host	string	`env:"EVD_HOST" envDefault:"localhost"`	// Host address
+	Port	int	`env:"EVD_PORT" envDefault:"80"`	// Listening port
+	Force	bool	`env:"EVD_FRCE"`	// Force start
+	Verbose	int	`env:"EVD_VERB"`	// Verbose mode (higher numbers increase the verbosity)
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
+
+//  var (
+//          progname  = "evdemo"
+//          version   = "0.1.0"
+//          date = "2022-01-30"
+
+//          e envConfig
+//  )

@@ -1,0 +1,26 @@
+package {{$.PackageName}}
+
+// import "github.com/caarlos0/env"
+
+//////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+type envConfig struct { {{- $prefix := .Prefix}} {{- range .Options}}
+	{{.Name}}	{{.Type}}	`env:"{{$prefix}}
+{{- if .EVar}}{{.EVar}}
+{{- else}}{{clk2ss .Name}}
+{{- end}}"
+{{- if .Value}} envDefault:"{{.Value}}"{{end}}`	// {{.Usage}}
+{{- end}}
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
+
+//  var (
+//          progname  = "{{.Name}}"
+//          version   = "0.1.0"
+//          date = "{{ date "I" }}"
+
+//          e envConfig
+//  )
