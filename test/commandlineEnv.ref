@@ -5,6 +5,18 @@ package main
 //////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
+
+/*
+
+Custom environment settings:
+
+- **EVD_HOST**: Host address (string="localhost")
+- **EVD_PORT**: Listening port (int="80")
+- **EVD_FRCE**: Force start (bool)
+- **EVD_VERB**: Verbose mode (higher numbers increase the verbosity) (int)
+
+*/
+
 type envConfig struct {
 	Host	string	`env:"EVD_HOST" envDefault:"localhost"`	// Host address
 	Port	int	`env:"EVD_PORT" envDefault:"80"`	// Listening port

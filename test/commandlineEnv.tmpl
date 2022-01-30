@@ -5,7 +5,20 @@ package {{$.PackageName}}
 //////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-type envConfig struct { {{- $prefix := .Prefix}} {{- range .Options}}
+
+/*{{- $prefix := .Prefix}}
+
+Custom environment settings:
+{{range .Options}}
+- **{{$prefix}}
+{{- if .EVar}}{{.EVar}}
+{{- else}}{{clk2ss .Name}}
+{{- end}}**: {{.Usage}} ({{.Type}}{{- if .Value}}="{{.Value}}"{{end}})
+{{- end}}
+
+*/
+
+type envConfig struct { {{- range .Options}}
 	{{.Name}}	{{.Type}}	`env:"{{$prefix}}
 {{- if .EVar}}{{.EVar}}
 {{- else}}{{clk2ss .Name}}
