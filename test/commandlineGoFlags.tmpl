@@ -10,7 +10,7 @@ import (
 //  	"fmt"
 //  	"os"
 
-//	"github.com/go-easygen/go-flags"
+//  	"github.com/go-easygen/go-flags"
 )
 
 // Template for main starts here
@@ -67,9 +67,9 @@ import (
 // Template for main ends here
 
 // Do{{stringsTitle .Name}} implements the business logic of command `{{.Name}}`
-// func Do{{stringsTitle .Name}}() error {
-//	return nil
-// }
+//  func Do{{stringsTitle .Name}}() error {
+//  	return nil
+//  }
 
 // Template for type define starts here
 {{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" }}
