@@ -57,10 +57,10 @@ import (
 //  
 {{- if .Version }}
 //  func showVersion() {
-//   	fmt.Fprintf(os.Stderr, "{{.Name}} - {{.Desc}}\n")
+//   	fmt.Fprintf(os.Stderr, "{{.Name}} - {{.Desc}}, version %s\n", version)
+//  	fmt.Fprintf(os.Stderr, "Built on %s\n", date)
 //   	fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
-//  	fmt.Fprintf(os.Stderr, "{{.Text}}\n\nBuilt on %s\nVersion %s\n", 
-//  		date, version)
+//  	fmt.Fprintf(os.Stderr, "{{.Text}}\n")
 //  	os.Exit(0)
 //  }
 {{- end }}
