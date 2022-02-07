@@ -32,20 +32,20 @@ import (
 //          version   = "0.1.0"
 //          date = "2022-02-07"
 
-//  	// Opts store all the configurable options
-//  	Opts OptsT
+//  	// opts store all the configurable options
+//  	opts optsT
 //  )
 //  
-//  var parser = flags.NewParser(&Opts, flags.Default)
+//  var parser = flags.NewParser(&opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
 // Function main
 //  func main() {
-//  	Opts.Version = showVersion
-//  	Opts.Verbflg = func() {
-//  		Opts.Verbose++
+//  	opts.Version = showVersion
+//  	opts.Verbflg = func() {
+//  		opts.Verbose++
 //  	}
 //  
 //  	if _, err := parser.Parse(); err != nil {
@@ -73,8 +73,8 @@ import (
 
 // Template for type define starts here
 
-// The OptsT type defines all the configurable options from cli.
-type OptsT struct {
+// The optsT type defines all the configurable options from cli.
+type optsT struct {
 	Host	string	`short:"H" long:"host" env:"REDO_HOST" description:"Host address" default:"localhost"`
 	Port	int	`short:"p" long:"port" env:"REDO_PORT" description:"Listening port" default:"80"`
 	Force	bool	`short:"f" long:"force" env:"REDO_FORCE" description:"Force start"`
@@ -124,8 +124,8 @@ type OptsT struct {
 //  func (x *BuildCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Build the network application\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::build", Opts.Verbose)
-//   	clis.Verbose(1, "Doing Build, with %+v, %+v", Opts, args)
+//   	clis.Setup("redo::build", opts.Verbose)
+//   	clis.Verbose(1, "Doing Build, with %+v, %+v", opts, args)
 //   	fmt.Println(x.Dir)
 //  	return x.Exec(args)
 //  }
@@ -180,8 +180,8 @@ type OptsT struct {
 //  func (x *InstallCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Install the network application\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::install", Opts.Verbose)
-//   	clis.Verbose(1, "Doing Install, with %+v, %+v", Opts, args)
+//   	clis.Setup("redo::install", opts.Verbose)
+//   	clis.Verbose(1, "Doing Install, with %+v, %+v", opts, args)
 //   	fmt.Println(x.Dir, x.Suffix)
 //  	return x.Exec(args)
 //  }
@@ -244,8 +244,8 @@ type OptsT struct {
 //  func (x *PublishCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Publish the network application\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::publish", Opts.Verbose)
-//   	clis.Verbose(1, "Doing Publish, with %+v, %+v", Opts, args)
+//   	clis.Setup("redo::publish", opts.Verbose)
+//   	clis.Verbose(1, "Doing Publish, with %+v, %+v", opts, args)
 //   	fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
 //  	return x.Exec(args)
 //  }

@@ -26,11 +26,11 @@ import (
 //          version   = "0.1.0"
 //          date = "{{ date "I" }}"
 
-//  	// Opts store all the configurable options
-//  	Opts OptsT
+//  	// opts store all the configurable options
+//  	opts optsT
 //  )
 //  
-//  var parser = flags.NewParser(&Opts, flags.Default)
+//  var parser = flags.NewParser(&opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
@@ -38,11 +38,11 @@ import (
 // Function main
 //  func main() {
 {{- if .Version }}
-//  	Opts.Version = showVersion
+//  	opts.Version = showVersion
 {{- end }}
 {{- if .Verbose }}
-//  	Opts.Verbflg = func() {
-//  		Opts.Verbose++
+//  	opts.Verbflg = func() {
+//  		opts.Verbose++
 //  	}
 {{- end }}
 //  
@@ -73,7 +73,7 @@ import (
 
 // Template for type define starts here
 
-{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" "Prefix" "" }}
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "optsT" "Prefix" "" }}
 // Template for type define ends here
 
 {{range .Command}}
@@ -109,8 +109,8 @@ import (
 //  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
-//   	clis.Setup("{{$.Name}}::{{.Name}}", Opts.Verbose)
-//   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", Opts, args)
+//   	clis.Setup("{{$.Name}}::{{.Name}}", opts.Verbose)
+//   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", opts, args)
 //   	{{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
 //  	return x.Exec(args)
 //  }
