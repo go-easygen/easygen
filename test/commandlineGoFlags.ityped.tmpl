@@ -1,14 +1,11 @@
 {{- define "type_struct" -}} 
-////////////////////////////////////////////////////////////////////////////
-// Constant and data type/structure definitions
-
 // The {{.typeName}} type defines all the configurable options from cli.
-//  type {{.typeName}} struct { {{- range .Options}}
+{{.Prefix}}type {{.typeName}} struct { {{- $prefix:=.Prefix}}{{ range .Options}}
 {{- if eq .Name "Args" }}
-//  
-//  	{{.Args}}
+{{$prefix}}
+{{$prefix}}	{{.Args}}
 {{- else }}{{$f := stringsSplit .Flag ","}}{{ $flen := len $f }}
-//  	{{.Name}}	{{.Type}}	`
+{{$prefix}}	{{.Name}}	{{.Type}}	`
 {{- if gt $flen 1}}short:"{{index $f 0}}" long:"{{index $f 1}}"
 {{- else}}
  {{- if le ((index $f 0) | len) 1 }}short:"{{index $f 0}}"
@@ -20,11 +17,11 @@
 {{- if .Required}} required:"true"{{end}}`{{end}}
 {{- end}}
 {{- if .Verbose}}
-//  	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
-//  	Verbose int
+{{$prefix}}	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+{{$prefix}}	Verbose int
 {{- end}}
 {{- if .Version}}
-//  	Version func()  `short:"V" long:"version" description:"Show program version and exit"`
+{{$prefix}}	Version func()  `short:"V" long:"version" description:"Show program version and exit"`
 {{- end}}
-//  }
+{{$prefix -}} }
 {{- end}}

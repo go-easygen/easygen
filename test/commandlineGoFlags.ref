@@ -16,7 +16,7 @@ import (
 //  	"fmt"
 //  	"os"
 
-//	"github.com/go-easygen/go-flags"
+//  	"github.com/go-easygen/go-flags"
 )
 
 // Template for main starts here
@@ -30,7 +30,7 @@ import (
 //  var (
 //          progname  = "redo"
 //          version   = "0.1.0"
-//          date = "2022-01-22"
+//          date = "2022-02-07"
 
 //  	// Opts store all the configurable options
 //  	Opts OptsT
@@ -67,23 +67,21 @@ import (
 // Template for main ends here
 
 // DoRedo implements the business logic of command `redo`
-// func DoRedo() error {
-//	return nil
-// }
+//  func DoRedo() error {
+//  	return nil
+//  }
 
 // Template for type define starts here
-////////////////////////////////////////////////////////////////////////////
-// Constant and data type/structure definitions
 
 // The OptsT type defines all the configurable options from cli.
-//  type OptsT struct {
-//  	Host	string	`short:"H" long:"host" env:"REDO_HOST" description:"Host address" default:"localhost"`
-//  	Port	int	`short:"p" long:"port" env:"REDO_PORT" description:"Listening port" default:"80"`
-//  	Force	bool	`short:"f" long:"force" env:"REDO_FORCE" description:"Force start"`
-//  	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
-//  	Verbose int
-//  	Version func()  `short:"V" long:"version" description:"Show program version and exit"`
-//  }
+type OptsT struct {
+	Host	string	`short:"H" long:"host" env:"REDO_HOST" description:"Host address" default:"localhost"`
+	Port	int	`short:"p" long:"port" env:"REDO_PORT" description:"Listening port" default:"80"`
+	Force	bool	`short:"f" long:"force" env:"REDO_FORCE" description:"Force start"`
+	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+	Verbose int
+	Version func()  `short:"V" long:"version" description:"Show program version and exit"`
+}
 // Template for type define ends here
 
 

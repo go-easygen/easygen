@@ -72,7 +72,8 @@ import (
 //  }
 
 // Template for type define starts here
-{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" }}
+
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" "Prefix" "" }}
 // Template for type define ends here
 
 {{range .Command}}
@@ -90,7 +91,10 @@ import (
 
 // *** Sub-command: {{.Name}} ***
 
-{{template "type_struct" argsm "ProgramName" $.ProgramName "Options" .Options "typeName" (print (stringsTitle .Name) "Command") }}
+////////////////////////////////////////////////////////////////////////////
+// Constant and data type/structure definitions
+
+{{template "type_struct" argsm "ProgramName" $.ProgramName "Options" .Options "typeName" (print (stringsTitle .Name) "Command") "Prefix" "//  " }}
 
 //  
 //  var {{.Name}}Command {{stringsTitle .Name}}Command
