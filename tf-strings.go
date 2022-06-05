@@ -152,9 +152,11 @@ func RegexpSplit(s string, regExp string, n int) []string {
 
 // Coalesce function takes two or more string arguments and returns the first argument that is not empty.
 // The result is empty only if all the arguments are empty.
-func Coalesce(s ...string) string {
-	for _, str := range s {
-		if len(str) != 0 && str != "<no value>" {
+func Coalesce(s ...interface{}) string {
+	// https://go.dev/play/p/C2-f7B0eCwx
+	for _, v := range s {
+		str := fmt.Sprint(v)
+		if len(str) != 0 && str != "<nil>" {
 			return str
 		}
 	}
