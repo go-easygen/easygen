@@ -45,6 +45,9 @@ func ArgsM(kvs ...interface{}) (map[string]interface{}, error) {
 //==========================================================================
 // template function for calculations
 
+func Add(b, a int) int   { return a + b }
+func Minus(b, a int) int { return a - b }
+
 // By Caleb Spare @gmail.com
 // https://groups.google.com/d/msg/golang-nuts/gzAyBLAeUbU/LwgomgxcjQ8J
 

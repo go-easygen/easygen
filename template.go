@@ -156,8 +156,8 @@ var egFuncMap = FuncMap{
 	"stringsTrimSpace":      strings.TrimSpace,
 	"stringsTrimSuffix":     strings.TrimSuffix,
 	// aliases
-	"eqf":   strings.EqualFold,
-	"split": strings.Fields,
+	"eqf":     strings.EqualFold,
+	"split":   strings.Fields,
 	"sprintf": fmt.Sprintf,
 
 	// == standard regexp function definitions
@@ -184,6 +184,8 @@ var egFuncMap = FuncMap{
 	"iterate":   Iterate,
 	"argsa":     ArgsA,
 	"argsm":     ArgsM,
+	"add":       Add,
+	"minus":     Minus,
 	"minus1":    Minus1,
 	"date":      Date,
 	"timestamp": Timestamp,

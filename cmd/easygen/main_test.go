@@ -72,6 +72,7 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "list1", "list1")
 	testEasygen(t, "listfunc1", "listfunc1")
 	testEasygen(t, "listfunc2", "listfunc2")
+	testEasygen(t, "tf-calc", "tf-calc")
 
 	//Test Basic Json Functions
 	testEasygen(t, "list0j", "list0j")
