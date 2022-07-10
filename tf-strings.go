@@ -150,6 +150,18 @@ func RegexpSplit(s string, regExp string, n int) []string {
 ////////////////////////////////////////////////////////////////////////////
 // Misc
 
+// Indent will indent the following lines according to the specified spaces
+func Indent(spaces int, v string) string {
+	pad := strings.Repeat(" ", spaces)
+	return strings.Replace(v, "\n", "\n"+pad, -1)
+}
+
+// PIndent will indent all lines according to the specified spaces
+func PIndent(spaces int, v string) string {
+	pad := strings.Repeat(" ", spaces)
+	return pad + Indent(spaces, v)
+}
+
 // Coalesce function takes two or more string arguments and returns the first argument that is not empty.
 // The result is empty only if all the arguments are empty.
 func Coalesce(s ...interface{}) string {

@@ -178,6 +178,8 @@ var egFuncMap = FuncMap{
 	// == my added functions
 	"ENV":         os.Getenv,
 	"substr":      Substr,
+	"indent":      Indent,
+	"pindent":     PIndent,
 	"coalesce":    Coalesce,
 	"quote4shell": Quote4shell,
 

@@ -184,6 +184,22 @@ func TestStringManipulation(t *testing.T) {
 		// },
 		// == my added strings functions
 		{
+			`{{ indent 2 "a" }}`,
+			"a",
+		},
+		{
+			`{{ indent 2 "a\nb\nc" }}`,
+			"a\n  b\n  c",
+		},
+		{
+			`{{ pindent 2 "a" }}`,
+			"  a",
+		},
+		{
+			`{{ pindent 2 "a\nb\nc" }}`,
+			"  a\n  b\n  c",
+		},
+		{
 			`{{ coalesce "a" }}`,
 			"a",
 		},
