@@ -19,6 +19,9 @@ builds:
     goarch:
       - amd64
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
 
     # Path to main.go file or main package.
     # Notice: when used with `gomod.proxy`, this must be a package.
