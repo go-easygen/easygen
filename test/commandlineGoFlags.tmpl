@@ -59,7 +59,7 @@ import (
 //  func showVersion() {
 //   	fmt.Fprintf(os.Stderr, "{{.Name}} - {{.Desc}}, version %s\n", version)
 //  	fmt.Fprintf(os.Stderr, "Built on %s\n", date)
-//   	fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
+//   	fmt.Fprintf(os.Stderr, "Copyright (C) {{$.Since}}-{{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
 //  	fmt.Fprintf(os.Stderr, "{{.Text}}\n")
 //  	os.Exit(0)
 //  }
@@ -108,7 +108,7 @@ import (
 //
 //  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
-//   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
+//   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{$.Since}}-{{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
 //   	clis.Setup("{{$.Name}}::{{.Name}}", opts.Verbose)
 //   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", opts, args)
 //   	{{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
