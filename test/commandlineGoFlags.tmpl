@@ -30,11 +30,12 @@ import (
 //  	opts optsT
 //  )
 //  
-//  var parser = flags.NewParser(&opts, flags.Default)
+//  var gfParser = flags.NewParser(&opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+//==========================================================================
 // Function main
 //  func main() {
 {{- if .Version }}
@@ -46,14 +47,17 @@ import (
 //  	}
 {{- end }}
 //  
-//  	if _, err := parser.Parse(); err != nil {
+//  	if _, err := gfParser.Parse(); err != nil {
 //  		fmt.Println()
-//  		parser.WriteHelp(os.Stdout)
+//  		gfParser.WriteHelp(os.Stdout)
 //  		os.Exit(1)
 //  	}
 //  	fmt.Println()
 //  	//Do{{stringsTitle .Name}}()
 //  }
+//
+//  //==========================================================================
+//  // support functions
 //  
 {{- if .Version }}
 //  func showVersion() {
@@ -99,8 +103,11 @@ import (
 //  
 //  var {{.Name}}Command {{stringsTitle .Name}}Command
 //  
+//  ////////////////////////////////////////////////////////////////////////////
+//  // Function definitions
+//  
 //  func init() {
-//  	parser.AddCommand("{{.Name}}",
+//  	gfParser.AddCommand("{{.Name}}",
 //  		"{{.Desc}}",
 //  		"{{.Text}}",
 //  		&{{.Name}}Command)
@@ -111,16 +118,16 @@ import (
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{$.Since}}-{{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
 //   	clis.Setup("{{$.Name}}::{{.Name}}", opts.Verbose)
 //   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", opts, args)
-//   	{{$opts := .Options}}fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
+//   	{{$opts := .Options}}// fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
 //  	return x.Exec(args)
 //  }
 //  
-// Exec implements the business logic of command `{{.Name}}`
+// // Exec implements the business logic of command `{{.Name}}`
 // func (x *{{stringsTitle .Name}}Command) Exec(args []string) error {
 // 	// err := ...
-// 	// clis.WarnOn("{{stringsTitle .Name}}, Exec", err)
+// 	// clis.WarnOn("{{.Name}}::Exec", err)
 // 	// or,
-// 	// clis.AbortOn("{{stringsTitle .Name}}, Exec", err)
+// 	// clis.AbortOn("{{.Name}}::Exec", err)
 // 	return nil
 // }
 // Template for "{{.Name}}" CLI handling ends here

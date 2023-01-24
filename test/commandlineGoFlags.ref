@@ -30,17 +30,18 @@ import (
 //  var (
 //          progname  = "redo"
 //          version   = "0.1.0"
-//          date = "2023-01-22"
+//          date = "2023-01-23"
 
 //  	// opts store all the configurable options
 //  	opts optsT
 //  )
 //  
-//  var parser = flags.NewParser(&opts, flags.Default)
+//  var gfParser = flags.NewParser(&opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+//==========================================================================
 // Function main
 //  func main() {
 //  	opts.Version = showVersion
@@ -48,14 +49,17 @@ import (
 //  		opts.Verbose++
 //  	}
 //  
-//  	if _, err := parser.Parse(); err != nil {
+//  	if _, err := gfParser.Parse(); err != nil {
 //  		fmt.Println()
-//  		parser.WriteHelp(os.Stdout)
+//  		gfParser.WriteHelp(os.Stdout)
 //  		os.Exit(1)
 //  	}
 //  	fmt.Println()
 //  	//DoRedo()
 //  }
+//
+//  //==========================================================================
+//  // support functions
 //
 //  func showVersion() {
 //   	fmt.Fprintf(os.Stderr, "redo - global option redo, version %s\n", version)
@@ -114,8 +118,11 @@ type optsT struct {
 //  
 //  var buildCommand BuildCommand
 //  
+//  ////////////////////////////////////////////////////////////////////////////
+//  // Function definitions
+//  
 //  func init() {
-//  	parser.AddCommand("build",
+//  	gfParser.AddCommand("build",
 //  		"Build the network application",
 //  		"Usage:\n  redo build [Options] Arch(i386|amd64)",
 //  		&buildCommand)
@@ -126,16 +133,16 @@ type optsT struct {
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
 //   	clis.Setup("redo::build", opts.Verbose)
 //   	clis.Verbose(1, "Doing Build, with %+v, %+v", opts, args)
-//   	fmt.Println(x.Dir)
+//   	// fmt.Println(x.Dir)
 //  	return x.Exec(args)
 //  }
 //  
-// Exec implements the business logic of command `build`
+// // Exec implements the business logic of command `build`
 // func (x *BuildCommand) Exec(args []string) error {
 // 	// err := ...
-// 	// clis.WarnOn("Build, Exec", err)
+// 	// clis.WarnOn("build::Exec", err)
 // 	// or,
-// 	// clis.AbortOn("Build, Exec", err)
+// 	// clis.AbortOn("build::Exec", err)
 // 	return nil
 // }
 // Template for "build" CLI handling ends here
@@ -170,8 +177,11 @@ type optsT struct {
 //  
 //  var installCommand InstallCommand
 //  
+//  ////////////////////////////////////////////////////////////////////////////
+//  // Function definitions
+//  
 //  func init() {
-//  	parser.AddCommand("install",
+//  	gfParser.AddCommand("install",
 //  		"Install the network application",
 //  		"The add command adds a file to the repository. Use -a to add all files",
 //  		&installCommand)
@@ -182,16 +192,16 @@ type optsT struct {
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
 //   	clis.Setup("redo::install", opts.Verbose)
 //   	clis.Verbose(1, "Doing Install, with %+v, %+v", opts, args)
-//   	fmt.Println(x.Dir, x.Suffix)
+//   	// fmt.Println(x.Dir, x.Suffix)
 //  	return x.Exec(args)
 //  }
 //  
-// Exec implements the business logic of command `install`
+// // Exec implements the business logic of command `install`
 // func (x *InstallCommand) Exec(args []string) error {
 // 	// err := ...
-// 	// clis.WarnOn("Install, Exec", err)
+// 	// clis.WarnOn("install::Exec", err)
 // 	// or,
-// 	// clis.AbortOn("Install, Exec", err)
+// 	// clis.AbortOn("install::Exec", err)
 // 	return nil
 // }
 // Template for "install" CLI handling ends here
@@ -234,8 +244,11 @@ type optsT struct {
 //  
 //  var publishCommand PublishCommand
 //  
+//  ////////////////////////////////////////////////////////////////////////////
+//  // Function definitions
+//  
 //  func init() {
-//  	parser.AddCommand("publish",
+//  	gfParser.AddCommand("publish",
 //  		"Publish the network application",
 //  		"Publish the built network application to central repo",
 //  		&publishCommand)
@@ -246,16 +259,16 @@ type optsT struct {
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
 //   	clis.Setup("redo::publish", opts.Verbose)
 //   	clis.Verbose(1, "Doing Publish, with %+v, %+v", opts, args)
-//   	fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
+//   	// fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
 //  	return x.Exec(args)
 //  }
 //  
-// Exec implements the business logic of command `publish`
+// // Exec implements the business logic of command `publish`
 // func (x *PublishCommand) Exec(args []string) error {
 // 	// err := ...
-// 	// clis.WarnOn("Publish, Exec", err)
+// 	// clis.WarnOn("publish::Exec", err)
 // 	// or,
-// 	// clis.AbortOn("Publish, Exec", err)
+// 	// clis.AbortOn("publish::Exec", err)
 // 	return nil
 // }
 // Template for "publish" CLI handling ends here
