@@ -36,9 +36,9 @@ jobs:
         name: Tests
         run: |
           export GOPATH=/home/runner/go
-          mkdir -p $GOPATH/src/github.com/$GITHUB_ACTOR
-          mv $GITHUB_WORKSPACE $GOPATH/src/github.com/$GITHUB_ACTOR
-          ln -s $GOPATH/src/github.com/$GITHUB_REPOSITORY $GITHUB_WORKSPACE
+          mkdir -vp $GOPATH/src/github.com/$GITHUB_ACTOR
+          mv -v $GITHUB_WORKSPACE $GOPATH/src/github.com/$GITHUB_ACTOR
+          ln -vs $GOPATH/src/github.com/$GITHUB_REPOSITORY $GITHUB_WORKSPACE
           # go mod tidy
           go get -v ./...
           go test -v ./...
