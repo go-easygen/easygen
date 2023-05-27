@@ -24,6 +24,7 @@ type Options struct {
 	ExtTmpl		string	// `extension` of template file
 	StrFrom		string	// replace from, the from string used for the replace function
 	StrTo		string	// replace to, the to string used for the replace function
+	Batch		time.Duration	// batch interval
 	Debug		int	// debugging `level`
 }
 
@@ -55,6 +56,8 @@ func initVars() {
 		"replace from, the from string used for the replace function")
 	flag.StringVar(&Opts.StrTo, "rt", "",
 		"replace to, the to string used for the replace function")
+	flag.DurationVar(&Opts.Batch, "batch", 120*time.Second,
+		"batch interval")
 	flag.IntVar(&Opts.Debug, "d", 0,
 		"debugging `level`")
 	flag.IntVar(&Opts.Debug, "debug", 0,

@@ -62,6 +62,12 @@ Options:
     Value: '""'
     Usage: "replace to, the to string used for the replace function"
 
+  - Name: Batch
+    Type: duration
+    Flag: batch
+    Value: '120*time.Second'
+    Usage: "batch interval"
+
   - Name: Debug
     Type: int
     Flag: d,debug

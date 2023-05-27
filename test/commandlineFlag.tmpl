@@ -17,7 +17,7 @@ const progname = "{{.ProgramName}}" // os.Args[0]
 
 // The {{.StructName}} struct defines the structure to hold the commandline values
 type {{.StructName}} struct { {{range .Options}}{{if ne .Name "SEPARATOR" }}
-	{{.Name}}		{{.Type}}	// {{.Usage}}{{end}}{{end}}
+	{{.Name}}		{{ if eq .Type "duration" }}time.Duration{{else}}{{.Type}}{{end}}	// {{.Usage}}{{end}}{{end}}
 }
 
 ////////////////////////////////////////////////////////////////////////////
