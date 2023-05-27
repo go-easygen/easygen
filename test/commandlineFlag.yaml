@@ -62,6 +62,12 @@ Options:
     Value: '""'
     Usage: "replace to, the to string used for the replace function"
 
+  - Name: IntV
+    Type: int
+    Flag: intv
+    Value: 0
+    Usage: "int var"
+
   - Name: Batch
     Type: duration
     Flag: batch

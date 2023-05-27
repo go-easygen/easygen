@@ -55,7 +55,19 @@ func initVals() {
 	}{{end}}{{else}}{{if eq .Type "bool" }}
 	if _, exists = os.LookupEnv("{{$envVar}}"); {{$.StructVar}}.{{.Name}}|| exists {
 		{{$.StructVar}}.{{.Name}} = true
-	}{{end}}{{end}}{{end}}{{end}}
+	}{{else}}{{if eq .Type "int" }}{{if (stringsContains .Flag ",")}}{{$cf := .}}{{range (stringsSplit .Flag ",")}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .)}}
+	if {{$.StructVar}}.{{$cf.Name}} == 0 ||
+		len(os.Getenv("{{$envVar}}")) != 0 {
+		if i, err := strconv.Atoi(os.Getenv("{{$envVar}}")); err == nil {
+			{{$.StructVar}}.{{$cf.Name}} = i
+		}
+	}{{end}}{{else}}
+	if {{$.StructVar}}.{{.Name}} == 0 ||
+		len(os.Getenv("{{$envVar}}")) != 0 {
+		if i, err := strconv.Atoi(os.Getenv("{{$envVar}}")); err == nil {
+			{{$.StructVar}}.{{.Name}} = i
+		}
+	}{{end}}{{end}}{{end}}{{end}}{{end}}{{end}}
 
 }
 
