@@ -73,47 +73,47 @@ func initVals() {
 	if _, exists = os.LookupEnv("EASYGEN_HTML"); Opts.HTML|| exists {
 		Opts.HTML = true
 	}
-	if len(Opts.TemplateStr) == 0 ||
+	if len(Opts.TemplateStr) == 0 &&
 		len(os.Getenv("EASYGEN_TS")) != 0 {
 		Opts.TemplateStr = os.Getenv("EASYGEN_TS")
 	}
-	if len(Opts.TemplateFile) == 0 ||
+	if len(Opts.TemplateFile) == 0 &&
 		len(os.Getenv("EASYGEN_F")) != 0 {
 		Opts.TemplateFile = os.Getenv("EASYGEN_F")
 	}
-	if len(Opts.TemplateFile) == 0 ||
+	if len(Opts.TemplateFile) == 0 &&
 		len(os.Getenv("EASYGEN_TF")) != 0 {
 		Opts.TemplateFile = os.Getenv("EASYGEN_TF")
 	}
-	if len(Opts.ExtYaml) == 0 ||
+	if len(Opts.ExtYaml) == 0 &&
 		len(os.Getenv("EASYGEN_EY")) != 0 {
 		Opts.ExtYaml = os.Getenv("EASYGEN_EY")
 	}
-	if len(Opts.ExtTmpl) == 0 ||
+	if len(Opts.ExtTmpl) == 0 &&
 		len(os.Getenv("EASYGEN_ET")) != 0 {
 		Opts.ExtTmpl = os.Getenv("EASYGEN_ET")
 	}
-	if len(Opts.StrFrom) == 0 ||
+	if len(Opts.StrFrom) == 0 &&
 		len(os.Getenv("EASYGEN_RF")) != 0 {
 		Opts.StrFrom = os.Getenv("EASYGEN_RF")
 	}
-	if len(Opts.StrTo) == 0 ||
+	if len(Opts.StrTo) == 0 &&
 		len(os.Getenv("EASYGEN_RT")) != 0 {
 		Opts.StrTo = os.Getenv("EASYGEN_RT")
 	}
-	if Opts.IntV == 0 ||
+	if Opts.IntV == 0 &&
 		len(os.Getenv("EASYGEN_INTV")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("EASYGEN_INTV")); err == nil {
 			Opts.IntV = i
 		}
 	}
-	if Opts.Debug == 0 ||
+	if Opts.Debug == 0 &&
 		len(os.Getenv("EASYGEN_D")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("EASYGEN_D")); err == nil {
 			Opts.Debug = i
 		}
 	}
-	if Opts.Debug == 0 ||
+	if Opts.Debug == 0 &&
 		len(os.Getenv("EASYGEN_DEBUG")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("EASYGEN_DEBUG")); err == nil {
 			Opts.Debug = i

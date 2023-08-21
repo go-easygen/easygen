@@ -45,24 +45,24 @@ func initVals() {
 	// Now override those default values from environment variables{{range .Options}}{{if eq .Name "SEPARATOR" }}
 
 {{else}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .Flag)}}{{if eq .Type "string" }}{{if (stringsContains .Flag ",")}}{{$cf := .}}{{range (stringsSplit .Flag ",")}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .)}}
-	if len({{$.StructVar}}.{{$cf.Name}}) == 0 ||
+	if len({{$.StructVar}}.{{$cf.Name}}) == 0 &&
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{$cf.Name}} = os.Getenv("{{$envVar}}")
 	}{{end}}{{else}}
-	if len({{$.StructVar}}.{{.Name}}) == 0 ||
+	if len({{$.StructVar}}.{{.Name}}) == 0 &&
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		{{$.StructVar}}.{{.Name}} = os.Getenv("{{$envVar}}")
 	}{{end}}{{else}}{{if eq .Type "bool" }}
 	if _, exists = os.LookupEnv("{{$envVar}}"); {{$.StructVar}}.{{.Name}}|| exists {
 		{{$.StructVar}}.{{.Name}} = true
 	}{{else}}{{if eq .Type "int" }}{{if (stringsContains .Flag ",")}}{{$cf := .}}{{range (stringsSplit .Flag ",")}}{{$envVar := printf "%s_%s" (clk2ss $.ProgramName) (clk2ss .)}}
-	if {{$.StructVar}}.{{$cf.Name}} == 0 ||
+	if {{$.StructVar}}.{{$cf.Name}} == 0 &&
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("{{$envVar}}")); err == nil {
 			{{$.StructVar}}.{{$cf.Name}} = i
 		}
 	}{{end}}{{else}}
-	if {{$.StructVar}}.{{.Name}} == 0 ||
+	if {{$.StructVar}}.{{.Name}} == 0 &&
 		len(os.Getenv("{{$envVar}}")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("{{$envVar}}")); err == nil {
 			{{$.StructVar}}.{{.Name}} = i
