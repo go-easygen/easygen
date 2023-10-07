@@ -105,6 +105,11 @@ func TestExec(t *testing.T) {
 	testEasygen(t, "enum_multiple_template_files", "enum_c-header,enum_c-source", "raid_type.yaml")
 	testEasygen(t, "enum_multiple_template_and_data", "enum_c-header,enum_c-to_str", "raid_type", "raid_driver.yaml")
 
+	// Test with multiple data inputs files:
+	testEasygen(t, "lists", "lists", "list0.yaml,listfunc2.yaml")
+	testEasygen(t, "lists", "lists", "list0,listfunc2")
+	testEasygen(t, "lists", "lists", "listfunc2.yaml,list0.yaml")
+
 	//Test nested templates
 	//testEasygen(t, "nested_header_footer", "nested_header.tmpl,nested_footer.tmpl,nested_thanks.tmpl", "nested_data.yaml")
 	testEasygen(t, "nested_demo_argsa", "nested_demo_argsa", "nested_data.yaml")

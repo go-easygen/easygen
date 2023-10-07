@@ -36,8 +36,11 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
-// EgData -- EasyGen driven Data
-type EgData interface{}
+// EgData, EasyGen key type
+type EgKey = string
+
+// EgData, EasyGen driven Data
+type EgData map[EgKey]interface{}
 
 // Opts holds the actual values from the command line parameters
 var Opts = Options{ExtYaml: ".yaml", ExtJson: ".json", ExtTmpl: ".tmpl"}
@@ -45,22 +48,36 @@ var Opts = Options{ExtYaml: ".yaml", ExtJson: ".json", ExtTmpl: ".tmpl"}
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
+// ReadDataFiles reads in the driving data from the given file, which can
+// be optionally without the defined extension, and can be a comma-separated
+// string for multiple data files.
+func ReadDataFiles(fileName string) EgData {
+	var m EgData
+	for _, dataFn := range strings.Split(fileName, ",") {
+		m = ReadDataFile(dataFn, m)
+		if Opts.Debug >= 1 {
+			fmt.Fprintf(os.Stderr, "[%s] After reading file %s:\n  %+v\n", progname, dataFn, m)
+		}
+	}
+	return m
+}
+
 // ReadDataFile reads in the driving data from the given file, which can
 // be optionally without the defined extension
-func ReadDataFile(fileName string) EgData {
+func ReadDataFile(fileName string, ms ...EgData) EgData {
 	if IsExist(fileName + Opts.ExtYaml) {
-		return ReadYamlFile(fileName + Opts.ExtYaml)
+		return ReadYamlFile(fileName+Opts.ExtYaml, ms...)
 	} else if IsExist(fileName + Opts.ExtJson) {
-		return ReadJsonFile(fileName + Opts.ExtJson)
+		return ReadJsonFile(fileName+Opts.ExtJson, ms...)
 	} else if IsExist(fileName) {
 		verbose("Reading exist Data File", 2)
 		fext := filepath.Ext(fileName)
 		fext = fext[1:] // ignore the leading "."
 		if regexp.MustCompile(`(?i)^y`).MatchString(fext) {
 			verbose("Reading YAML file", 2)
-			return ReadYamlFile(fileName)
+			return ReadYamlFile(fileName, ms...)
 		} else if regexp.MustCompile(`(?i)^j`).MatchString(fext) {
-			return ReadJsonFile(fileName)
+			return ReadJsonFile(fileName, ms...)
 		} else {
 			checkError(fmt.Errorf("Unsupported file extension for DataFile '%s'", fileName))
 		}
@@ -74,7 +91,7 @@ func ReadDataFile(fileName string) EgData {
 }
 
 // ReadYamlFile reads given YAML file as EgData
-func ReadYamlFile(fileName string) EgData {
+func ReadYamlFile(fileName string, ms ...EgData) EgData {
 	var source []byte
 	var err error
 	if fileName == "-" {
@@ -85,7 +102,10 @@ func ReadYamlFile(fileName string) EgData {
 		checkError(err)
 	}
 
-	m := make(map[interface{}]interface{})
+	m := EgData{}
+	if len(ms) > 0 {
+		m = ms[0]
+	}
 
 	err = yaml.Unmarshal(source, &m)
 	checkError(err)
@@ -94,11 +114,14 @@ func ReadYamlFile(fileName string) EgData {
 }
 
 // ReadJsonFile reads given JSON file as EgData
-func ReadJsonFile(fileName string) EgData {
+func ReadJsonFile(fileName string, ms ...EgData) EgData {
 	source, err := ioutil.ReadFile(fileName)
 	checkError(err)
 
-	m := make(map[string]interface{})
+	m := EgData{}
+	if len(ms) > 0 {
+		m = ms[0]
+	}
 
 	err = json.Unmarshal(source, &m)
 	checkError(err)
@@ -138,9 +161,9 @@ func Process2(t Template, wr io.Writer, fileNameTempl string, fileNames ...strin
 // Process1 will process a *single* case where both template and data file names are given, and produce output according to the given template and driving data files,
 // specified via fileNameTempl and fileName respectively.
 // fileNameTempl is not a comma-separated string, but for a single template file.
+// However, the fileName can be a comma-separated string for multiple data files.
 func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) error {
-	m := ReadDataFile(fileName)
-	//fmt.Printf("] %+v\n", m)
+	m := ReadDataFiles(fileName)
 
 	// template file
 	fileName = fileNameTempl
@@ -212,7 +235,7 @@ func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 // Process0 will produce output according to the driving data *without* a template file, using the string from strTempl as the template
 func Process0(t Template, wr io.Writer, strTempl string, fileNames ...string) error {
 	fileName := fileNames[0]
-	m := ReadDataFile(fileName)
+	m := ReadDataFiles(fileName)
 
 	tmpl, err := t.Parse(strTempl)
 	checkError(err)

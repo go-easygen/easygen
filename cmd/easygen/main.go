@@ -41,7 +41,7 @@ import (
 
 var (
 	progname = "easygen"
-	version  = "5.2.1"
+	version  = "5.3.0"
 	date     = "2022-07-10"
 )
 
@@ -58,8 +58,8 @@ func main() {
 	}
 
 	args := flag.Args()
-	// There is only one command line argument
-	if len(args) == 1 {
+	// There is only one command line argument, and is template
+	if len(args) == 1 && len(easygen.Opts.TemplateStr) == 0 {
 		// when template_name is comma-separated list, data_filename must be given
 		if strings.Contains(args[0], ",") {
 			Usage()

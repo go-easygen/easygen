@@ -11,10 +11,6 @@ import (
 	"github.com/go-easygen/easygen/egVar"
 )
 
-type variable struct {
-	Name string
-}
-
 // for standalone test, change package to `main` and the next func def to,
 // func main() {
 func ExampleExecute() {
@@ -24,14 +20,14 @@ func ExampleExecute() {
 	tmpl := tmpl0.Funcs(easygen.FuncDefs()).Funcs(egFilePath.FuncDefs()).
 		Funcs(egVar.FuncDefs()).Funcs(egCal.FuncDefs())
 
-	// define driving data of any type
-	v0 := variable{"some-init-method"}
+	// define driving data
+	v0 := easygen.EgData{"Name": "some-init-method"}
 	// https://godoc.org/github.com/go-easygen/easygen#Execute
 	// provide full template file name with extension
 	easygen.Execute(tmpl, os.Stdout, "test/var0.tmpl", v0)
 
-	// Demo of using driving data of pure slice/array
-	v1 := []string{"red", "blue", "white"}
+	// Demo of using driving data of slice/array
+	v1 := easygen.EgData{"v": []string{"red", "blue", "white"}}
 	easygen.Execute(tmpl, os.Stdout, "test/list00.tmpl", v1)
 
 	// Demo output to string
