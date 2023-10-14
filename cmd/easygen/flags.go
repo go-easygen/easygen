@@ -76,6 +76,10 @@ data_filename(s): The name for the .yaml or .json data.
  - Can have the extension or without it. If withot extension,
    will try the .yaml file first then .json
  - Can include the path as well.
+ - Can have more than one data files given on cli, separated by spaces,
+   in which case multiple outputs will be produced based on the inputs.
+ - Can be a comma-separated list giving many data files, in which case
+   data will be merged together as if provided from a single file.
  - If there is a single data_filename, and it is "-",
    then read the data (.yaml or .json format) from stdin.
 
