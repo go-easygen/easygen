@@ -27,7 +27,7 @@ import (
 	"regexp"
 	"strings"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -70,11 +70,11 @@ func ReadDataFile(fileName string, ms ...EgData) EgData {
 	} else if IsExist(fileName + Opts.ExtJson) {
 		return ReadJsonFile(fileName+Opts.ExtJson, ms...)
 	} else if IsExist(fileName) {
-		verbose("Reading exist Data File", 2)
+		verbose("Reading exist Data File", 3)
 		fext := filepath.Ext(fileName)
 		fext = fext[1:] // ignore the leading "."
 		if regexp.MustCompile(`(?i)^y`).MatchString(fext) {
-			verbose("Reading YAML file", 2)
+			verbose("Reading YAML file", 3)
 			return ReadYamlFile(fileName, ms...)
 		} else if regexp.MustCompile(`(?i)^j`).MatchString(fext) {
 			return ReadJsonFile(fileName, ms...)
@@ -195,7 +195,7 @@ func Process1(t Template, wr io.Writer, fileNameTempl string, fileName string) e
 // executed safely in parallel, although if parallel executions share a
 // Writer the output may be interleaved.
 func Execute0(t Template, wr io.Writer, strTempl string, m EgData) error {
-	verbose("Execute with template string: "+strTempl, 1)
+	verbose("Execute with template string: "+strTempl, 2)
 	tmpl, err := t.Parse(strTempl)
 	checkError(err)
 	return tmpl.Execute(wr, m)
@@ -204,12 +204,12 @@ func Execute0(t Template, wr io.Writer, strTempl string, m EgData) error {
 // Execute will execute the Template from fileNameT on the given data map `m`.
 func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 	// 1. Check locally
-	verbose("Checking for template locally: "+fileNameT, 1)
+	verbose("Checking for template locally: "+fileNameT, 2)
 	if !IsExist(fileNameT) {
 		// 2. Check under /etc/
 		command := filepath.Base(os.Args[0])
 		templateFile := fmt.Sprintf("/etc/%s/%s", command, fileNameT)
-		verbose("Checking at "+templateFile, 1)
+		verbose("Checking at "+templateFile, 2)
 		if IsExist(templateFile) {
 			fileNameT = templateFile
 		} else {
@@ -219,7 +219,7 @@ func Execute(t Template, wr io.Writer, fileNameT string, m EgData) error {
 				return e
 			}
 			fileNameT = filepath.Dir(ex) + string(filepath.Separator) + fileNameT
-			verbose("Checking at "+fileNameT, 1)
+			verbose("Checking at "+fileNameT, 2)
 			if !IsExist(fileNameT) {
 				checkError(fmt.Errorf("Template file '%s' cannot be found", fileNameT))
 			}
