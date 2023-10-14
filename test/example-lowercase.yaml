@@ -1,0 +1,11 @@
+v: 0
+micros:
+  name: go-app
+  src: .
+  engine: custom
+  primary: true
+  commands:
+    - go build -o server
+  include:
+    - server
+  run: ./server

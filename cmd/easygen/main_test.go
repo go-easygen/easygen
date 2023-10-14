@@ -85,6 +85,9 @@ func TestExec(t *testing.T) {
 	//Test HTML
 	testEasygen(t, "list1HTML", "list1HTML", "list1")
 
+	//Test lowercase keys
+	testEasygen(t, "example-lowercase", "example-lowercase")
+
 	// varcaser string functions
 	testEasygen(t, "var0", "-ts", "{{.Name}}", "var0")
 	testEasygen(t, "var1", "-ts", "{{clk2uc .Name}}", "var0")
