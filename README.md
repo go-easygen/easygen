@@ -22,7 +22,6 @@ The easy to use universal code/text generator
 - [Usage](#usage)
   - [$ easygen](#-easygen)
 - [Details](#details)
-- [Install Debian/Ubuntu package](#install-debianubuntu-package)
 - [Download/install binaries](#downloadinstall-binaries)
   - [The binary executables](#the-binary-executables)
   - [Distro package](#distro-package)
@@ -52,7 +51,7 @@ Note this document is for `easygen` versions 4.0+. For historic versions check o
 
 ### $ easygen
 ```sh
-easygen version 5.1.9
+easygen version 5.3.0
 
 Usage:
  easygen [flags] template_name [data_filename [data_filename...]]
@@ -81,6 +80,10 @@ data_filename(s): The name for the .yaml or .json data.
  - Can have the extension or without it. If withot extension,
    will try the .yaml file first then .json
  - Can include the path as well.
+ - Can have more than one data files given on cli, separated by spaces,
+   in which case multiple outputs will be produced based on the inputs.
+ - Can be a comma-separated list giving many data files, in which case
+   data will be merged together as if provided from a single file.
  - If there is a single data_filename, and it is "-",
    then read the data (.yaml or .json format) from stdin.
 
@@ -104,7 +107,7 @@ Ready to get started? Then check out [Getting Started](https://github.com/go-eas
 
 ## Install Debian/Ubuntu package
 
-    apt install easygen
+    sudo apt install -y easygen
 
 ## Download/install binaries
 
@@ -154,10 +157,10 @@ curl -1sLf \
 
 # That's it. You then can do your normal operations, like
 
-sudo apt-get update
+sudo apt update
 apt-cache policy easygen
 
-sudo apt-get install -y easygen
+sudo apt install -y easygen
 ```
 
 ## Install Source
@@ -165,7 +168,7 @@ sudo apt-get install -y easygen
 To install the source code instead:
 
 ```
-go get -v -u github.com/go-easygen/easygen
+go install github.com/go-easygen/easygen@latest
 ```
 
 ## Author

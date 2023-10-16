@@ -1,4 +1,8 @@
 
+## Install Debian/Ubuntu package
+
+    sudo apt install -y {{.Name}}
+
 ## Download/install binaries
 
 - The latest binary executables are available 
@@ -47,10 +51,10 @@ curl -1sLf \
 
 # That's it. You then can do your normal operations, like
 
-sudo apt-get update
+sudo apt update
 apt-cache policy {{.Name}}
 
-sudo apt-get install -y {{.Name}}
+sudo apt install -y {{.Name}}
 ```
 
 ## Install Source
@@ -58,7 +62,7 @@ sudo apt-get install -y {{.Name}}
 To install the source code instead:
 
 ```
-go get -v -u {{.ProjectURL}}
+go install {{.ProjectURL}}@latest
 ```
 
 ## Author

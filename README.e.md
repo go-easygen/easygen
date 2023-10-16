@@ -42,8 +42,3 @@ It can be used as a code generator, for example, command line parameter handling
 - [Moving beyond code-gen and mock-up, using easygen in real life creating GPT partitions](https://suntong.github.io/blogs/2015/12/26/creating-gpt-partitions-easily-on-the-command-line)
 
 Ready to get started? Then check out [Getting Started](https://github.com/go-easygen/easygen/wiki/Getting-Started) to start building your way to turn your data into any form, any way you want.
-
-## Install Debian/Ubuntu package
-
-    apt install {{.Name}}
-
