@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -83,7 +84,7 @@ func Usage() {
 	fmt.Fprintf(os.Stderr, usageSummary){{end}}
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
-		"{{.UsageEnd}}")
+		`{{.UsageEnd}}`)
 	os.Exit(0)
 }
 

@@ -85,5 +85,7 @@ UsageSummary: ""
 
 UsageLead: "\\nUsage:\\n %s [flags] YamlFileName [YamlFileName...]\\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\nYamlFileName(s): The name for the .yaml data and .tmpl template file\\n\\tOnly the name part, without extension. Can include the path as well.\\n"
-
+UsageEnd: |
+  
+  YamlFileName(s): The name for the .yaml data and .tmpl template file
+  Only the name part, without extension. Can include the path as well.

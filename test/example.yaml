@@ -1,6 +1,13 @@
-ColorRed:   red  
-ColorBlue:  blue 
-ColorWhite: white
+# individual variables
+Name: html2md
+ProgramName: html2md
+PackageName: main
+
+# nested individual variables
+Colormaps:
+  ColorRed:   red  
+  ColorBlue:  blue 
+  ColorWhite: white
 
 Colorlist: red blue white
 
