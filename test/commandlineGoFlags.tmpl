@@ -53,7 +53,7 @@ import (
 //  		os.Exit(1)
 //  	}
 //  	fmt.Println()
-//  	//Do{{stringsTitle .Name}}()
+//  	//Do{{clk2uc .Name}}()
 //  }
 //
 //  //==========================================================================
@@ -70,8 +70,8 @@ import (
 {{- end }}
 // Template for main ends here
 
-// Do{{stringsTitle .Name}} implements the business logic of command `{{.Name}}`
-//  func Do{{stringsTitle .Name}}() error {
+// Do{{clk2uc .Name}} implements the business logic of command `{{.Name}}`
+//  func Do{{clk2uc .Name}}() error {
 //  	return nil
 //  }
 
@@ -98,10 +98,10 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-{{template "type_struct" argsm "ProgramName" $.ProgramName "Options" .Options "typeName" (print (stringsTitle .Name) "Command") "Prefix" "//  " }}
+{{template "type_struct" argsm "ProgramName" $.ProgramName "Options" .Options "typeName" (print (clk2uc .Name) "Command") "Prefix" "//  " }}
 
 //  
-//  var {{.Name}}Command {{stringsTitle .Name}}Command
+//  var {{clk2ls .Name}}Command {{clk2uc .Name}}Command
 //  
 //  ////////////////////////////////////////////////////////////////////////////
 //  // Function definitions
@@ -110,20 +110,20 @@ import (
 //  	gfParser.AddCommand("{{.Name}}",
 //  		"{{.Desc}}",
 //  		"{{.Text}}",
-//  		&{{.Name}}Command)
+//  		&{{clk2ls .Name}}Command)
 //  }
 //
-//  func (x *{{stringsTitle .Name}}Command) Execute(args []string) error {
+//  func (x *{{clk2uc .Name}}Command) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{$.Since}}-{{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
 //   	clis.Setup("{{$.Name}}::{{.Name}}", opts.Verbose)
-//   	clis.Verbose(1, "Doing {{stringsTitle .Name}}, with %+v, %+v", opts, args)
+//   	clis.Verbose(1, "Doing {{clk2uc .Name}}, with %+v, %+v", opts, args)
 //   	{{$opts := .Options}}// fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
 //  	return x.Exec(args)
 //  }
 //  
 // // Exec implements the business logic of command `{{.Name}}`
-// func (x *{{stringsTitle .Name}}Command) Exec(args []string) error {
+// func (x *{{clk2uc .Name}}Command) Exec(args []string) error {
 // 	// err := ...
 // 	// clis.WarnOn("{{.Name}}::Exec", err)
 // 	// or,
