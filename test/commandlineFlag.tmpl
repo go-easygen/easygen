@@ -77,7 +77,7 @@ const usageSummary = "{{range .Options}}{{if eq .Name "SEPARATOR" }}\n{{else}}{{
 {{end}}
 
 // Usage function shows help on commandline usage
-func Usage() {
+func Usage(exit ...int) {
 	fmt.Fprintf(os.Stderr,
 		"{{.UsageLead}}",
 		progname){{if eq .UsageSummary "TRUE" }}
@@ -85,6 +85,8 @@ func Usage() {
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
 		`{{.UsageEnd}}`)
-	os.Exit(0)
+	if exit[0] != 0 {
+		os.Exit(0)
+	}
 }
 
