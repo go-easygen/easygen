@@ -54,7 +54,7 @@ func testEasygen(t *testing.T, name string, argv ...string) {
 	if err != nil {
 		t.Errorf("cmp error %s [%s: %s]\n%s", err, name, argv, diffOut.String())
 	}
-	os.Remove(generatedOutput)
+	//os.Remove(generatedOutput)
 }
 
 func TestExec(t *testing.T) {

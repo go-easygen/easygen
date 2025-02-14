@@ -126,7 +126,7 @@ func initVals() {
 
 
 // Usage function shows help on commandline usage
-func Usage() {
+func Usage(exit ...int) {
 	fmt.Fprintf(os.Stderr,
 		"\nUsage:\n %s [flags] YamlFileName [YamlFileName...]\n\nFlags:\n\n",
 		progname)
@@ -136,6 +136,8 @@ func Usage() {
 YamlFileName(s): The name for the .yaml data and .tmpl template file
 Only the name part, without extension. Can include the path as well.
 `)
-	os.Exit(0)
+	if exit[0] != 0 {
+		os.Exit(0)
+	}
 }
 
