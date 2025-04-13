@@ -1,3 +1,5 @@
+# GoFlags based cli def file
+
 # program name, name for the executable
 ProgramName: redo
 Authors: Myself <me@mine.org>

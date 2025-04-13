@@ -15,6 +15,9 @@ import (
 
 // Template for main starts here
 
+//  // for `go generate -x`
+//  //go:generate sh {{$.ProgramName}}_cliGen.sh
+
 //////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
@@ -26,11 +29,11 @@ import (
 //          version   = "0.1.0"
 //          date = "{{ date "I" }}"
 
-//  	// opts store all the configurable options
-//  	opts optsT
+//  	// Opts store all the configurable options
+//  	Opts OptsT
 //  )
 //  
-//  var gfParser = flags.NewParser(&opts, flags.Default)
+//  var gfParser = flags.NewParser(&Opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
@@ -39,11 +42,11 @@ import (
 // Function main
 //  func main() {
 {{- if .Version }}
-//  	opts.Version = showVersion
+//  	Opts.Version = showVersion
 {{- end }}
 {{- if .Verbose }}
-//  	opts.Verbflg = func() {
-//  		opts.Verbose++
+//  	Opts.Verbflg = func() {
+//  		Opts.Verbose++
 //  	}
 {{- end }}
 //  
@@ -77,7 +80,7 @@ import (
 
 // Template for type define starts here
 
-{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "optsT" "Prefix" "" }}
+{{template "type_struct" argsm "ProgramName" .ProgramName "Options" .Options "Verbose" .Verbose "Version" .Version "typeName" "OptsT" "Prefix" "" }}
 // Template for type define ends here
 
 {{range .Command}}
@@ -116,9 +119,9 @@ import (
 //  func (x *{{clk2uc .Name}}Command) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "{{.Desc}}\n")
 //   	// fmt.Fprintf(os.Stderr, "Copyright (C) {{$.Since}}-{{ date "Y4" }}, {{or $.Authors "The Author(s) <they@their.org>"}}\n\n")
-//   	clis.Setup("{{$.Name}}::{{.Name}}", opts.Verbose)
-//   	clis.Verbose(1, "Doing {{clk2uc .Name}}, with %+v, %+v", opts, args)
-//   	{{$opts := .Options}}// fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($opts | len | minus1)}}, {{end}}{{end}})
+//   	clis.Setup("{{$.Name}}::{{.Name}}", Opts.Verbose)
+//   	clis.Verbose(1, "Doing {{clk2uc .Name}}, with %+v, %+v", Opts, args)
+//   	{{$Opts := .Options}}// fmt.Println({{range $i, $opt := .Options}}x.{{$opt.Name}}{{if lt $i ($Opts | len | minus1)}}, {{end}}{{end}})
 //  	return x.Exec(args)
 //  }
 //  

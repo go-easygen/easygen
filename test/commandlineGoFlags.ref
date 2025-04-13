@@ -9,7 +9,7 @@ package main
 ////////////////////////////////////////////////////////////////////////////
 // Program: redo
 // Purpose: global option redo
-// Authors: Myself <me@mine.org> (c) 2022-2023, All rights reserved
+// Authors: Myself <me@mine.org> (c) 2022-2025, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 import (
@@ -21,6 +21,9 @@ import (
 
 // Template for main starts here
 
+//  // for `go generate -x`
+//  //go:generate sh redo_cliGen.sh
+
 //////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
@@ -30,13 +33,13 @@ import (
 //  var (
 //          progname  = "redo"
 //          version   = "0.1.0"
-//          date = "2023-01-23"
+//          date = "2025-04-13"
 
-//  	// opts store all the configurable options
-//  	opts optsT
+//  	// Opts store all the configurable options
+//  	Opts OptsT
 //  )
 //  
-//  var gfParser = flags.NewParser(&opts, flags.Default)
+//  var gfParser = flags.NewParser(&Opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
@@ -44,9 +47,9 @@ import (
 //==========================================================================
 // Function main
 //  func main() {
-//  	opts.Version = showVersion
-//  	opts.Verbflg = func() {
-//  		opts.Verbose++
+//  	Opts.Version = showVersion
+//  	Opts.Verbflg = func() {
+//  		Opts.Verbose++
 //  	}
 //  
 //  	if _, err := gfParser.Parse(); err != nil {
@@ -64,7 +67,7 @@ import (
 //  func showVersion() {
 //   	fmt.Fprintf(os.Stderr, "redo - global option redo, version %s\n", version)
 //  	fmt.Fprintf(os.Stderr, "Built on %s\n", date)
-//   	fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
+//   	fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2025, Myself <me@mine.org>\n\n")
 //  	fmt.Fprintf(os.Stderr, "Redo global option via automatic code-gen\n")
 //  	os.Exit(0)
 //  }
@@ -77,8 +80,8 @@ import (
 
 // Template for type define starts here
 
-// The optsT type defines all the configurable options from cli.
-type optsT struct {
+// The OptsT type defines all the configurable options from cli.
+type OptsT struct {
 	Host	string	`short:"H" long:"host" env:"REDO_HOST" description:"Host address" default:"localhost"`
 	Port	int	`short:"p" long:"port" env:"REDO_PORT" description:"Listening port" default:"80"`
 	Force	bool	`short:"f" long:"force" env:"REDO_FORCE" description:"Force start"`
@@ -93,7 +96,7 @@ type optsT struct {
 ////////////////////////////////////////////////////////////////////////////
 // Program: redo
 // Purpose: global option redo
-// Authors: Myself <me@mine.org> (c) 2022-2023, All rights reserved
+// Authors: Myself <me@mine.org> (c) 2022-2025, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 //  package main
@@ -130,9 +133,9 @@ type optsT struct {
 //
 //  func (x *BuildCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Build the network application\n")
-//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::build", opts.Verbose)
-//   	clis.Verbose(1, "Doing Build, with %+v, %+v", opts, args)
+//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2025, Myself <me@mine.org>\n\n")
+//   	clis.Setup("redo::build", Opts.Verbose)
+//   	clis.Verbose(1, "Doing Build, with %+v, %+v", Opts, args)
 //   	// fmt.Println(x.Dir)
 //  	return x.Exec(args)
 //  }
@@ -151,7 +154,7 @@ type optsT struct {
 ////////////////////////////////////////////////////////////////////////////
 // Program: redo
 // Purpose: global option redo
-// Authors: Myself <me@mine.org> (c) 2022-2023, All rights reserved
+// Authors: Myself <me@mine.org> (c) 2022-2025, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 //  package main
@@ -189,9 +192,9 @@ type optsT struct {
 //
 //  func (x *InstallCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Install the network application\n")
-//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::install", opts.Verbose)
-//   	clis.Verbose(1, "Doing Install, with %+v, %+v", opts, args)
+//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2025, Myself <me@mine.org>\n\n")
+//   	clis.Setup("redo::install", Opts.Verbose)
+//   	clis.Verbose(1, "Doing Install, with %+v, %+v", Opts, args)
 //   	// fmt.Println(x.Dir, x.Suffix)
 //  	return x.Exec(args)
 //  }
@@ -210,7 +213,7 @@ type optsT struct {
 ////////////////////////////////////////////////////////////////////////////
 // Program: redo
 // Purpose: global option redo
-// Authors: Myself <me@mine.org> (c) 2022-2023, All rights reserved
+// Authors: Myself <me@mine.org> (c) 2022-2025, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 //  package main
@@ -256,9 +259,9 @@ type optsT struct {
 //
 //  func (x *PublishCommand) Execute(args []string) error {
 //   	fmt.Fprintf(os.Stderr, "Publish the network application\n")
-//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2023, Myself <me@mine.org>\n\n")
-//   	clis.Setup("redo::publish", opts.Verbose)
-//   	clis.Verbose(1, "Doing Publish, with %+v, %+v", opts, args)
+//   	// fmt.Fprintf(os.Stderr, "Copyright (C) 2022-2025, Myself <me@mine.org>\n\n")
+//   	clis.Setup("redo::publish", Opts.Verbose)
+//   	clis.Verbose(1, "Doing Publish, with %+v, %+v", Opts, args)
 //   	// fmt.Println(x.Dir, x.Suffix, x.Out, x.Args)
 //  	return x.Exec(args)
 //  }
