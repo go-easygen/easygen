@@ -1,3 +1,5 @@
+# Std Go flag pkg based cli def file
+
 # program name, name for the executable
 ProgramName: easygen
 
